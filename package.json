@@ -1,5 +1,5 @@
 {
-  "name": "mcp-kit",
+  "name": "mcpkit",
   "version": "0.1.0",
   "description": "Lightweight UI console to detect MCP-capable coding agents and install MCP servers",
   "keywords": ["mcp", "model-context-protocol", "cursor", "windsurf", "ai", "development", "cli"],
@@ -11,7 +11,6 @@
     "url": "https://github.com/cybertheory/mcpkit.git"
   },
   "bin": {
-    "mcp-kit": "bin/mcp-kit.js",
     "mcpkit": "bin/mcp-kit.js"
   },
   "type": "commonjs",

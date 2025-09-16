@@ -3,7 +3,7 @@
 ## Quick Install (Recommended)
 
 ```bash
-npx mcp-kit
+npx mcpkit
 ```
 
 This runs MCP Kit without installing anything. Perfect for trying it out!
@@ -13,8 +13,8 @@ This runs MCP Kit without installing anything. Perfect for trying it out!
 For regular use, install globally:
 
 ```bash
-npm install -g mcp-kit
-mcp-kit
+npm install -g mcpkit
+mcpkit
 ```
 
 ## Local Install
@@ -22,8 +22,8 @@ mcp-kit
 For project-specific use:
 
 ```bash
-npm install mcp-kit
-npx mcp-kit
+npm install mcpkit
+npx mcpkit
 ```
 
 ## Requirements
@@ -38,29 +38,29 @@ Install Node.js from [nodejs.org](https://nodejs.org/)
 
 ### Permission errors (macOS/Linux)
 ```bash
-sudo npm install -g mcp-kit
+sudo npm install -g mcpkit
 ```
 
 ### Windows issues
 Run Command Prompt as Administrator, then:
 ```bash
-npm install -g mcp-kit
+npm install -g mcpkit
 ```
 
 ## Updating
 
 ### NPX users
 ```bash
-npx mcp-kit@latest
+npx mcpkit@latest
 ```
 
 ### Global install users
 ```bash
-npm update -g mcp-kit
+npm update -g mcpkit
 ```
 
 ## Uninstalling
 
 ```bash
-npm uninstall -g mcp-kit
+npm uninstall -g mcpkit
 ```

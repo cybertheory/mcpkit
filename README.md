@@ -8,20 +8,20 @@ A lightweight UI console to detect MCP-capable agents and install MCP servers. E
 
 ### Option 1: NPX (Recommended - No Installation)
 ```bash
-npx mcp-kit
+npx mcpkit
 ```
 No installation required! Runs immediately and caches for faster subsequent runs.
 
 ### Option 2: Global Installation
 ```bash
-npm install -g mcp-kit
-mcp-kit
+npm install -g mcpkit
+mcpkit
 ```
 
 ### Option 3: Local Installation
 ```bash
-npm install mcp-kit
-npx mcp-kit
+npm install mcpkit
+npx mcpkit
 ```
 
 ## ✨ Features
@@ -44,13 +44,13 @@ npx mcp-kit
 ### NPX (No Installation Required)
 ```bash
 # Latest version
-npx mcp-kit
+npx mcpkit
 
 # Specific version
-npx mcp-kit@1.2.3
+npx mcpkit@1.2.3
 
 # Force update
-npx mcp-kit@latest --force
+npx mcpkit@latest --force
 ```
 
 **Pros:**
@@ -66,9 +66,9 @@ npx mcp-kit@latest --force
 
 ### Global Installation
 ```bash
-npm install -g mcp-kit
+npm install -g mcpkit
 # or
-yarn global add mcp-kit
+yarn global add mcpkit
 ```
 
 **Pros:**
@@ -83,8 +83,8 @@ yarn global add mcp-kit
 
 ### Local Installation
 ```bash
-npm install mcp-kit
-npx mcp-kit
+npm install mcpkit
+npx mcpkit
 ```
 
 **Pros:**
@@ -121,7 +121,7 @@ npm publish
 
 ## 📋 Usage
 
-1. **Start MCP Kit**: Run `npx mcp-kit` or `mcp-kit` (if installed globally)
+1. **Start MCP Kit**: Run `npx mcpkit` or `mcpkit` (if installed globally)
 2. **Select Agent**: Choose your coding agent (Cursor, Windsurf, etc.)
 3. **Browse Catalog**: Explore available MCP servers
 4. **Install**: Click install and configure environment variables
