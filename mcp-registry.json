@@ -1,0 +1,436 @@
+{
+  "mcps": [
+    {
+      "id": "github-mcp",
+      "name": "GitHub MCP",
+      "category": "Development",
+      "description": "Interact with GitHub repositories, issues, and pull requests",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-github",
+      "command": "npx @modelcontextprotocol/server-github@latest",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": {
+          "required": true,
+          "description": "GitHub Personal Access Token with repo access",
+          "placeholder": "ghp_xxxxxxxxxxxxxxxxxxxx",
+          "help": "Create at https://github.com/settings/tokens with 'repo' scope"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to https://github.com/settings/tokens",
+        "2. Click 'Generate new token (classic)'",
+        "3. Select 'repo' scope for full repository access",
+        "4. Copy the generated token",
+        "5. Paste it in the configuration field"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "brave-search-mcp",
+      "name": "Brave Search MCP",
+      "category": "Search",
+      "description": "Search the web using Brave Search API",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-brave-search",
+      "command": "npx @modelcontextprotocol/server-brave-search@latest",
+      "env": {
+        "BRAVE_API_KEY": {
+          "required": true,
+          "description": "Brave Search API Key",
+          "placeholder": "BSAxxxxxxxxxxxxxxxxxxxx",
+          "help": "Get your API key at https://brave.com/search/api/"
+        }
+      },
+      "setup_instructions": [
+        "1. Visit https://brave.com/search/api/",
+        "2. Sign up for a Brave Search API account",
+        "3. Generate an API key",
+        "4. Copy the API key",
+        "5. Paste it in the configuration field"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "sqlite-mcp",
+      "name": "SQLite MCP",
+      "category": "Databases",
+      "description": "Query SQLite databases from your agent",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-sqlite",
+      "command": "npx @modelcontextprotocol/server-sqlite@latest",
+      "env": {
+        "SQLITE_DB_PATH": {
+          "required": true,
+          "description": "Path to SQLite database file",
+          "placeholder": "/path/to/database.db",
+          "help": "Provide the absolute path to your SQLite database file"
+        }
+      },
+      "setup_instructions": [
+        "1. Locate your SQLite database file",
+        "2. Copy the full path to the database file",
+        "3. Ensure the file exists and is readable",
+        "4. Paste the path in the configuration field"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/sqlite",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "filesystem-mcp",
+      "name": "Filesystem MCP",
+      "category": "System",
+      "description": "Read and write files on your local filesystem",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-filesystem",
+      "command": "npx @modelcontextprotocol/server-filesystem@latest",
+      "env": {
+        "ALLOWED_DIRECTORIES": {
+          "required": false,
+          "description": "Comma-separated list of allowed directories",
+          "placeholder": "/home/user/docs,/home/user/projects",
+          "help": "Leave empty to allow access to all directories (use with caution)"
+        }
+      },
+      "setup_instructions": [
+        "1. Decide which directories to allow access to",
+        "2. Enter comma-separated paths (optional)",
+        "3. Leave empty for full filesystem access (not recommended)",
+        "4. Consider security implications before proceeding"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "postgres-mcp",
+      "name": "PostgreSQL MCP",
+      "category": "Databases",
+      "description": "Query PostgreSQL databases",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-postgres",
+      "command": "npx @modelcontextprotocol/server-postgres@latest",
+      "env": {
+        "POSTGRES_CONNECTION_STRING": {
+          "required": true,
+          "description": "PostgreSQL connection string",
+          "placeholder": "postgresql://user:password@localhost:5432/database",
+          "help": "Format: postgresql://username:password@host:port/database"
+        }
+      },
+      "setup_instructions": [
+        "1. Ensure PostgreSQL server is running",
+        "2. Create a database user with appropriate permissions",
+        "3. Construct connection string: postgresql://user:pass@host:port/db",
+        "4. Test the connection string",
+        "5. Paste it in the configuration field"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/postgres",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "memory-mcp",
+      "name": "Memory MCP",
+      "category": "System",
+      "description": "Persistent memory storage for conversations",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-memory",
+      "command": "npx @modelcontextprotocol/server-memory@latest",
+      "env": {
+        "MEMORY_DB_PATH": {
+          "required": false,
+          "description": "Path to memory database file",
+          "placeholder": "/home/user/.mcp-memory.db",
+          "help": "Leave empty for default location"
+        }
+      },
+      "setup_instructions": [
+        "1. Optionally specify a custom database path",
+        "2. Leave empty to use default location",
+        "3. Ensure the directory is writable",
+        "4. The database will be created automatically"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Optionally delete the memory database file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "fetch-mcp",
+      "name": "Fetch MCP",
+      "category": "Web",
+      "description": "Make HTTP requests and fetch web content",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-fetch",
+      "command": "npx @modelcontextprotocol/server-fetch@latest",
+      "env": {},
+      "setup_instructions": [
+        "1. No additional setup required",
+        "2. The server will handle HTTP requests automatically",
+        "3. Be mindful of rate limits and terms of service"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "puppeteer-mcp",
+      "name": "Puppeteer MCP",
+      "category": "Web",
+      "description": "Control web browsers with Puppeteer for automation",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-puppeteer",
+      "command": "npx @modelcontextprotocol/server-puppeteer@latest",
+      "env": {
+        "PUPPETEER_EXECUTABLE_PATH": {
+          "required": false,
+          "description": "Path to Chrome/Chromium executable",
+          "placeholder": "/usr/bin/chromium-browser",
+          "help": "Leave empty to use bundled Chromium"
+        }
+      },
+      "setup_instructions": [
+        "1. Optionally specify Chrome/Chromium path",
+        "2. Leave empty to use bundled browser",
+        "3. Ensure browser has necessary permissions",
+        "4. Consider security implications"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/puppeteer",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "stripe-mcp",
+      "name": "Stripe MCP",
+      "category": "Payments",
+      "description": "Process payments and manage Stripe operations",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-stripe",
+      "command": "npx @modelcontextprotocol/server-stripe@latest",
+      "auth_type": "api_key",
+      "env": {
+        "STRIPE_SECRET_KEY": {
+          "required": true,
+          "description": "Stripe Secret API Key",
+          "placeholder": "sk_test_xxxxxxxxxxxxxxxxxxxx",
+          "help": "Get your API key from https://dashboard.stripe.com/apikeys"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to https://dashboard.stripe.com/apikeys",
+        "2. Copy your Secret key (starts with sk_)",
+        "3. Paste it in the configuration field",
+        "4. Use test keys for development, live keys for production"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/stripe",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "slack-mcp",
+      "name": "Slack MCP",
+      "category": "Communication",
+      "description": "Send messages and interact with Slack workspaces",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-slack",
+      "command": "npx @modelcontextprotocol/server-slack@latest",
+      "auth_type": "oauth",
+      "env": {
+        "SLACK_BOT_TOKEN": {
+          "required": true,
+          "description": "Slack Bot Token",
+          "placeholder": "xoxb-xxxxxxxxxxxxxxxxxxxx",
+          "help": "Create a Slack app and get the bot token from https://api.slack.com/apps"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to https://api.slack.com/apps",
+        "2. Create a new Slack app",
+        "3. Go to OAuth & Permissions",
+        "4. Install the app to your workspace",
+        "5. Copy the Bot User OAuth Token",
+        "6. Paste it in the configuration field"
+      ],
+      "oauth_flow": {
+        "auth_url": "https://slack.com/oauth/v2/authorize",
+        "token_url": "https://slack.com/api/oauth.v2.access",
+        "scopes": [
+          "chat:write",
+          "channels:read",
+          "groups:read",
+          "im:read",
+          "mpim:read"
+        ],
+        "client_id_env": "SLACK_CLIENT_ID",
+        "client_secret_env": "SLACK_CLIENT_SECRET"
+      },
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/slack",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "google-drive-mcp",
+      "name": "Google Drive MCP",
+      "category": "Storage",
+      "description": "Access and manage Google Drive files",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-google-drive",
+      "command": "npx @modelcontextprotocol/server-google-drive@latest",
+      "auth_type": "oauth",
+      "env": {
+        "GOOGLE_CREDENTIALS": {
+          "required": true,
+          "description": "Google Service Account JSON",
+          "placeholder": "{\"type\":\"service_account\",\"project_id\":\"...\"}",
+          "help": "Create a service account and download the JSON key file from Google Cloud Console"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to https://console.cloud.google.com/",
+        "2. Create a new project or select existing one",
+        "3. Enable Google Drive API",
+        "4. Create a Service Account",
+        "5. Download the JSON key file",
+        "6. Paste the entire JSON content in the configuration field"
+      ],
+      "oauth_flow": {
+        "auth_url": "https://accounts.google.com/o/oauth2/v2/auth",
+        "token_url": "https://oauth2.googleapis.com/token",
+        "scopes": [
+          "https://www.googleapis.com/auth/drive"
+        ],
+        "client_id_env": "GOOGLE_CLIENT_ID",
+        "client_secret_env": "GOOGLE_CLIENT_SECRET"
+      },
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/google-drive",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "notion-mcp",
+      "name": "Notion MCP",
+      "category": "Productivity",
+      "description": "Read and write Notion pages and databases",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-notion",
+      "command": "npx @modelcontextprotocol/server-notion@latest",
+      "auth_type": "api_key",
+      "env": {
+        "NOTION_API_KEY": {
+          "required": true,
+          "description": "Notion Integration Token",
+          "placeholder": "secret_xxxxxxxxxxxxxxxxxxxx",
+          "help": "Create an integration at https://www.notion.so/my-integrations"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to https://www.notion.so/my-integrations",
+        "2. Create a new integration",
+        "3. Copy the Internal Integration Token",
+        "4. Share your Notion pages with the integration",
+        "5. Paste the token in the configuration field"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/notion",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "openai-mcp",
+      "name": "OpenAI MCP",
+      "category": "AI",
+      "description": "Access OpenAI models and services",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-openai",
+      "command": "npx @modelcontextprotocol/server-openai@latest",
+      "auth_type": "api_key",
+      "env": {
+        "OPENAI_API_KEY": {
+          "required": true,
+          "description": "OpenAI API Key",
+          "placeholder": "sk-xxxxxxxxxxxxxxxxxxxx",
+          "help": "Get your API key from https://platform.openai.com/api-keys"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to https://platform.openai.com/api-keys",
+        "2. Create a new API key",
+        "3. Copy the key (starts with sk-)",
+        "4. Paste it in the configuration field",
+        "5. Ensure you have sufficient credits"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/openai",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    }
+  ]
+}

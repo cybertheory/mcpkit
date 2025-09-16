@@ -1,0 +1,43 @@
+{
+  "name": "mcp-kit",
+  "version": "0.1.0",
+  "description": "Lightweight UI console to detect MCP-capable coding agents and install MCP servers",
+  "keywords": ["mcp", "model-context-protocol", "cursor", "windsurf", "ai", "development", "cli"],
+  "author": "MCP Kit Team",
+  "license": "MIT",
+  "homepage": "https://github.com/cybertheory/mcpkit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cybertheory/mcpkit.git"
+  },
+  "bin": {
+    "mcp-kit": "bin/mcp-kit.js",
+    "mcpkit": "bin/mcp-kit.js"
+  },
+  "type": "commonjs",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "start": "node bin/mcp-kit.js",
+    "dev": "node bin/mcp-kit.js",
+    "build": "npm run build:web",
+    "build:web": "cd web && npm run build",
+    "prepublishOnly": "npm run build:web",
+    "postinstall": "cd web && npm install"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "open": "^10.1.0",
+    "posthog-node": "^4.2.1"
+  },
+  "files": [
+    "bin/",
+    "web/dist/",
+    "mcp-registry.json",
+    "README.md"
+  ]
+}
+
+
+
