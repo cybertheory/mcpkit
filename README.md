@@ -2,6 +2,8 @@
 
 A lightweight UI console to detect MCP-capable agents and install MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, and other AI coding assistants.
 
+![MCP Kit Screenshot](assets/image.png)
+
 ## 🚀 Quick Start
 
 ### Option 1: NPX (Recommended - No Installation)
