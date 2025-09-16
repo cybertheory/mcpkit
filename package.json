@@ -19,7 +19,8 @@
     "url": "https://github.com/cybertheory/mcpkit.git"
   },
   "bin": {
-    "mcpkit": "bin/mcp-kit.js"
+    "mcpkit": "bin/mcp-kit.js",
+    "@cybertheory/mcpkit": "bin/mcp-kit.js"
   },
   "type": "commonjs",
   "engines": {
