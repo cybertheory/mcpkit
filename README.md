@@ -1,6 +1,6 @@
 # MCP Kit
 
-A lightweight UI console to detect MCP-capable agents and install MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, and other AI coding assistants.
+A lightweight UI console to detect MCP-capable agents and install MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, Claude and other MCP-capable assistants.
 
 ![MCP Kit Screenshot](assets/image.png)
 
@@ -26,7 +26,7 @@ npx @cybertheory/mcpkit
 
 ## ✨ Features
 
-- **Auto-Detection**: Automatically finds Cursor, Windsurf, and other MCP-capable agents
+- **Auto-Detection**: Automatically finds Cursor, Windsurf, Claude, and other MCP-capable agents
 - **Live Registry**: Always up-to-date MCP server catalog from GitHub
 - **One-Click Install**: Install MCP servers with environment variable configuration
 - **OAuth Support**: Handle authentication flows for services like GitHub
