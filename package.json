@@ -1,8 +1,16 @@
 {
   "name": "mcpkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight UI console to detect MCP-capable coding agents and install MCP servers",
-  "keywords": ["mcp", "model-context-protocol", "cursor", "windsurf", "ai", "development", "cli"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "cursor",
+    "windsurf",
+    "ai",
+    "development",
+    "cli"
+  ],
   "author": "MCP Kit Team",
   "license": "MIT",
   "homepage": "https://github.com/cybertheory/mcpkit",
@@ -37,6 +45,3 @@
     "README.md"
   ]
 }
-
-
-
