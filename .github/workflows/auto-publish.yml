@@ -1,0 +1,69 @@
+name: Auto Publish to NPM
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build web assets
+      run: npm run build:web
+      
+    - name: Check if version needs bumping
+      id: version-check
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        NPM_VERSION=$(npm view @cybertheory/mcpkit version 2>/dev/null || echo "0.0.0")
+        
+        echo "Current package.json version: $CURRENT_VERSION"
+        echo "Latest NPM version: $NPM_VERSION"
+        
+        if [ "$CURRENT_VERSION" != "$NPM_VERSION" ]; then
+          echo "needs-publish=true" >> $GITHUB_OUTPUT
+          echo "Version $CURRENT_VERSION is newer than NPM version $NPM_VERSION"
+        else
+          echo "needs-publish=false" >> $GITHUB_OUTPUT
+          echo "Version $CURRENT_VERSION is already published"
+        fi
+        
+    - name: Publish to NPM
+      if: steps.version-check.outputs.needs-publish == 'true'
+      run: npm publish --access=public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+    - name: Create Git Tag
+      if: steps.version-check.outputs.needs-publish == 'true'
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git tag -a "v$VERSION" -m "Release version $VERSION"
+        git push origin "v$VERSION"
+        
+    - name: Test Build (PR only)
+      if: github.event_name == 'pull_request'
+      run: echo "Build test successful - ready for merge!"
