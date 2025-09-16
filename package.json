@@ -39,7 +39,7 @@
     "posthog-node": "^4.2.1"
   },
   "files": [
-    "bin/",
+    "bin/mcp-kit.js",
     "web/dist/",
     "mcp-registry.json",
     "README.md"
