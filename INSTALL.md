@@ -3,7 +3,7 @@
 ## Quick Install (Recommended)
 
 ```bash
-npx mcpkit
+npx @cybertheory/mcpkit
 ```
 
 This runs MCP Kit without installing anything. Perfect for trying it out!
@@ -13,7 +13,7 @@ This runs MCP Kit without installing anything. Perfect for trying it out!
 For regular use, install globally:
 
 ```bash
-npm install -g mcpkit
+npm install -g @cybertheory/mcpkit
 mcpkit
 ```
 
@@ -22,8 +22,8 @@ mcpkit
 For project-specific use:
 
 ```bash
-npm install mcpkit
-npx mcpkit
+npm install @cybertheory/mcpkit
+npx @cybertheory/mcpkit
 ```
 
 ## Requirements
@@ -38,29 +38,29 @@ Install Node.js from [nodejs.org](https://nodejs.org/)
 
 ### Permission errors (macOS/Linux)
 ```bash
-sudo npm install -g mcpkit
+sudo npm install -g @cybertheory/mcpkit
 ```
 
 ### Windows issues
 Run Command Prompt as Administrator, then:
 ```bash
-npm install -g mcpkit
+npm install -g @cybertheory/mcpkit
 ```
 
 ## Updating
 
 ### NPX users
 ```bash
-npx mcpkit@latest
+npx @cybertheory/mcpkit@latest
 ```
 
 ### Global install users
 ```bash
-npm update -g mcpkit
+npm update -g @cybertheory/mcpkit
 ```
 
 ## Uninstalling
 
 ```bash
-npm uninstall -g mcpkit
+npm uninstall -g @cybertheory/mcpkit
 ```

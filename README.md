@@ -8,20 +8,20 @@ A lightweight UI console to detect MCP-capable agents and install MCP servers. E
 
 ### Option 1: NPX (Recommended - No Installation)
 ```bash
-npx mcpkit
+npx @cybertheory/mcpkit
 ```
 No installation required! Runs immediately and caches for faster subsequent runs.
 
 ### Option 2: Global Installation
 ```bash
-npm install -g mcpkit
+npm install -g @cybertheory/mcpkit
 mcpkit
 ```
 
 ### Option 3: Local Installation
 ```bash
-npm install mcpkit
-npx mcpkit
+npm install @cybertheory/mcpkit
+npx @cybertheory/mcpkit
 ```
 
 ## ✨ Features
@@ -44,13 +44,13 @@ npx mcpkit
 ### NPX (No Installation Required)
 ```bash
 # Latest version
-npx mcpkit
+npx @cybertheory/mcpkit
 
 # Specific version
-npx mcpkit@1.2.3
+npx @cybertheory/mcpkit@1.2.3
 
 # Force update
-npx mcpkit@latest --force
+npx @cybertheory/mcpkit@latest --force
 ```
 
 **Pros:**
@@ -66,9 +66,9 @@ npx mcpkit@latest --force
 
 ### Global Installation
 ```bash
-npm install -g mcpkit
+npm install -g @cybertheory/mcpkit
 # or
-yarn global add mcpkit
+yarn global add @cybertheory/mcpkit
 ```
 
 **Pros:**
@@ -83,8 +83,8 @@ yarn global add mcpkit
 
 ### Local Installation
 ```bash
-npm install mcpkit
-npx mcpkit
+npm install @cybertheory/mcpkit
+npx @cybertheory/mcpkit
 ```
 
 **Pros:**
@@ -121,7 +121,7 @@ npm publish
 
 ## 📋 Usage
 
-1. **Start MCP Kit**: Run `npx mcpkit` or `mcpkit` (if installed globally)
+1. **Start MCP Kit**: Run `npx @cybertheory/mcpkit` or `mcpkit` (if installed globally)
 2. **Select Agent**: Choose your coding agent (Cursor, Windsurf, etc.)
 3. **Browse Catalog**: Explore available MCP servers
 4. **Install**: Click install and configure environment variables
