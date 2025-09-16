@@ -524,6 +524,14 @@ const mcpClients = [
     category: 'Code Editors'
   },
   {
+    id: 'cline',
+    name: 'Cline',
+    description: 'AI-powered coding assistant for VS Code',
+    website: 'https://cline.ghost.io',
+    installed: false,
+    category: 'Code Editors'
+  },
+  {
     id: 'aider',
     name: 'Aider',
     description: 'AI pair programming in your terminal',
@@ -538,6 +546,30 @@ const mcpClients = [
     website: 'https://claude.ai',
     installed: false,
     category: 'AI Assistants'
+  },
+  {
+    id: 'neovim',
+    name: 'Neovim',
+    description: 'Modern Vim with MCP support',
+    website: 'https://neovim.io',
+    installed: false,
+    category: 'Code Editors'
+  },
+  {
+    id: 'emacs',
+    name: 'Emacs',
+    description: 'Extensible text editor with MCP integration',
+    website: 'https://www.gnu.org/software/emacs',
+    installed: false,
+    category: 'Code Editors'
+  },
+  {
+    id: 'jetbrains',
+    name: 'JetBrains IDEs',
+    description: 'IntelliJ IDEA, PyCharm, WebStorm with MCP',
+    website: 'https://www.jetbrains.com',
+    installed: false,
+    category: 'Code Editors'
   },
   {
     id: 'openai-chatgpt',

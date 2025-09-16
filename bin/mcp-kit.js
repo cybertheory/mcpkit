@@ -162,6 +162,145 @@ function resolveWindsurfMcpConfig() {
   return null;
 }
 
+function resolveClaudeDesktopMcpConfig() {
+  // Claude Desktop stores MCP config in various locations
+  const candidates = [];
+  const homeDir = os.homedir();
+  
+  // Use environment variables for user-agnostic paths
+  if (process.platform === 'win32') {
+    const appData = process.env.APPDATA || path.join(homeDir, 'AppData', 'Roaming');
+    candidates.push(path.join(appData, 'Anthropic', 'Claude', 'mcp.json'));
+    candidates.push(path.join(appData, 'Claude', 'mcp.json'));
+    candidates.push(path.join(appData, 'Claude', 'config.json'));
+    candidates.push(path.join(appData, 'Claude', 'settings.json'));
+  } else if (process.platform === 'darwin') {
+    candidates.push(path.join(homeDir, 'Library', 'Application Support', 'Claude', 'mcp.json'));
+    candidates.push(path.join(homeDir, 'Library', 'Application Support', 'Anthropic', 'Claude', 'mcp.json'));
+  } else {
+    // Linux
+    candidates.push(path.join(homeDir, '.claude', 'mcp.json'));
+    candidates.push(path.join(homeDir, '.anthropic', 'claude', 'mcp.json'));
+    candidates.push(path.join(homeDir, '.config', 'claude', 'mcp.json'));
+  }
+  
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function resolveContinueMcpConfig() {
+  // Continue stores MCP config in ~/.continue/config.json
+  const candidates = [];
+  const homeDir = os.homedir();
+  
+  candidates.push(path.join(homeDir, '.continue', 'config.json'));
+  candidates.push(path.join(homeDir, '.continue', 'mcp.json'));
+  
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function resolveAiderMcpConfig() {
+  // Aider stores config in ~/.aiderrc or ~/.aider/config.json
+  const candidates = [];
+  const homeDir = os.homedir();
+  
+  candidates.push(path.join(homeDir, '.aiderrc'));
+  candidates.push(path.join(homeDir, '.aider', 'config.json'));
+  candidates.push(path.join(homeDir, '.aider', 'mcp.json'));
+  
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function resolveClineMcpConfig() {
+  // Cline stores MCP config in dedicated config file, NOT VS Code settings
+  const candidates = [];
+  const homeDir = os.homedir();
+  
+  // Dedicated Cline config locations
+  candidates.push(path.join(homeDir, '.cline', 'config.json'));
+  candidates.push(path.join(homeDir, '.cline', 'mcp.json'));
+  candidates.push(path.join(homeDir, '.cline', 'settings.json'));
+  
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+// VS Code is not an MCP-enabled AI agent, so we don't need this function
+// MCP support in VS Code comes through extensions like Cline
+
+function resolveGenericMcpConfig(platformName) {
+  // Generic MCP config resolver for other platforms
+  const candidates = [];
+  const homeDir = os.homedir();
+  
+  // Common patterns
+  candidates.push(path.join(homeDir, `.${platformName.toLowerCase()}`, 'mcp.json'));
+  candidates.push(path.join(homeDir, `.${platformName.toLowerCase()}`, 'config.json'));
+  candidates.push(path.join(homeDir, `.${platformName.toLowerCase()}rc`));
+  
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function isApplicationInstalled(appName) {
+  // Check if application is actually installed by looking for executable or installation directories
+  const homeDir = os.homedir();
+  
+  if (process.platform === 'win32') {
+    // Windows: Use environment variables for user-agnostic paths
+    const localAppData = process.env.LOCALAPPDATA || path.join(homeDir, 'AppData', 'Local');
+    const appData = process.env.APPDATA || path.join(homeDir, 'AppData', 'Roaming');
+    const programFiles = process.env.PROGRAMFILES || 'C:\\Program Files';
+    const programFilesX86 = process.env['PROGRAMFILES(X86)'] || 'C:\\Program Files (x86)';
+    
+    const winPaths = [
+      path.join(localAppData, 'Programs', appName),
+      path.join(localAppData, 'Programs', `Microsoft ${appName}`), // VS Code
+      path.join(appData, appName),
+      path.join(appData, 'Anthropic'), // Claude Desktop
+      path.join(appData, 'Claude'), // Claude Desktop alternative
+      path.join(programFiles, appName),
+      path.join(programFiles, `Microsoft ${appName}`),
+      path.join(programFilesX86, appName),
+      path.join(programFilesX86, `Microsoft ${appName}`)
+    ];
+    
+    return winPaths.some(p => fs.existsSync(p));
+  } else if (process.platform === 'darwin') {
+    // macOS: Check Applications folder and user directories
+    const macPaths = [
+      path.join('/Applications', `${appName}.app`),
+      path.join('/Applications', `Microsoft ${appName}.app`),
+      path.join(homeDir, 'Applications', `${appName}.app`),
+      path.join(homeDir, 'Applications', `Microsoft ${appName}.app`),
+      path.join(homeDir, `.${appName.toLowerCase()}`)
+    ];
+    
+    return macPaths.some(p => fs.existsSync(p));
+  } else {
+    // Linux: Check common installation paths
+    const linuxPaths = [
+      path.join('/usr/bin', appName.toLowerCase()),
+      path.join('/usr/local/bin', appName.toLowerCase()),
+      path.join(homeDir, `.${appName.toLowerCase()}`)
+    ];
+    
+    return linuxPaths.some(p => fs.existsSync(p));
+  }
+}
+
 function detectAgents() {
   const agents = [];
   const homeDir = os.homedir();
@@ -173,7 +312,8 @@ function detectAgents() {
       id: 'cursor', 
       name: 'Cursor', 
       mcpConfigPath: cursorMcpConfig,
-      type: 'mcp-config'
+      type: 'mcp-config',
+      category: 'Code Editors'
     });
   }
   
@@ -184,9 +324,81 @@ function detectAgents() {
       id: 'windsurf', 
       name: 'Windsurf', 
       mcpConfigPath: windsurfMcpConfig,
-      type: 'mcp-config'
+      type: 'mcp-config',
+      category: 'Code Editors'
     });
   }
+  
+  // Check for Claude Desktop MCP config - also verify it's actually installed
+  const claudeMcpConfig = resolveClaudeDesktopMcpConfig();
+  if (claudeMcpConfig && (isApplicationInstalled('Claude') || isApplicationInstalled('Anthropic'))) {
+    agents.push({ 
+      id: 'claude-desktop', 
+      name: 'Claude Desktop', 
+      mcpConfigPath: claudeMcpConfig,
+      type: 'mcp-config',
+      category: 'AI Assistants'
+    });
+  }
+  
+  // Check for Continue MCP config
+  const continueMcpConfig = resolveContinueMcpConfig();
+  if (continueMcpConfig) {
+    agents.push({ 
+      id: 'continue', 
+      name: 'Continue', 
+      mcpConfigPath: continueMcpConfig,
+      type: 'mcp-config',
+      category: 'Code Editors'
+    });
+  }
+  
+  // Check for Aider MCP config
+  const aiderMcpConfig = resolveAiderMcpConfig();
+  if (aiderMcpConfig) {
+    agents.push({ 
+      id: 'aider', 
+      name: 'Aider', 
+      mcpConfigPath: aiderMcpConfig,
+      type: 'mcp-config',
+      category: 'Terminal Tools'
+    });
+  }
+  
+  // Check for Cline MCP config - only if Cline is actually installed
+  const clineMcpConfig = resolveClineMcpConfig();
+  if (clineMcpConfig && isApplicationInstalled('Cline')) {
+    agents.push({ 
+      id: 'cline', 
+      name: 'Cline', 
+      mcpConfigPath: clineMcpConfig,
+      type: 'mcp-config',
+      category: 'Code Editors'
+    });
+  }
+  
+  // VS Code is not an MCP-enabled AI agent - it's just an editor
+  // MCP support comes through extensions like Cline, not VS Code itself
+  
+  // Check for other common platforms
+  const otherPlatforms = [
+    { id: 'neovim', name: 'Neovim', category: 'Code Editors' },
+    { id: 'emacs', name: 'Emacs', category: 'Code Editors' },
+    { id: 'jetbrains', name: 'JetBrains IDEs', category: 'Code Editors' }
+  ];
+  
+  otherPlatforms.forEach(platform => {
+    const configPath = resolveGenericMcpConfig(platform.id);
+    if (configPath && isApplicationInstalled(platform.name)) {
+      agents.push({
+        id: platform.id,
+        name: platform.name,
+        mcpConfigPath: configPath,
+        type: 'mcp-config',
+        category: platform.category
+      });
+    }
+  });
   
   // Load persisted manually added agents
   const persistedAgents = loadPersistedAgents();
@@ -355,15 +567,55 @@ async function fetchCatalogFromGitHub() {
   }
 }
 
-function ensureMcpServersInConfig(config) {
-  // Cursor MCP config format: { mcpServers: { serverId: { command, args } } }
-  if (!config || typeof config !== 'object') return { mcpServers: {} };
-  if (!config.mcpServers || typeof config.mcpServers !== 'object') config.mcpServers = {};
+function ensureMcpServersInConfig(config, agentId) {
+  // Different platforms use different config formats
+  if (!config || typeof config !== 'object') {
+    // Default to Cursor format
+    return { mcpServers: {} };
+  }
+  
+  // Cursor/Windsurf format: { mcpServers: { serverId: { command, args } } }
+  if (agentId === 'cursor' || agentId === 'windsurf') {
+    if (!config.mcpServers || typeof config.mcpServers !== 'object') config.mcpServers = {};
+    return config;
+  }
+  
+  // Claude Desktop format: { mcpServers: { serverId: { command, args } } }
+  if (agentId === 'claude-desktop') {
+    if (!config.mcpServers || typeof config.mcpServers !== 'object') config.mcpServers = {};
+    return config;
+  }
+  
+  // Continue format: { mcpServers: { serverId: { command, args } } }
+  if (agentId === 'continue') {
+    if (!config.mcpServers || typeof config.mcpServers !== 'object') config.mcpServers = {};
+    return config;
+  }
+  
+  // Aider format: { mcpServers: { serverId: { command, args } } }
+  if (agentId === 'aider') {
+    if (!config.mcpServers || typeof config.mcpServers !== 'object') config.mcpServers = {};
+    return config;
+  }
+  
+  // Cline format: VS Code settings with mcpServers
+  if (agentId === 'cline') {
+    if (!config.mcpServers || typeof config.mcpServers !== 'object') config.mcpServers = {};
+    return config;
+  }
+  
+  // Generic format - try to detect
+  if (config.mcpServers) {
+    return config;
+  }
+  
+  // Fallback to Cursor format
+  config.mcpServers = {};
   return config;
 }
 
-function addServerToMcpConfig(mcpConfigPath, serverId, serverCommand, env = {}) {
-  const config = ensureMcpServersInConfig(readJson(mcpConfigPath));
+function addServerToMcpConfig(mcpConfigPath, serverId, serverCommand, env = {}, agentId = 'cursor') {
+  const config = ensureMcpServersInConfig(readJson(mcpConfigPath), agentId);
   
   // Parse command and args from the install command
   const parts = serverCommand.split(' ');
@@ -379,6 +631,17 @@ function addServerToMcpConfig(mcpConfigPath, serverId, serverCommand, env = {}) 
   writeJsonSafe(mcpConfigPath, config);
 }
 
+function removeServerFromMcpConfig(mcpConfigPath, serverId, agentId = 'cursor') {
+  const config = ensureMcpServersInConfig(readJson(mcpConfigPath), agentId);
+  
+  if (config.mcpServers && config.mcpServers[serverId]) {
+    delete config.mcpServers[serverId];
+    writeJsonSafe(mcpConfigPath, config);
+    return true;
+  }
+  return false;
+}
+
 async function main() {
   const app = express();
   app.use(express.json());
@@ -387,6 +650,34 @@ async function main() {
     const agents = detectAgents();
     track('agents_listed', { count: agents.length });
     res.json({ agents });
+  });
+
+  // Debug endpoint to help troubleshoot detection
+  app.get('/api/debug-detection', (req, res) => {
+    const homeDir = os.homedir();
+    const debug = {
+      platform: process.platform,
+      homeDir: homeDir,
+      claudePaths: [
+        path.join(homeDir, '.claude', 'mcp.json'),
+        path.join(homeDir, '.anthropic', 'claude', 'mcp.json'),
+        path.join(homeDir, 'AppData', 'Roaming', 'Anthropic', 'Claude', 'mcp.json'),
+        path.join(homeDir, 'AppData', 'Roaming', 'Claude', 'mcp.json'),
+        path.join(homeDir, 'AppData', 'Roaming', 'Claude', 'config.json'),
+        path.join(homeDir, 'AppData', 'Roaming', 'Claude', 'settings.json')
+      ],
+      claudeExists: [
+        fs.existsSync(path.join(homeDir, '.claude', 'mcp.json')),
+        fs.existsSync(path.join(homeDir, '.anthropic', 'claude', 'mcp.json')),
+        fs.existsSync(path.join(homeDir, 'AppData', 'Roaming', 'Anthropic', 'Claude', 'mcp.json')),
+        fs.existsSync(path.join(homeDir, 'AppData', 'Roaming', 'Claude', 'mcp.json')),
+        fs.existsSync(path.join(homeDir, 'AppData', 'Roaming', 'Claude', 'config.json')),
+        fs.existsSync(path.join(homeDir, 'AppData', 'Roaming', 'Claude', 'settings.json'))
+      ],
+      claudeInstalled: isApplicationInstalled('Claude'),
+      claudeConfig: resolveClaudeDesktopMcpConfig()
+    };
+    res.json(debug);
   });
 
   // Allow manual override of MCP config path when detection fails
@@ -461,7 +752,7 @@ async function main() {
     }
     
     try {
-      addServerToMcpConfig(agent.mcpConfigPath, mcp.id, mcp.command, envVars || {});
+      addServerToMcpConfig(agent.mcpConfigPath, mcp.id, mcp.command, envVars || {}, agentId);
       updateMcpInstallationStatus(mcpId, agentId, true);
       track('mcp_installed', { agentId, mcpId, source: 'registry' });
       return res.json({ ok: true, mcpConfigPath: agent.mcpConfigPath });
@@ -482,11 +773,9 @@ async function main() {
     
     try {
       // Remove from MCP config
-      const config = readJson(agent.mcpConfigPath);
-      if (config.mcpServers && config.mcpServers[mcpId]) {
-        delete config.mcpServers[mcpId];
-        writeJsonSafe(agent.mcpConfigPath, config);
-        
+      const removed = removeServerFromMcpConfig(agent.mcpConfigPath, mcpId, agentId);
+      
+      if (removed) {
         // Update registry
         updateMcpInstallationStatus(mcpId, agentId, false);
         
@@ -544,7 +833,7 @@ async function main() {
         return res.status(404).json({ error: 'Agent not found' });
       }
       
-      const config = readJson(agent.mcpConfigPath);
+      const config = ensureMcpServersInConfig(readJson(agent.mcpConfigPath), agentId);
       const isInstalled = config.mcpServers && config.mcpServers[mcpId];
       
       res.json({ installed: !!isInstalled, config: isInstalled || null });
@@ -750,7 +1039,7 @@ async function main() {
         return res.status(404).json({ error: 'Agent not found' });
       }
       
-      const config = readJson(agent.mcpConfigPath);
+      const config = ensureMcpServersInConfig(readJson(agent.mcpConfigPath), agentId);
       const mcpConfig = config.mcpServers?.[mcpId];
       
       res.json({ config: mcpConfig || null });

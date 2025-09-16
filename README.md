@@ -1,6 +1,6 @@
 # MCP Kit
 
-A lightweight UI console to detect MCP-capable agents and install MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, Claude and other MCP-capable assistants.
+A lightweight UI console to detect MCP-capable agents and install MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, Claude Desktop, Continue, Aider, Cline, Neovim, Emacs, JetBrains IDEs and other MCP-capable assistants.
 
 ![MCP Kit Screenshot](assets/image.png)
 
@@ -26,7 +26,7 @@ npx @cybertheory/mcpkit
 
 ## ✨ Features
 
-- **Auto-Detection**: Automatically finds Cursor, Windsurf, Claude, and other MCP-capable agents
+- **Auto-Detection**: Automatically finds Cursor, Windsurf, Claude Desktop, Continue, Aider, Cline, Neovim, Emacs, JetBrains IDEs and other MCP-capable agents
 - **Live Registry**: Always up-to-date MCP server catalog from GitHub
 - **One-Click Install**: Install MCP servers with environment variable configuration
 - **OAuth Support**: Handle authentication flows for services like GitHub
@@ -35,8 +35,32 @@ npx @cybertheory/mcpkit
 
 ## 🎯 Supported Agents
 
+### Code Editors
 - **Cursor** - AI-powered code editor
-- **Windsurf** - AI coding assistant
+- **Windsurf** - AI coding assistant by Codeium
+- **Continue** - Open-source AI coding assistant
+- **Cline** - AI-powered coding assistant for VS Code
+- **VS Code** - Visual Studio Code with MCP extensions
+- **Neovim** - Modern Vim with MCP support
+- **Emacs** - Extensible text editor with MCP integration
+- **JetBrains IDEs** - IntelliJ IDEA, PyCharm, WebStorm with MCP
+
+### AI Assistants
+- **Claude Desktop** - Anthropic's Claude AI assistant
+- **ChatGPT** - OpenAI's ChatGPT with MCP integration
+- **Perplexity AI** - AI-powered search and research assistant
+
+### Terminal Tools
+- **Aider** - AI pair programming in your terminal
+
+### Productivity & Communication
+- **Notion AI** - AI-powered workspace and productivity tool
+- **Obsidian** - Knowledge management with AI plugins
+- **Slack** - Team communication with AI integrations
+- **Discord** - Community platform with bot integrations
+- **Zapier** - Automation platform connecting apps and services
+
+### Custom Agents
 - **Custom Agents** - Add your own MCP-compatible tools
 
 ## 📦 Installation Methods
@@ -131,8 +155,24 @@ npm publish
 
 MCP Kit automatically detects agent configurations, but you can manually specify paths if needed:
 
+### Code Editors
 - **Cursor**: `~/.cursor/mcp.json`
 - **Windsurf**: `~/.windsurf/mcp.json`
+- **Continue**: `~/.continue/config.json`
+- **Cline**: `~/.cline/config.json` (VS Code extension with MCP support)
+- **Neovim**: `~/.neovim/mcp.json`
+- **Emacs**: `~/.emacs/mcp.json`
+- **JetBrains**: `~/.jetbrains/mcp.json`
+
+### AI Assistants
+- **Claude Desktop**: `~/.claude/mcp.json`
+- **ChatGPT**: Custom configuration file
+- **Perplexity AI**: Custom configuration file
+
+### Terminal Tools
+- **Aider**: `~/.aiderrc` or `~/.aider/config.json`
+
+### Custom Agents
 - **Custom**: Specify any JSON configuration file
 
 ## 🌐 Registry

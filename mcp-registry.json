@@ -431,6 +431,222 @@
       "installed": false,
       "installation_date": null,
       "installed_agents": []
+    },
+    {
+      "id": "npm-mcp",
+      "name": "NPM MCP",
+      "category": "Development",
+      "description": "Search the NPM registry and fetch package information",
+      "version": "latest",
+      "npm": "@mateusribeirocampos/npm-mcp-server",
+      "command": "npx @mateusribeirocampos/npm-mcp-server@latest",
+      "env": {},
+      "setup_instructions": [
+        "1. No additional setup required (public NPM registry access)",
+        "2. Ensure you have an internet connection",
+        "3. Use this server to search and retrieve package details"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/mateusribeirocampos/npm-mcp-server",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "mcp-directory-mcp",
+      "name": "MCP Directory MCP",
+      "category": "System",
+      "description": "Discover and browse available MCP servers via a directory service",
+      "version": "latest",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [
+        "1. No credentials required for public directory queries",
+        "2. Optionally sign up on Smithery or other directories for advanced API access",
+        "3. Ensure internet access to fetch the server listings"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://smithery.ai/ (MCP servers registry)",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "gitlab-mcp",
+      "name": "GitLab MCP",
+      "category": "Development",
+      "description": "Manage GitLab repositories, issues, and CI pipelines",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-gitlab",
+      "command": "npx @modelcontextprotocol/server-gitlab@latest",
+      "env": {
+        "GITLAB_PERSONAL_ACCESS_TOKEN": {
+          "required": true,
+          "description": "GitLab Personal Access Token",
+          "placeholder": "glpat-xxxxxxxxxxxxxxxx",
+          "help": "Create a personal access token in GitLab with API scope"
+        },
+        "GITLAB_API_URL": {
+          "required": false,
+          "description": "GitLab API URL for self-hosted instances",
+          "placeholder": "https://gitlab.example.com/api/v4",
+          "help": "Specify if using self-managed GitLab (leave blank for gitlab.com)"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to GitLab -> Settings -> Access Tokens",
+        "2. Create a new token with 'api' scope",
+        "3. Copy the generated token",
+        "4. Paste it in the configuration field",
+        "5. If using a self-hosted GitLab, provide the API base URL"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/gitlab",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "aws-mcp",
+      "name": "AWS MCP",
+      "category": "Cloud",
+      "description": "Interact with Amazon Web Services (AWS) resources",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-aws",
+      "command": "npx @modelcontextprotocol/server-aws@latest",
+      "env": {
+        "AWS_ACCESS_KEY_ID": {
+          "required": true,
+          "description": "AWS Access Key ID",
+          "placeholder": "AKIAxxxxxxxxxxxxxxx",
+          "help": "Create via AWS IAM with programmatic access"
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+          "required": true,
+          "description": "AWS Secret Access Key",
+          "placeholder": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "help": "Provided when creating an IAM access key"
+        },
+        "AWS_REGION": {
+          "required": false,
+          "description": "Default AWS region",
+          "placeholder": "us-east-1",
+          "help": "Set the AWS region for resource operations (optional)"
+        }
+      },
+      "setup_instructions": [
+        "1. Log in to the AWS IAM console",
+        "2. Create or use an IAM user with necessary permissions",
+        "3. Generate an Access Key and Secret Key for the user",
+        "4. Note the AWS region you want to operate in",
+        "5. Paste the credentials and region in the configuration fields"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/aws",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "gcp-mcp",
+      "name": "GCP MCP",
+      "category": "Cloud",
+      "description": "Manage Google Cloud Platform resources and services",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-gcp",
+      "command": "npx @modelcontextprotocol/server-gcp@latest",
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": {
+          "required": true,
+          "description": "Path to Google Cloud service account JSON key",
+          "placeholder": "/path/to/service-account.json",
+          "help": "Download a service account JSON key from Google Cloud Console"
+        },
+        "GCP_PROJECT_ID": {
+          "required": true,
+          "description": "Google Cloud Project ID",
+          "placeholder": "my-google-project",
+          "help": "Your GCP project identifier (found in the Cloud Console)"
+        }
+      },
+      "setup_instructions": [
+        "1. Go to Google Cloud Console and enable relevant APIs",
+        "2. Create a service account with needed roles",
+        "3. Download the service account JSON key file",
+        "4. Save the key file path and set it in the configuration",
+        "5. Enter your Google Cloud Project ID"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/gcp",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "azure-mcp",
+      "name": "Azure MCP",
+      "category": "Cloud",
+      "description": "Control Microsoft Azure services and resources",
+      "version": "latest",
+      "npm": "@modelcontextprotocol/server-azure",
+      "command": "npx @modelcontextprotocol/server-azure@latest",
+      "env": {
+        "AZURE_SUBSCRIPTION_ID": {
+          "required": true,
+          "description": "Azure Subscription ID",
+          "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "help": "Find your Subscription ID in the Azure Portal"
+        },
+        "AZURE_TENANT_ID": {
+          "required": true,
+          "description": "Azure Tenant ID (Directory ID)",
+          "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "help": "Find your Tenant ID in Azure Active Directory properties"
+        },
+        "AZURE_CLIENT_ID": {
+          "required": true,
+          "description": "Azure Client ID (App ID)",
+          "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "help": "Register an Azure AD app to get a Client (Application) ID"
+        },
+        "AZURE_CLIENT_SECRET": {
+          "required": true,
+          "description": "Azure Client Secret",
+          "placeholder": "your-azure-client-secret",
+          "help": "Generate a client secret for your Azure AD app"
+        }
+      },
+      "setup_instructions": [
+        "1. Register an application in Azure AD (App Registration)",
+        "2. Grant the app appropriate Azure service permissions",
+        "3. Note your Subscription ID, Tenant ID, and App (Client) ID",
+        "4. Generate a Client Secret for the app",
+        "5. Paste all the above values in the configuration fields"
+      ],
+      "uninstall_steps": [
+        "Remove the MCP server entry from your mcp.json file",
+        "Restart your MCP client (Cursor/Windsurf)"
+      ],
+      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/azure",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
     }
   ]
 }
