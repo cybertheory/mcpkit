@@ -62,10 +62,8 @@ jobs:
       if: steps.version-check.outputs.needs-publish == 'true'
       run: |
         VERSION=$(node -p "require('./package.json').version")
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git tag -a "v$VERSION" -m "Release version $VERSION"
-        git push origin "v$VERSION"
+        echo "Version $VERSION published to npm successfully!"
+        echo "Note: Git tags are disabled due to permission restrictions"
         
     - name: Test Build (PR only)
       if: github.event_name == 'pull_request'
