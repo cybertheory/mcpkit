@@ -60,6 +60,107 @@
       "installed_agents": []
     },
     {
+      "id": "028de86b-0027-4eb9-875b-c40b9b089215",
+      "name": "com.teamwork/mcp",
+      "category": "Community",
+      "description": "The Teamwork.com official MCP server helps teams efficiently manage client projects with AI.",
+      "version": "1.4.0",
+      "npm": null,
+      "command": null,
+      "env": {
+        "TW_MCP_BEARER_TOKEN": {
+          "required": true,
+          "description": "API key generated from the Teamwork.com OAuth2 process: https://apidocs.teamwork.com/guides/teamwork/app-login-flow",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "TW_MCP_LOG_FORMAT": {
+          "required": false,
+          "description": "Choose log output format between 'text' or 'json'. Default is 'text'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "TW_MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Choose log level between 'debug', 'info', 'warn' or 'error'. Default is 'info'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/teamwork/mcp",
+      "remotes": [
+        {
+          "type": "sse",
+          "url": "https://mcp.ai.teamwork.com",
+          "headers": [
+            {
+              "description": "API key generated from the Teamwork.com OAuth2 process: https://apidocs.teamwork.com/guides/teamwork/app-login-flow",
+              "is_required": true,
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        },
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.ai.teamwork.com",
+          "headers": [
+            {
+              "description": "API key generated from the Teamwork.com OAuth2 process: https://apidocs.teamwork.com/guides/teamwork/app-login-flow",
+              "is_required": true,
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [
+        {
+          "registry_type": "oci",
+          "registry_base_url": "https://docker.io",
+          "identifier": "teamwork/mcp",
+          "version": "v1.4.0",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "API key generated from the Teamwork.com OAuth2 process: https://apidocs.teamwork.com/guides/teamwork/app-login-flow",
+              "is_required": true,
+              "format": "string",
+              "is_secret": true,
+              "name": "TW_MCP_BEARER_TOKEN"
+            },
+            {
+              "description": "Choose log output format between 'text' or 'json'. Default is 'text'.",
+              "format": "string",
+              "name": "TW_MCP_LOG_FORMAT"
+            },
+            {
+              "description": "Choose log level between 'debug', 'info', 'warn' or 'error'. Default is 'info'.",
+              "format": "string",
+              "name": "TW_MCP_LOG_LEVEL"
+            }
+          ]
+        }
+      ],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T18:13:49.724857292Z",
+      "updated_at": "2025-09-17T18:13:49.724857292Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "0319ba85-54bd-44eb-97a7-58ee04d05b6e",
       "name": "io.github.kirbah/mcp-youtube",
       "category": "Community",
@@ -67,7 +168,22 @@
       "version": "0.2.6",
       "npm": "@kirbah/mcp-youtube",
       "command": "npx @kirbah/mcp-youtube@0.2.6",
-      "env": {},
+      "env": {
+        "YOUTUBE_API_KEY": {
+          "required": true,
+          "description": "YouTube Data API v3 key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MDB_MCP_CONNECTION_STRING": {
+          "required": false,
+          "description": "MongoDB connection string for caching",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -210,7 +326,15 @@
       "version": "0.7.0-beta",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "WEATHER_CHOICES": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -483,7 +607,15 @@
       "version": "1.3.3",
       "npm": "anilist-mcp",
       "command": "npx anilist-mcp@1.3.3",
-      "env": {},
+      "env": {
+        "ANILIST_TOKEN": {
+          "required": false,
+          "description": "AniList API token for authenticated requests",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -560,7 +692,15 @@
       "version": "1.0.1",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -592,6 +732,43 @@
       "license": null,
       "published_at": "2025-09-12T16:36:52.743796173Z",
       "updated_at": "2025-09-12T16:52:50.977430499Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "0a5a9ada-cc20-4a8f-8cf6-78be9c377014",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "2.4.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T14:43:14.554349016Z",
+      "updated_at": "2025-09-17T15:07:56.628066042Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -689,7 +866,29 @@
       "version": "2.1.1",
       "npm": "@browserbasehq/mcp-server-browserbase",
       "command": "npx @browserbasehq/mcp-server-browserbase@2.1.1",
-      "env": {},
+      "env": {
+        "BROWSERBASE_API_KEY": {
+          "required": true,
+          "description": "Your Browserbase API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "BROWSERBASE_PROJECT_ID": {
+          "required": true,
+          "description": "Your Browserbase Project ID",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "GEMINI_API_KEY": {
+          "required": true,
+          "description": "Your Gemini API key (default model)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -746,7 +945,64 @@
       "version": "0.90.0",
       "npm": "@vfarcic/dot-ai",
       "command": "npx @vfarcic/dot-ai@0.90.0",
-      "env": {},
+      "env": {
+        "ANTHROPIC_API_KEY": {
+          "required": true,
+          "description": "Anthropic API key for Claude AI integration (required for deployments)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "OPENAI_API_KEY": {
+          "required": false,
+          "description": "OpenAI API key for embeddings (patterns, policies, capabilities)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "QDRANT_URL": {
+          "required": false,
+          "description": "Qdrant Vector DB URL for patterns, policies, and capabilities storage",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "QDRANT_API_KEY": {
+          "required": false,
+          "description": "Qdrant API key for authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "KUBECONFIG": {
+          "required": false,
+          "description": "Path to kubeconfig file for Kubernetes access",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "DOT_AI_SESSION_DIR": {
+          "required": false,
+          "description": "Session storage directory for workflow persistence",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "DEBUG_DOT_AI": {
+          "required": false,
+          "description": "Enable debug logging",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "DOT_AI_DOC_PATTERN": {
+          "required": false,
+          "description": "Documentation file pattern for discovery",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -897,7 +1153,15 @@
       "version": "0.4.1",
       "npm": "selenium-webdriver-mcp",
       "command": "npx selenium-webdriver-mcp@0.4.1",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": false,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1079,7 +1343,50 @@
       "version": "0.1.4",
       "npm": "@florentine-ai/mcp",
       "command": "npx @florentine-ai/mcp@0.1.4",
-      "env": {},
+      "env": {
+        "FLORENTINE_TOKEN": {
+          "required": true,
+          "description": "Your Florentine.ai API key, get it from https://florentine.ai/dashboard",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "LLM_SERVICE": {
+          "required": false,
+          "description": "The LLM service to use, one of 'openai', 'anthropic', 'google' or 'deepseek' (must only be provided if you did not set it in your Florentine.ai account)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "LLM_KEY": {
+          "required": false,
+          "description": "Your API key for the LLM service (must only be provided if you did not set it in your Florentine.ai account)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "SESSION_ID": {
+          "required": false,
+          "description": "Session ID for maintaining server-side context across requests",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "RETURN_TYPES": {
+          "required": false,
+          "description": "Stringified JSON array of return types for the response",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "REQUIRED_INPUTS": {
+          "required": false,
+          "description": "Stringified JSON array of values for required inputs keys",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1263,7 +1570,29 @@
       "version": "1.0.19",
       "npm": "ruv-swarm",
       "command": "npx ruv-swarm@1.0.19",
-      "env": {},
+      "env": {
+        "RUV_SWARM_LOG_LEVEL": {
+          "required": false,
+          "description": "Log level for ruv-swarm operations",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "RUV_SWARM_DB_PATH": {
+          "required": false,
+          "description": "Database path for persistence storage",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "RUV_SWARM_ENABLE_SIMD": {
+          "required": false,
+          "description": "Enable WebAssembly SIMD optimizations",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1327,7 +1656,15 @@
       "version": "1.7.2",
       "npm": "airtable-mcp-server",
       "command": "npx airtable-mcp-server@1.7.2",
-      "env": {},
+      "env": {
+        "AIRTABLE_API_KEY": {
+          "required": true,
+          "description": "Airtable personal access token (e.g., pat123.abc123). Create at https://airtable.com/create/tokens/new with scopes: schema.bases:read, data.records:read, and optionally schema.bases:write and data.records:write.",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1534,7 +1871,15 @@
       "version": "2.1.1",
       "npm": "scorecard-ai-mcp",
       "command": "npx scorecard-ai-mcp@2.1.1",
-      "env": {},
+      "env": {
+        "SCORECARD_API_KEY": {
+          "required": true,
+          "description": "Scorecard API key for authentication. Get your API key from https://app.scorecard.io/settings",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1787,6 +2132,129 @@
       "installed_agents": []
     },
     {
+      "id": "1be3d1ef-0844-4f16-a4b9-e34e458b5485",
+      "name": "io.github.nesquikm/rubber-duck",
+      "category": "Community",
+      "description": "An MCP server that bridges to multiple OpenAI-compatible LLMs - your AI rubber duck debugging panel",
+      "version": "1.1.1",
+      "npm": "mcp-rubber-duck",
+      "command": "npx mcp-rubber-duck@1.1.1",
+      "env": {
+        "OPENAI_API_KEY": {
+          "required": false,
+          "description": "OpenAI API key (starts with sk-)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "GEMINI_API_KEY": {
+          "required": false,
+          "description": "Google Gemini API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "GROQ_API_KEY": {
+          "required": false,
+          "description": "Groq API key (starts with gsk_)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "DEFAULT_PROVIDER": {
+          "required": false,
+          "description": "Default LLM provider to use",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/nesquikm/mcp-rubber-duck",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "mcp-rubber-duck",
+          "version": "1.1.1",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "OpenAI API key (starts with sk-)",
+              "format": "string",
+              "is_secret": true,
+              "name": "OPENAI_API_KEY"
+            },
+            {
+              "description": "Google Gemini API key",
+              "format": "string",
+              "is_secret": true,
+              "name": "GEMINI_API_KEY"
+            },
+            {
+              "description": "Groq API key (starts with gsk_)",
+              "format": "string",
+              "is_secret": true,
+              "name": "GROQ_API_KEY"
+            },
+            {
+              "description": "Default LLM provider to use",
+              "format": "string",
+              "name": "DEFAULT_PROVIDER"
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T13:24:12.420293436Z",
+      "updated_at": "2025-09-17T13:24:12.420293436Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "1cbefa81-a37b-45ad-bca6-cefce39cad21",
+      "name": "io.github.karanb192/reddit-mcp-buddy",
+      "category": "Community",
+      "description": "Reddit MCP server - browse posts, search content, analyze users.",
+      "version": "1.1.0",
+      "npm": "reddit-mcp-buddy",
+      "command": "npx reddit-mcp-buddy@1.1.0",
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": null,
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "identifier": "reddit-mcp-buddy",
+          "version": "1.1.0",
+          "transport": {
+            "type": "stdio"
+          }
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T15:39:49.253376736Z",
+      "updated_at": "2025-09-17T15:39:49.253376736Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "1cc2e5dc-cf3d-48d2-bd0b-79c31dd6edd7",
       "name": "io.github.ref-tools/ref-tools-mcp",
       "category": "Community",
@@ -1794,7 +2262,15 @@
       "version": "3.0.1",
       "npm": "ref-tools-mcp",
       "command": "npx ref-tools-mcp@3.0.1",
-      "env": {},
+      "env": {
+        "REF_API_KEY": {
+          "required": true,
+          "description": "Your API key for Ref",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1922,7 +2398,15 @@
       "version": "0.5.4",
       "npm": "@supabase/mcp-server-supabase",
       "command": "npx @supabase/mcp-server-supabase@0.5.4",
-      "env": {},
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": {
+          "required": true,
+          "description": "Personal access token for Supabase API",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -1993,7 +2477,36 @@
       "version": "0.1.121",
       "npm": "flow-nexus",
       "command": "npx flow-nexus@0.1.121",
-      "env": {},
+      "env": {
+        "FLOW_NEXUS_API_KEY": {
+          "required": false,
+          "description": "API key for Flow Nexus authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "FLOW_NEXUS_BASE_URL": {
+          "required": false,
+          "description": "Base URL for Flow Nexus API",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "E2B_API_KEY": {
+          "required": false,
+          "description": "E2B API key for sandbox creation",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ANTHROPIC_API_KEY": {
+          "required": false,
+          "description": "Anthropic API key for Claude integration",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -2053,7 +2566,29 @@
       "version": "0.9.9",
       "npm": "@atlassian-dc-mcp/confluence",
       "command": "npx @atlassian-dc-mcp/confluence@0.9.9",
-      "env": {},
+      "env": {
+        "CONFLUENCE_HOST": {
+          "required": false,
+          "description": "Confluence host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_BASE_PATH": {
+          "required": false,
+          "description": "Confluence API base path (alternative to CONFLUENCE_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_TOKEN": {
+          "required": true,
+          "description": "Confluence Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -2095,6 +2630,74 @@
       "license": null,
       "published_at": "2025-09-13T13:29:18.54035901Z",
       "updated_at": "2025-09-13T13:29:18.54035901Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "218d380f-328d-43a2-8811-1e38078fb7ab",
+      "name": "app.thoughtspot/mcp-server",
+      "category": "Community",
+      "description": "MCP Server for ThoughtSpot - provides OAuth authentication and tools for querying data",
+      "version": "1.0.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/thoughtspot/mcp-server",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://agent.thoughtspot.app/mcp"
+        },
+        {
+          "type": "sse",
+          "url": "https://agent.thoughtspot.app/sse"
+        },
+        {
+          "type": "streamable-http",
+          "url": "https://agent.thoughtspot.app/bearer/mcp",
+          "headers": [
+            {
+              "description": "Bearer token for authentication, have the ts-host as 'token@ts-host' or as a separate 'x-ts-host' header",
+              "is_required": true,
+              "is_secret": true,
+              "name": "Authorization"
+            },
+            {
+              "description": "ThoughtSpot instance URL, if not provided in the authorization header",
+              "is_required": true,
+              "name": "X-TS-Host"
+            }
+          ]
+        },
+        {
+          "type": "sse",
+          "url": "https://agent.thoughtspot.app/bearer/sse",
+          "headers": [
+            {
+              "description": "Bearer token for authentication, have the ts-host as 'token@ts-host' or as a separate 'x-ts-host' header",
+              "is_required": true,
+              "is_secret": true,
+              "name": "Authorization"
+            },
+            {
+              "description": "ThoughtSpot instance URL, if not provided in the authorization header",
+              "is_required": true,
+              "name": "X-TS-Host"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T20:14:22.451730803Z",
+      "updated_at": "2025-09-17T20:15:17.375784438Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -2245,7 +2848,29 @@
       "version": "0.1.1",
       "npm": "mcp-merchant",
       "command": "npx mcp-merchant@0.1.1",
-      "env": {},
+      "env": {
+        "STRIPE_SECRET_KEY": {
+          "required": true,
+          "description": "Stripe secret key (test mode)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PRODUCT_LIMIT": {
+          "required": false,
+          "description": "Max products to cache",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "REFRESH_INTERVAL_SEC": {
+          "required": false,
+          "description": "Catalog refresh interval in seconds",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -2292,6 +2917,58 @@
       "license": null,
       "published_at": "2025-09-14T02:22:00.475570659Z",
       "updated_at": "2025-09-16T22:54:28.465114324Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "24ac8760-a6df-4111-bcb6-b2d77f2c42c1",
+      "name": "io.github.anyproto/anytype-mcp",
+      "category": "Community",
+      "description": "Official MCP server for Anytype API - your encrypted, local and collaborative wiki.",
+      "version": "1.0.7",
+      "npm": "@anyproto/anytype-mcp",
+      "command": "npx @anyproto/anytype-mcp@1.0.7",
+      "env": {
+        "OPENAPI_MCP_HEADERS": {
+          "required": true,
+          "description": "JSON string of headers for Anytype API. Example: {\"Authorization\":\"Bearer <YOUR_API_KEY>\", \"Anytype-Version\":\"2025-05-20\"}",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/anyproto/anytype-mcp",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "@anyproto/anytype-mcp",
+          "version": "1.0.7",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "JSON string of headers for Anytype API. Example: {\"Authorization\":\"Bearer <YOUR_API_KEY>\", \"Anytype-Version\":\"2025-05-20\"}",
+              "is_required": true,
+              "format": "string",
+              "is_secret": true,
+              "name": "OPENAPI_MCP_HEADERS"
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T11:42:47.920301036Z",
+      "updated_at": "2025-09-17T11:42:47.920301036Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -2369,7 +3046,260 @@
       "version": "0.1.4",
       "npm": "@mfukushim/map-traveler-mcp",
       "command": "npx @mfukushim/map-traveler-mcp@0.1.4",
-      "env": {},
+      "env": {
+        "MT_GOOGLE_MAP_KEY": {
+          "required": false,
+          "description": "[Map] Google Map API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_GEMINI_IMAGE_KEY": {
+          "required": false,
+          "description": "[Image.gemini] Gemini Image Api key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_MAX_RETRY_GEMINI": {
+          "required": false,
+          "description": "[Image.gemini] Number of retries when generating Gemini images Default: 0",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_AVATAR_IMAGE_URI": {
+          "required": false,
+          "description": "[Image.gemini] Character reference image uri (file:// or https://) when generating Gemini image. Multiple settings can be made by separating them with the '|'. When multiple settings are made, they will be selected randomly.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_MAP_API_URL": {
+          "required": false,
+          "description": "[Map.etc] Optional: Map API custom endpoint. Example: direction=https://xxxx,places=https://yyyy ",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_TIME_SCALE": {
+          "required": false,
+          "description": "[Map] Optional:Scale of travel time on real roads duration. default 4",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_SQLITE_PATH": {
+          "required": false,
+          "description": "[db.local] db save path: e.g. %USERPROFILE%/Desktop/traveler.sqlite ,$HOME/traveler.sqlite ",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_TURSO_URL": {
+          "required": false,
+          "description": "[db.api] Turso sqlite API URL",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_TURSO_TOKEN": {
+          "required": false,
+          "description": "[db.api] Turso sqlite API access token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_REMBG_PATH": {
+          "required": false,
+          "description": "[rembg.local] absolute path of the installed rembg cli",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_REMBG_URL": {
+          "required": false,
+          "description": "[rembg.api] withoutbg.com rembg API URL",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_REMBG_WO_KEY": {
+          "required": false,
+          "description": "[rembg.api] withoutbg.com rembg API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_PIXAI_KEY": {
+          "required": false,
+          "description": "[Image.pixAi] pixAi API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_SD_KEY": {
+          "required": false,
+          "description": "[Image.sd] Stability.ai image generation API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_PIXAI_MODEL_ID": {
+          "required": false,
+          "description": "[Image.pixAi] Optional: pixAi ModelId, if not set use default model 1648918127446573124 ",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_COMFY_URL": {
+          "required": false,
+          "description": "[Image.local.ComfyUi] Option: Generate image using ComfyUI API at specified URL. Example: http://192.168.1.100:8188",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_COMFY_WORKFLOW_T2I": {
+          "required": false,
+          "description": "[Image.local.ComfyUi] Optional: Path to API workflow file when using text to image with ComfyUI. If not specified: assets/comfy/t2i_sample.json",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_COMFY_WORKFLOW_I2I": {
+          "required": false,
+          "description": "[Image.local.ComfyUi] Optional: Path of API workflow file when image to image in ComfyUI. If not specified: assets/comfy/i2i_sample.json",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_COMFY_PARAMS": {
+          "required": false,
+          "description": "[Image.local.ComfyUi] Optional: Variable values to send to the workflow via comfyUI API",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_FIXED_MODEL_PROMPT": {
+          "required": false,
+          "description": "[Image] Optional: Fixed avatar generation prompt. You will no longer be able to change your avatar during conversations.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_BODY_AREA_RATIO": {
+          "required": false,
+          "description": "[Image] Optional: Acceptable avatar image area ratio. default 0.042",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_BODY_HW_RATIO": {
+          "required": false,
+          "description": "[Image] Optional: Acceptable avatar image aspect ratios. default 1.5~2.3",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_BODY_WINDOW_RATIO_W": {
+          "required": false,
+          "description": "[Image] Optional: Avatar composite window horizontal ratio. default 0.5",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_BODY_WINDOW_RATIO_H": {
+          "required": false,
+          "description": "[Image] Optional: Avatar composite window aspect ratio. default 0.75",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_BS_ID": {
+          "required": false,
+          "description": "[Sns.Bs] Bluesky sns registration address",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_BS_PASS": {
+          "required": false,
+          "description": "[Sns.Bs] bluesky sns password",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "MT_BS_HANDLE": {
+          "required": false,
+          "description": "[Sns.Bs] bluesky sns handle name: e.g. xxxxxxxx.bsky.social ",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_FILTER_TOOLS": {
+          "required": false,
+          "description": "[etc] Optional: Directly filter the tools to be used. All are available if not specified. e.g. tips,set_traveler_location",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_MOVE_MODE": {
+          "required": false,
+          "description": "[etc] Option: Specify whether the movement mode is 'realtime' or 'skip'. default realtime",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_IMAGE_WIDTH": {
+          "required": false,
+          "description": "[Image] Option: Output image width (pixels) Default is 512",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_NO_IMAGE": {
+          "required": false,
+          "description": "[Image] Options: 'true' = do not output image, not specified = output image if possible, default is not specified",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_NO_AVATAR": {
+          "required": false,
+          "description": "[Image] Option: 'true' = Output StreetView image as is without avatar superimposition. Not specified = Superimpose avatar image. Default is not specified.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_FEED_TAG": {
+          "required": false,
+          "description": "[Sns] Optional: Specify the feed tag when posting to SNS (#required, 15 characters or more) Default is #geo_less_traveler",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_MAX_SESSIONS": {
+          "required": false,
+          "description": "[Streamable-http] Maximum number of sessions when using Streamable-http",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_SESSION_TTL_MS": {
+          "required": false,
+          "description": "[Streamable-http] Session TTL when using Streamable-http",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MT_SERVICE_TTL_MS": {
+          "required": false,
+          "description": "[Streamable-http] Service TTL when using Streamable-http",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -2593,7 +3523,22 @@
       "version": "1.3.2",
       "npm": "source-map-parser-mcp",
       "command": "npx source-map-parser-mcp@1.3.2",
-      "env": {},
+      "env": {
+        "SOURCE_MAP_PARSER_CONTEXT_OFFSET_LINE": {
+          "required": false,
+          "description": "Context lines around error locations in source code",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SOURCE_MAP_PARSER_RESOURCE_CACHE_MAX_SIZE": {
+          "required": false,
+          "description": "Maximum memory cache size in MB for source maps",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -2675,7 +3620,15 @@
       "version": "1.0.0",
       "npm": "mssql-dba",
       "command": "npx mssql-dba@1.0.0",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -2781,6 +3734,54 @@
       "installed_agents": []
     },
     {
+      "id": "28732cec-512d-49ec-940e-832ee19277bc",
+      "name": "io.github.Antonytm/mcp-sitecore-server",
+      "category": "Community",
+      "description": "A Model Context Protocol server for Sitecore",
+      "version": "1.3.2",
+      "npm": "@antonytm/mcp-sitecore-server",
+      "command": "npx @antonytm/mcp-sitecore-server@1.3.2",
+      "env": {
+        "": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/Antonytm/mcp-sitecore-server",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "@antonytm/mcp-sitecore-server",
+          "version": "1.3.2",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T16:49:19.073211847Z",
+      "updated_at": "2025-09-17T16:49:19.073211847Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "288ccf72-1fde-4754-8d0e-9d67a9795125",
       "name": "com.xcodebuildmcp/XcodeBuildMCP",
       "category": "Community",
@@ -2788,7 +3789,43 @@
       "version": "1.12.10",
       "npm": "xcodebuildmcp",
       "command": "npx xcodebuildmcp@1.12.10",
-      "env": {},
+      "env": {
+        "INCREMENTAL_BUILDS_ENABLED": {
+          "required": false,
+          "description": "Enable experimental xcodemake incremental builds (true/false or 1/0).",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "XCODEBUILDMCP_DYNAMIC_TOOLS": {
+          "required": false,
+          "description": "Enable AI-powered dynamic tool discovery to load only relevant workflows.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "XCODEBUILDMCP_ENABLED_WORKFLOWS": {
+          "required": false,
+          "description": "Comma-separated list of workflows to load in Static Mode (e.g., 'simulator,device,project-discovery').",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "XCODEBUILDMCP_SENTRY_DISABLED": {
+          "required": false,
+          "description": "Disable Sentry error reporting (preferred flag).",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "XCODEBUILDMCP_DEBUG": {
+          "required": false,
+          "description": "Enable verbose debug logging from the server.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -3207,7 +4244,15 @@
       "version": "1.0.0",
       "npm": "image-recognition-mcp",
       "command": "npx image-recognition-mcp@1.0.0",
-      "env": {},
+      "env": {
+        "OPENAI_API_KEY": {
+          "required": true,
+          "description": "Your OpenAI API key for image recognition and description services",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -3239,6 +4284,40 @@
       "license": null,
       "published_at": "2025-09-10T15:18:06.73756302Z",
       "updated_at": "2025-09-10T15:18:06.73756302Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "2dafc3fb-4bde-4a22-aac2-9d3dc3c78f74",
+      "name": "app.thoughtspot/mcp-server",
+      "category": "Community",
+      "description": "MCP Server for ThoughtSpot - provides OAuth authentication and tools for querying data",
+      "version": "0.5.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/thoughtspot/mcp-server",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://agent.thoughtspot.app/mcp"
+        },
+        {
+          "type": "sse",
+          "url": "https://agent.thoughtspot.app/sse"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T20:04:01.821026897Z",
+      "updated_at": "2025-09-17T20:14:22.510543332Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -3285,7 +4364,15 @@
       "version": "0.3.8",
       "npm": "selenium-webdriver-mcp",
       "command": "npx selenium-webdriver-mcp@0.3.8",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": false,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -3355,6 +4442,72 @@
       "license": null,
       "published_at": "2025-09-11T05:56:30.066840479Z",
       "updated_at": "2025-09-11T05:56:30.066840479Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "2f082904-ddd0-4f6e-8d12-f655111b2bc0",
+      "name": "app.thoughtspot/mcp-server",
+      "category": "Community",
+      "description": "MCP Server for ThoughtSpot - provides OAuth authentication and tools for querying data",
+      "version": "1.0.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/thoughtspot/mcp-server",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://agent.thoughtspot.app/mcp"
+        },
+        {
+          "type": "sse",
+          "url": "https://agent.thoughtspot.app/sse"
+        },
+        {
+          "type": "streamable-http",
+          "url": "https://agent.thoughtspot.app/bearer/mcp",
+          "headers": [
+            {
+              "description": "Bearer token for authentication, have the ts-host as 'token@ts-host' or as a separate 'x-ts-host' header",
+              "is_required": true,
+              "is_secret": true,
+              "name": "Authorization"
+            },
+            {
+              "description": "ThoughtSpot instance URL, if not provided in the authorization header",
+              "name": "X-TS-Host"
+            }
+          ]
+        },
+        {
+          "type": "sse",
+          "url": "https://agent.thoughtspot.app/bearer/sse",
+          "headers": [
+            {
+              "description": "Bearer token for authentication, have the ts-host as 'token@ts-host' or as a separate 'x-ts-host' header",
+              "is_required": true,
+              "is_secret": true,
+              "name": "Authorization"
+            },
+            {
+              "description": "ThoughtSpot instance URL, if not provided in the authorization header",
+              "name": "X-TS-Host"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T20:15:17.362824581Z",
+      "updated_at": "2025-09-17T20:15:17.362824581Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -3438,7 +4591,15 @@
       "version": "0.7.0-beta",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "WEATHER_CHOICES": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -3497,7 +4658,43 @@
       "version": "2.0.15",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "ELASTICSEARCH_HOSTS": {
+          "required": false,
+          "description": "Comma-separated list of Elasticsearch hosts (e.g., https://localhost:9200)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ELASTICSEARCH_API_KEY": {
+          "required": false,
+          "description": "API key for Elasticsearch or Elastic Cloud authentication (recommended)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ELASTICSEARCH_USERNAME": {
+          "required": false,
+          "description": "Username for basic authentication (alternative to API key)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ELASTICSEARCH_PASSWORD": {
+          "required": false,
+          "description": "Password for basic authentication (used with ELASTICSEARCH_USERNAME)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ELASTICSEARCH_VERIFY_CERTS": {
+          "required": false,
+          "description": "Whether to verify SSL certificates (true/false)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -3726,8 +4923,16 @@
       "description": "MCP server for browser use access",
       "version": "1.0.0",
       "npm": "@agent-infra/mcp-server-browser",
-      "command": "npx @agent-infra/mcp-server-browser@1.0.0",
-      "env": {},
+      "command": "npx @agent-infra/mcp-server-browser@latest",
+      "env": {
+        "DISPLAY": {
+          "required": false,
+          "description": "DISPLAY environment variable for browser rendering",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4049,7 +5254,22 @@
       "version": "0.2.16",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "CROIT_HOST": {
+          "required": false,
+          "description": "Croit cluster URL (e.g., http://your-cluster.croit.io:8080)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CROIT_API_TOKEN": {
+          "required": false,
+          "description": "API authentication token for Croit cluster",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4121,6 +5341,40 @@
       "installed_agents": []
     },
     {
+      "id": "37cb7306-1433-4aae-9aa4-79eaedfb7b5a",
+      "name": "com.devcycle/mcp",
+      "category": "Community",
+      "description": "DevCycle MCP server for feature flag management",
+      "version": "6.1.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/DevCycleHQ/cli",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.devcycle.com/mcp"
+        },
+        {
+          "type": "sse",
+          "url": "https://mcp.devcycle.com/sse"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T20:28:36.449466527Z",
+      "updated_at": "2025-09-17T20:28:36.449466527Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "3ace42d4-426f-4aed-bb97-1ef46d6cdcb5",
       "name": "io.github.cr7258/elasticsearch-mcp-server",
       "category": "Community",
@@ -4128,7 +5382,43 @@
       "version": "2.0.14",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "ELASTICSEARCH_HOSTS": {
+          "required": false,
+          "description": "Comma-separated list of Elasticsearch hosts (e.g., https://localhost:9200)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ELASTICSEARCH_API_KEY": {
+          "required": false,
+          "description": "API key for Elasticsearch or Elastic Cloud authentication (recommended)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ELASTICSEARCH_USERNAME": {
+          "required": false,
+          "description": "Username for basic authentication (alternative to API key)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ELASTICSEARCH_PASSWORD": {
+          "required": false,
+          "description": "Password for basic authentication (used with ELASTICSEARCH_USERNAME)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ELASTICSEARCH_VERIFY_CERTS": {
+          "required": false,
+          "description": "Whether to verify SSL certificates (true/false)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4194,7 +5484,15 @@
       "version": "1.12.13",
       "npm": "mind-map-mcp",
       "command": "npx mind-map-mcp@1.12.13",
-      "env": {},
+      "env": {
+        "MCP_PROJECT_ROOT": {
+          "required": false,
+          "description": "Project root directory for MCP to analyze (optional - uses current working directory if not specified)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4335,8 +5633,16 @@
       "description": "Variflight MCP Server",
       "version": "1.0.1",
       "npm": "@variflight-ai/variflight-mcp",
-      "command": "npx @variflight-ai/variflight-mcp@1.0.1",
-      "env": {},
+      "command": "npx @variflight-ai/variflight-mcp@1.0.0",
+      "env": {
+        "VARIFLIGHT_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4414,8 +5720,16 @@
       "description": "You can connect any API to LLMs. This enables AI to interact directly with APIs",
       "version": "1.0.1",
       "npm": "meta-api-mcp-server",
-      "command": "npx meta-api-mcp-server@1.0.1",
-      "env": {},
+      "command": "npx meta-api-mcp-server@1.0.4",
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "If the api you are connecting to requires api_key, you can use this variable and you can also define different variables",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4459,7 +5773,29 @@
       "version": "0.9.9",
       "npm": "@atlassian-dc-mcp/bitbucket",
       "command": "npx @atlassian-dc-mcp/bitbucket@0.9.9",
-      "env": {},
+      "env": {
+        "BITBUCKET_HOST": {
+          "required": false,
+          "description": "Bitbucket host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_BASE_PATH": {
+          "required": false,
+          "description": "Bitbucket API base path (alternative to BITBUCKET_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_TOKEN": {
+          "required": true,
+          "description": "Bitbucket Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4512,7 +5848,7 @@
       "description": "MCP server for web search operations",
       "version": "1.0.0",
       "npm": "@agent-infra/mcp-server-search",
-      "command": "npx @agent-infra/mcp-server-search@1.0.0",
+      "command": "npx @agent-infra/mcp-server-search@latest",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -4679,7 +6015,36 @@
       "version": "0.4.5",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "API_ID": {
+          "required": true,
+          "description": "Telegram API ID (from https://my.telegram.org/apps)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "API_HASH": {
+          "required": true,
+          "description": "Telegram API Hash (from https://my.telegram.org/apps)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "SERVER_MODE": {
+          "required": false,
+          "description": "Server mode: stdio (local), http-no-auth (dev), http-auth (prod)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SESSION_DIR": {
+          "required": false,
+          "description": "Custom session directory (defaults to ~/.config/fast-mcp-telegram/)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4728,7 +6093,7 @@
       "registry_base_url": null,
       "license": null,
       "published_at": "2025-09-15T08:03:29.248076221Z",
-      "updated_at": "2025-09-15T08:03:29.248076221Z",
+      "updated_at": "2025-09-17T14:08:48.78146357Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -4776,7 +6141,15 @@
       "version": "1.3.2",
       "npm": "anilist-mcp",
       "command": "npx anilist-mcp@1.3.2",
-      "env": {},
+      "env": {
+        "ANILIST_TOKEN": {
+          "required": false,
+          "description": "AniList API token for authenticated requests",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -4916,6 +6289,41 @@
       "installed_agents": []
     },
     {
+      "id": "435db01f-5936-44ac-8165-469b1e3491b6",
+      "name": "io.github.p1va/symbols",
+      "category": "Community",
+      "description": "MCP server to read, inspect and troubleshoot codebase symbols",
+      "version": "0.0.14",
+      "npm": "@p1va/symbols",
+      "command": "npx @p1va/symbols@0.0.14",
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/p1va/symbols",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "@p1va/symbols",
+          "version": "0.0.14",
+          "transport": {
+            "type": "stdio"
+          }
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T14:15:12.928928281Z",
+      "updated_at": "2025-09-17T14:15:12.928928281Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "4385f929-3b4c-4d4a-993f-a59a90d4c2be",
       "name": "ai.mcpanalytics/analytics",
       "category": "Community",
@@ -5026,7 +6434,29 @@
       "version": "1.2.4",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "TW_MCP_BEARER_TOKEN": {
+          "required": true,
+          "description": "API key generated from the Teamwork.com OAuth2 process: https://apidocs.teamwork.com/guides/teamwork/app-login-flow",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "TW_MCP_LOG_FORMAT": {
+          "required": false,
+          "description": "Choose log output format between 'text' or 'json'. Default is 'text'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "TW_MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Choose log level between 'debug', 'info', 'warn' or 'error'. Default is 'info'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -5310,6 +6740,54 @@
       "installed_agents": []
     },
     {
+      "id": "491dd4a6-86a5-41d9-8ab0-dafaa3e9d2d0",
+      "name": "io.github.Antonytm/mcp-sitecore-server",
+      "category": "Community",
+      "description": "A Model Context Protocol server for Sitecore",
+      "version": "1.3.0",
+      "npm": "@antonytm/mcp-sitecore-server",
+      "command": "npx @antonytm/mcp-sitecore-server@1.3.0",
+      "env": {
+        "": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/Antonytm/mcp-sitecore-server",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "@antonytm/mcp-sitecore-server",
+          "version": "1.3.0",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T16:40:08.3256487Z",
+      "updated_at": "2025-09-17T16:49:19.079089206Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "498f3840-d628-416f-bccd-db23adaf4700",
       "name": "com.teamwork/mcp",
       "category": "Community",
@@ -5317,7 +6795,29 @@
       "version": "1.3.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "TW_MCP_BEARER_TOKEN": {
+          "required": true,
+          "description": "API key generated from the Teamwork.com OAuth2 process: https://apidocs.teamwork.com/guides/teamwork/app-login-flow",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "TW_MCP_LOG_FORMAT": {
+          "required": false,
+          "description": "Choose log output format between 'text' or 'json'. Default is 'text'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "TW_MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Choose log level between 'debug', 'info', 'warn' or 'error'. Default is 'info'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -5383,7 +6883,7 @@
       "registry_base_url": null,
       "license": null,
       "published_at": "2025-09-15T12:27:37.668500509Z",
-      "updated_at": "2025-09-15T12:27:37.668500509Z",
+      "updated_at": "2025-09-17T18:13:49.787673531Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -5523,6 +7023,45 @@
       "license": null,
       "published_at": "2025-09-09T05:59:06.222569167Z",
       "updated_at": "2025-09-09T05:59:06.222569167Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "5034aa1f-3534-4079-8fc5-131563ece72f",
+      "name": "ai.smithery/pinion05-supabase-mcp-lite",
+      "category": "Community",
+      "description": "Same functionality, consuming only 1/20 of the context window tokens.",
+      "version": "0.0.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/pinion05/supabase-mcp-lite",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://server.smithery.ai/@pinion05/supabase-mcp-lite/mcp",
+          "headers": [
+            {
+              "description": "Bearer token for Smithery authentication",
+              "is_required": true,
+              "value": "Bearer {smithery_api_key}",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T13:24:18.881488263Z",
+      "updated_at": "2025-09-17T13:24:18.881488263Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -5693,7 +7232,29 @@
       "version": "0.9.0",
       "npm": "@atlassian-dc-mcp/confluence",
       "command": "npx @atlassian-dc-mcp/confluence@0.9.0",
-      "env": {},
+      "env": {
+        "CONFLUENCE_HOST": {
+          "required": false,
+          "description": "Confluence host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_BASE_PATH": {
+          "required": false,
+          "description": "Confluence API base path (alternative to CONFLUENCE_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_TOKEN": {
+          "required": true,
+          "description": "Confluence Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -5747,7 +7308,15 @@
       "version": "1.0.5",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "SEC_EDGAR_USER_AGENT": {
+          "required": true,
+          "description": "The user agent to access the SEC EDGAR API",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -5813,6 +7382,43 @@
       "license": null,
       "published_at": "2025-09-12T13:24:44.527456713Z",
       "updated_at": "2025-09-12T13:24:44.527456713Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "52c6f0fa-7114-4adc-afae-d48cfbbe97c0",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "1.1.3",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T14:15:14.604093039Z",
+      "updated_at": "2025-09-17T14:41:53.299387399Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -6032,7 +7638,29 @@
       "version": "0.9.9",
       "npm": "@atlassian-dc-mcp/jira",
       "command": "npx @atlassian-dc-mcp/jira@0.9.9",
-      "env": {},
+      "env": {
+        "JIRA_HOST": {
+          "required": false,
+          "description": "Jira host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_BASE_PATH": {
+          "required": false,
+          "description": "Jira API base path (alternative to JIRA_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_TOKEN": {
+          "required": true,
+          "description": "Jira Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -6120,7 +7748,7 @@
       "description": "An MCP server for mcp-server-fear-greed",
       "version": "1.0.2",
       "npm": "mcp-server-fear-greed",
-      "command": "npx mcp-server-fear-greed@1.0.2",
+      "command": "npx mcp-server-fear-greed@latest",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -6283,7 +7911,29 @@
       "version": "0.9.8",
       "npm": "@atlassian-dc-mcp/confluence",
       "command": "npx @atlassian-dc-mcp/confluence@0.9.8",
-      "env": {},
+      "env": {
+        "CONFLUENCE_HOST": {
+          "required": false,
+          "description": "Confluence host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_BASE_PATH": {
+          "required": false,
+          "description": "Confluence API base path (alternative to CONFLUENCE_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_TOKEN": {
+          "required": true,
+          "description": "Confluence Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -6440,7 +8090,57 @@
       "version": "2.0.0-alpha.107",
       "npm": "claude-flow",
       "command": "npx claude-flow@2.0.0-alpha.107",
-      "env": {},
+      "env": {
+        "ANTHROPIC_API_KEY": {
+          "required": false,
+          "description": "Anthropic API key for Claude AI models",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "CLAUDE_FLOW_MODE": {
+          "required": false,
+          "description": "Operation mode: development, production, or test",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CLAUDE_FLOW_MEMORY_PATH": {
+          "required": false,
+          "description": "Path for persistent memory storage",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CLAUDE_FLOW_MAX_AGENTS": {
+          "required": false,
+          "description": "Maximum number of concurrent agents",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CLAUDE_FLOW_PORT": {
+          "required": false,
+          "description": "MCP server port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "GITHUB_TOKEN": {
+          "required": false,
+          "description": "GitHub personal access token for repository operations",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "FLOW_NEXUS_API_KEY": {
+          "required": false,
+          "description": "Flow Nexus cloud platform API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -6508,6 +8208,36 @@
       "installed_agents": []
     },
     {
+      "id": "5ec94c6d-6b50-42af-bdd9-895a57fe7d38",
+      "name": "ai.human4/mcp",
+      "category": "Community",
+      "description": "Human4AI: bridging human perception with AI agents for seamless collaborative intelligence.",
+      "version": "latest",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/Human4AI/MCP",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://api.human4.ai/mcp"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T18:51:30.428936188Z",
+      "updated_at": "2025-09-17T18:51:30.428936188Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "5f655162-becc-41bc-b9f6-959e3611e138",
       "name": "ai.mcpcap/mcpcap",
       "category": "Community",
@@ -6549,8 +8279,16 @@
       "description": "VariFlight's official MCP server provides tools to query flight, weather, comfort, and fare data.",
       "version": "1.0.2",
       "npm": "@variflight-ai/variflight-mcp",
-      "command": "npx @variflight-ai/variflight-mcp@1.0.2",
-      "env": {},
+      "command": "npx @variflight-ai/variflight-mcp@1.0.1",
+      "env": {
+        "VARIFLIGHT_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -6628,7 +8366,22 @@
       "version": "0.3.2",
       "npm": "@koki-develop/esa-mcp-server",
       "command": "npx @koki-develop/esa-mcp-server@0.3.2",
-      "env": {},
+      "env": {
+        "ESA_TEAM": {
+          "required": true,
+          "description": "Your esa team",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ESA_ACCESS_TOKEN": {
+          "required": true,
+          "description": "Your esa personal access token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -6820,7 +8573,50 @@
       "version": "0.8.3",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "CML_URL": {
+          "required": true,
+          "description": "URL for the CML Server",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CML_USERNAME": {
+          "required": true,
+          "description": "Username for CML authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CML_PASSWORD": {
+          "required": true,
+          "description": "Password for CML authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PYATS_USERNAME": {
+          "required": false,
+          "description": "Username for authentication to devices running in CML",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "PYATS_PASSWORD": {
+          "required": false,
+          "description": "Password for authentication to devices running in CML",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PYATS_AUTH_PASS": {
+          "required": false,
+          "description": "Enable password for authentication to devices running in CML",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -7012,7 +8808,15 @@
       "version": "1.0.1",
       "npm": "@flightradar24/fr24api-mcp",
       "command": "npx @flightradar24/fr24api-mcp@1.0.1",
-      "env": {},
+      "env": {
+        "FR24_API_KEY": {
+          "required": true,
+          "description": "Your API key for Flightradar24 API",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -7085,8 +8889,30 @@
       "description": "A Model Context Protocol server for generating charts using AntV.",
       "version": "1.0.0",
       "npm": "@antv/mcp-server-chart",
-      "command": "npx @antv/mcp-server-chart@1.0.0",
-      "env": {},
+      "command": "npx @antv/mcp-server-chart@0.9.0-beta.1",
+      "env": {
+        "VIS_REQUEST_SERVER": {
+          "required": false,
+          "description": "Custom chart generation service URL for private deployment",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SERVICE_ID": {
+          "required": false,
+          "description": "Service identifier for chart generation records",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "DISABLED_TOOLS": {
+          "required": false,
+          "description": "Comma-separated list of tool names to disable",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -7176,7 +9002,43 @@
       "version": "2.0.12",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "ELASTICSEARCH_HOSTS": {
+          "required": false,
+          "description": "Comma-separated list of Elasticsearch hosts (e.g., https://localhost:9200)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ELASTICSEARCH_API_KEY": {
+          "required": false,
+          "description": "API key for Elasticsearch or Elastic Cloud authentication (recommended)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ELASTICSEARCH_USERNAME": {
+          "required": false,
+          "description": "Username for basic authentication (alternative to API key)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ELASTICSEARCH_PASSWORD": {
+          "required": false,
+          "description": "Password for basic authentication (used with ELASTICSEARCH_USERNAME)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "ELASTICSEARCH_VERIFY_CERTS": {
+          "required": false,
+          "description": "Whether to verify SSL certificates (true/false)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -7383,6 +9245,36 @@
       "installed_agents": []
     },
     {
+      "id": "704ccc9a-25b1-44bf-a882-59130f6b02ab",
+      "name": "dev.promplate/hmr",
+      "category": "Community",
+      "description": "Hot Module Reload (HMR) for Python with reactive programming and MCP tools",
+      "version": "1.0.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/promplate/pyth-on-line",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://pyth-on-line.promplate.dev/hmr/mcp"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T21:07:34.315525152Z",
+      "updated_at": "2025-09-17T21:09:37.855503018Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "7128a4ba-390a-458f-b95a-46c72c7a0b81",
       "name": "com.falkordb/QueryWeaver",
       "category": "Community",
@@ -7490,7 +9382,36 @@
       "version": "2.5.1",
       "npm": "financial-modeling-prep-mcp-server",
       "command": "npx financial-modeling-prep-mcp-server@2.5.1",
-      "env": {},
+      "env": {
+        "FMP_ACCESS_TOKEN": {
+          "required": false,
+          "description": "Financial Modeling Prep API access token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PORT": {
+          "required": false,
+          "description": "Port number for HTTP server mode",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "DYNAMIC_TOOL_DISCOVERY": {
+          "required": false,
+          "description": "Enable dynamic tool discovery mode",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "FMP_TOOL_SETS": {
+          "required": false,
+          "description": "Comma-separated list of tool sets to load",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -7604,6 +9525,43 @@
       "installed_agents": []
     },
     {
+      "id": "76d4ea95-489a-41e7-8bc9-f8d3263fc913",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "2.5.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T15:07:56.618881283Z",
+      "updated_at": "2025-09-17T15:08:38.010176491Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "77b25763-8cce-444e-9914-939596568922",
       "name": "ai.smithery/docfork-mcp",
       "category": "Community",
@@ -7680,7 +9638,78 @@
       "version": "1.0.0",
       "npm": "@ryaker/appstore-connect-mcp",
       "command": "npx @ryaker/appstore-connect-mcp@1.0.0",
-      "env": {},
+      "env": {
+        "APPLE_KEY_ID": {
+          "required": true,
+          "description": "Apple App Store Connect API Key ID",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "APPLE_ISSUER_ID": {
+          "required": true,
+          "description": "Apple App Store Connect Issuer ID",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "APPLE_PRIVATE_KEY": {
+          "required": true,
+          "description": "Apple App Store Connect Private Key (base64 encoded or raw)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "APPLE_BUNDLE_ID": {
+          "required": false,
+          "description": "Optional: Specific Bundle ID to filter apps",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "APPLE_APP_STORE_ID": {
+          "required": false,
+          "description": "Optional: Specific App Store ID",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "OAUTH_ENABLED": {
+          "required": false,
+          "description": "Enable OAuth authentication (true/false)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "OAUTH_ISSUER": {
+          "required": false,
+          "description": "OAuth issuer URL (e.g., https://your-tenant.auth0.com)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "OAUTH_AUDIENCE": {
+          "required": false,
+          "description": "OAuth audience URL",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "OAUTH_JWKS_URI": {
+          "required": false,
+          "description": "OAuth JWKS URI for token validation",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SERVER_URL": {
+          "required": false,
+          "description": "Server URL for OAuth deployment",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8028,7 +10057,29 @@
       "version": "0.9.7",
       "npm": "@atlassian-dc-mcp/jira",
       "command": "npx @atlassian-dc-mcp/jira@0.9.7",
-      "env": {},
+      "env": {
+        "JIRA_HOST": {
+          "required": false,
+          "description": "Jira host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_BASE_PATH": {
+          "required": false,
+          "description": "Jira API base path (alternative to JIRA_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_TOKEN": {
+          "required": true,
+          "description": "Jira Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8324,7 +10375,15 @@
       "version": "1.0.8",
       "npm": "uranium-tools-mcp",
       "command": "npx uranium-tools-mcp@1.0.8",
-      "env": {},
+      "env": {
+        "URANIUM_API_KEY": {
+          "required": true,
+          "description": "You can generate an API key from your Uranium account settings: https://portal.uranium.pro/dashboard/profile/api-keys",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8368,7 +10427,29 @@
       "version": "0.2.1",
       "npm": "unreal-engine-mcp-server",
       "command": "npx unreal-engine-mcp-server@0.2.1",
-      "env": {},
+      "env": {
+        "UE_HOST": {
+          "required": false,
+          "description": "Unreal Engine host address",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UE_RC_HTTP_PORT": {
+          "required": false,
+          "description": "Remote Control HTTP port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UE_RC_WS_PORT": {
+          "required": false,
+          "description": "Remote Control WebSocket port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8407,7 +10488,7 @@
       "registry_base_url": "https://registry.npmjs.org",
       "license": null,
       "published_at": "2025-09-17T08:19:12.108456567Z",
-      "updated_at": "2025-09-17T08:19:12.108456567Z",
+      "updated_at": "2025-09-17T12:43:41.544322203Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -8455,7 +10536,15 @@
       "version": "1.0.9",
       "npm": "uranium-tools-mcp",
       "command": "npx uranium-tools-mcp@1.0.9",
-      "env": {},
+      "env": {
+        "URANIUM_API_KEY": {
+          "required": true,
+          "description": "You can generate an API key from your Uranium account settings: https://portal.uranium.pro/dashboard/profile/api-keys",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8612,7 +10701,22 @@
       "version": "1.3.1",
       "npm": "cerebras-code-mcp",
       "command": "npx cerebras-code-mcp@1.3.1",
-      "env": {},
+      "env": {
+        "CEREBRAS_API_KEY": {
+          "required": true,
+          "description": "Your Cerebras API key from cloud.cerebras.ai",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "OPENROUTER_API_KEY": {
+          "required": false,
+          "description": "Optional OpenRouter API key for fallback when Cerebras rate limits are hit",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8662,7 +10766,15 @@
       "version": "0.8.0-beta",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "WEATHER_CHOICES": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8721,7 +10833,15 @@
       "version": "1.3.2",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "BGG_USERNAME": {
+          "required": false,
+          "description": "Your BoardGameGeek username for references such as ME or MY in prompts",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8949,6 +11069,36 @@
       "installed_agents": []
     },
     {
+      "id": "88833a2c-b1b8-4a0f-ba12-43193b270796",
+      "name": "com.getunblocked/unblocked-mcp",
+      "category": "Community",
+      "description": "Unblocked MCP Server",
+      "version": "1.0.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": null,
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://getunblocked.com/api/mcpsse"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T17:32:31.670692124Z",
+      "updated_at": "2025-09-17T17:32:31.670692124Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "89304685-3f90-4915-9b41-7742cf94b56a",
       "name": "io.github.mobile-next/mobile-mcp",
       "category": "Community",
@@ -8956,7 +11106,15 @@
       "version": "0.0.26",
       "npm": "@mobilenext/mobile-mcp",
       "command": "npx @mobilenext/mobile-mcp@0.0.26",
-      "env": {},
+      "env": {
+        "": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -8996,7 +11154,15 @@
       "version": "1.0.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9222,8 +11388,16 @@
       "description": "A configuration-driven Meta API Gateway server for the Model Context Protocol (MCP).",
       "version": "1.0.0",
       "npm": "meta-api-mcp-server",
-      "command": "npx meta-api-mcp-server@1.0.0",
-      "env": {},
+      "command": "npx meta-api-mcp-server@1.0.4",
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "If the api you are connecting to requires api_key, you can use this variable and you can also define different variables",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9267,7 +11441,22 @@
       "version": "0.6.0",
       "npm": "figma-developer-mcp",
       "command": "npx figma-developer-mcp@0.6.0",
-      "env": {},
+      "env": {
+        "FIGMA_API_KEY": {
+          "required": true,
+          "description": "Your Figma Personal Access Token, learn more here: https://www.figma.com/developers/api#access-tokens",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "NODE_ENV": {
+          "required": false,
+          "description": "Start the server in stdio mode, keep as CLI",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9322,7 +11511,29 @@
       "version": "0.9.8",
       "npm": "@atlassian-dc-mcp/bitbucket",
       "command": "npx @atlassian-dc-mcp/bitbucket@0.9.8",
-      "env": {},
+      "env": {
+        "BITBUCKET_HOST": {
+          "required": false,
+          "description": "Bitbucket host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_BASE_PATH": {
+          "required": false,
+          "description": "Bitbucket API base path (alternative to BITBUCKET_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_TOKEN": {
+          "required": true,
+          "description": "Bitbucket Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9445,7 +11656,85 @@
       "version": "0.2.14",
       "npm": "@pulsemcp/pulse-fetch",
       "command": "npx @pulsemcp/pulse-fetch@0.2.14",
-      "env": {},
+      "env": {
+        "FIRECRAWL_API_KEY": {
+          "required": false,
+          "description": "API key for Firecrawl service to bypass anti-bot measures",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "BRIGHTDATA_API_KEY": {
+          "required": false,
+          "description": "Bearer token for BrightData Web Unlocker service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "STRATEGY_CONFIG_PATH": {
+          "required": false,
+          "description": "Path to markdown file containing scraping strategy configuration",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "OPTIMIZE_FOR": {
+          "required": false,
+          "description": "Optimization strategy for scraping: cost or speed",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_RESOURCE_STORAGE": {
+          "required": false,
+          "description": "Storage backend for saved resources: memory or filesystem",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_RESOURCE_FILESYSTEM_ROOT": {
+          "required": false,
+          "description": "Directory for filesystem storage (only used with filesystem type)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SKIP_HEALTH_CHECKS": {
+          "required": false,
+          "description": "Skip API authentication health checks at startup",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "LLM_PROVIDER": {
+          "required": false,
+          "description": "LLM provider for extract feature: anthropic, openai, openai-compatible",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "LLM_API_KEY": {
+          "required": false,
+          "description": "API key for the chosen LLM provider",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "LLM_API_BASE_URL": {
+          "required": false,
+          "description": "Base URL for OpenAI-compatible providers",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "LLM_MODEL": {
+          "required": false,
+          "description": "Specific model to use for extraction",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9657,8 +11946,30 @@
       "description": "A production-grade TypeScript template for scalable MCP servers with built-in observability.",
       "version": "2.0.3",
       "npm": "mcp-ts-template",
-      "command": "npx mcp-ts-template@2.0.3",
-      "env": {},
+      "command": "npx mcp-ts-template@2.0.2",
+      "env": {
+        "MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Sets the minimum log level for output (e.g., 'debug', 'info', 'warn').",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_PORT": {
+          "required": false,
+          "description": "The port to run the HTTP server on.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_AUTH_MODE": {
+          "required": false,
+          "description": "Authentication mode to use: 'none', 'jwt', or 'oauth'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9753,7 +12064,22 @@
       "version": "1.4.2",
       "npm": "hackmd-mcp",
       "command": "npx hackmd-mcp@1.4.2",
-      "env": {},
+      "env": {
+        "HACKMD_API_TOKEN": {
+          "required": true,
+          "description": "Your HackMD API token for API authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "HACKMD_API_URL": {
+          "required": false,
+          "description": "Optional HackMD API URL, defaults to https://api.hackmd.io/v1",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -9885,7 +12211,29 @@
       "version": "0.9.0",
       "npm": "@atlassian-dc-mcp/jira",
       "command": "npx @atlassian-dc-mcp/jira@0.9.0",
-      "env": {},
+      "env": {
+        "JIRA_HOST": {
+          "required": false,
+          "description": "Jira host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_BASE_PATH": {
+          "required": false,
+          "description": "Jira API base path (alternative to JIRA_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_TOKEN": {
+          "required": true,
+          "description": "Jira Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10074,7 +12422,7 @@
       "description": "MCP server to read, inspect and troubleshoot codebase symbols",
       "version": "1.0.0",
       "npm": "@p1va/symbols",
-      "command": "npx @p1va/symbols@1.0.0",
+      "command": "npx @p1va/symbols@0.0.10",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -10140,7 +12488,57 @@
       "version": "2.0.0-alpha.106",
       "npm": "claude-flow",
       "command": "npx claude-flow@2.0.0-alpha.106",
-      "env": {},
+      "env": {
+        "ANTHROPIC_API_KEY": {
+          "required": false,
+          "description": "Anthropic API key for Claude AI models",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "CLAUDE_FLOW_MODE": {
+          "required": false,
+          "description": "Operation mode: development, production, or test",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CLAUDE_FLOW_MEMORY_PATH": {
+          "required": false,
+          "description": "Path for persistent memory storage",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CLAUDE_FLOW_MAX_AGENTS": {
+          "required": false,
+          "description": "Maximum number of concurrent agents",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CLAUDE_FLOW_PORT": {
+          "required": false,
+          "description": "MCP server port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "GITHUB_TOKEN": {
+          "required": false,
+          "description": "GitHub personal access token for repository operations",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "FLOW_NEXUS_API_KEY": {
+          "required": false,
+          "description": "Flow Nexus cloud platform API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10238,6 +12636,97 @@
       "installed_agents": []
     },
     {
+      "id": "96a8497f-6246-4326-9394-a28ff6908fe2",
+      "name": "io.github.leshchenko1979/fast-mcp-telegram",
+      "category": "Community",
+      "description": "Telegram MCP server with search and messaging capabilities",
+      "version": "0.5.0",
+      "npm": null,
+      "command": null,
+      "env": {
+        "API_ID": {
+          "required": true,
+          "description": "Telegram API ID (from https://my.telegram.org/apps)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "API_HASH": {
+          "required": true,
+          "description": "Telegram API Hash (from https://my.telegram.org/apps)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "SERVER_MODE": {
+          "required": false,
+          "description": "Server mode: stdio (local), http-no-auth (dev), http-auth (prod)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SESSION_DIR": {
+          "required": false,
+          "description": "Custom session directory (defaults to ~/.config/fast-mcp-telegram/)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/leshchenko1979/fast-mcp-telegram",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "pypi",
+          "registry_base_url": "https://pypi.org",
+          "identifier": "fast-mcp-telegram",
+          "version": "0.5.0",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "Telegram API ID (from https://my.telegram.org/apps)",
+              "is_required": true,
+              "name": "API_ID"
+            },
+            {
+              "description": "Telegram API Hash (from https://my.telegram.org/apps)",
+              "is_required": true,
+              "is_secret": true,
+              "name": "API_HASH"
+            },
+            {
+              "description": "Server mode: stdio (local), http-no-auth (dev), http-auth (prod)",
+              "default": "stdio",
+              "choices": [
+                "stdio",
+                "http-no-auth",
+                "http-auth"
+              ],
+              "name": "SERVER_MODE"
+            },
+            {
+              "description": "Custom session directory (defaults to ~/.config/fast-mcp-telegram/)",
+              "name": "SESSION_DIR"
+            }
+          ]
+        }
+      ],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T14:08:48.770808907Z",
+      "updated_at": "2025-09-17T14:08:48.770808907Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "96cb8c0c-c096-4fa3-bc84-2e34a14f4f81",
       "name": "io.github.shinpr/mcp-image",
       "category": "Community",
@@ -10245,7 +12734,29 @@
       "version": "0.2.3",
       "npm": "mcp-image",
       "command": "npx mcp-image@0.2.3",
-      "env": {},
+      "env": {
+        "GEMINI_API_KEY": {
+          "required": true,
+          "description": "Google Gemini API key for image generation (get from https://aistudio.google.com/apikey)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "IMAGE_OUTPUT_DIR": {
+          "required": false,
+          "description": "Absolute path to directory where generated images will be saved (defaults to ./output)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SKIP_PROMPT_ENHANCEMENT": {
+          "required": false,
+          "description": "Set to 'true' to disable automatic prompt optimization and use direct prompts",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10298,7 +12809,7 @@
       "description": "An MCP server to run arbitrary commands",
       "version": "1.0.0",
       "npm": "@agent-infra/mcp-server-commands",
-      "command": "npx @agent-infra/mcp-server-commands@1.0.0",
+      "command": "npx @agent-infra/mcp-server-commands@latest",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -10466,7 +12977,7 @@
       "description": "MCP server for filesystem access",
       "version": "1.0.0",
       "npm": "@agent-infra/mcp-server-filesystem",
-      "command": "npx @agent-infra/mcp-server-filesystem@1.0.0",
+      "command": "npx @agent-infra/mcp-server-filesystem@latest",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -10566,8 +13077,16 @@
       "description": "MCP server for AI-powered image recognition and description using OpenAI vision models.",
       "version": "1.0.0",
       "npm": "image-recongnition-mcp",
-      "command": "npx image-recongnition-mcp@1.0.0",
-      "env": {},
+      "command": "npx image-recongnition-mcp@1.0.4",
+      "env": {
+        "OPENAI_API_KEY": {
+          "required": true,
+          "description": "Your OpenAI API key for image recognition and description services",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10645,6 +13164,36 @@
       "license": null,
       "published_at": "2025-09-10T19:14:36.3625643Z",
       "updated_at": "2025-09-10T19:14:36.3625643Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "9978940b-0d97-4ef5-a187-0d5cd56731fb",
+      "name": "dev.promplate/hmr",
+      "category": "Community",
+      "description": "Docs for hot-module-reload and reactive programming for Python (`hmr` on PyPI)",
+      "version": "1.0.2",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/promplate/hmr",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://pyth-on-line.promplate.dev/hmr/mcp"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T21:13:12.376456949Z",
+      "updated_at": "2025-09-17T21:13:12.376456949Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -10734,7 +13283,22 @@
       "version": "1.0.1",
       "npm": "mcp-server-tempmail",
       "command": "npx mcp-server-tempmail@1.0.1",
-      "env": {},
+      "env": {
+        "TEMPMAIL_API_KEY": {
+          "required": true,
+          "description": "API key for ChatTempMail service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "TEMPMAIL_BASE_URL": {
+          "required": false,
+          "description": "Base URL for ChatTempMail API (optional, defaults to https://chat-tempmail.com)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10783,7 +13347,29 @@
       "version": "0.17.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "UNITY_MCP_PORT": {
+          "required": false,
+          "description": "Client -> Server <- Plugin connection port (default: 8080)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UNITY_MCP_PLUGIN_TIMEOUT": {
+          "required": false,
+          "description": "Plugin -> Server connection timeout (ms) (default: 10000)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UNITY_MCP_CLIENT_TRANSPORT": {
+          "required": false,
+          "description": "Client -> Server transport type: stdio or http (default: http)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10870,7 +13456,15 @@
       "version": "0.1.1",
       "npm": "slimcontext-mcp-server",
       "command": "npx slimcontext-mcp-server@0.1.1",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -10907,14 +13501,73 @@
       "installed_agents": []
     },
     {
+      "id": "9ef1c5fc-0d30-4038-b8c0-93f9aaffd1b2",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "2.5.2",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T15:11:26.206910319Z",
+      "updated_at": "2025-09-17T15:13:14.51544383Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "a0bcd673-292a-4ba3-8dbc-eaf2ff92e7fc",
       "name": "io.github.cyanheads/mcp-ts-template",
       "category": "Community",
       "description": "A production-grade TypeScript template for scalable MCP servers with built-in observability.",
       "version": "2.0.2",
       "npm": "mcp-ts-template",
-      "command": "npx mcp-ts-template@2.0.2",
-      "env": {},
+      "command": "npx mcp-ts-template@2.0.1",
+      "env": {
+        "MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Sets the minimum log level for output (e.g., 'debug', 'info', 'warn').",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_PORT": {
+          "required": false,
+          "description": "The port to run the HTTP server on.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_AUTH_MODE": {
+          "required": false,
+          "description": "Authentication mode to use: 'none', 'jwt', or 'oauth'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -11101,6 +13754,63 @@
       "installed_agents": []
     },
     {
+      "id": "a6ab98ca-2224-4dc5-b7ce-91f97c40cb56",
+      "name": "com.docfork/docfork-mcp",
+      "category": "Community",
+      "description": "MCP server for Docfork",
+      "version": "0.7.2",
+      "npm": "docfork",
+      "command": "npx docfork@0.7.2",
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/docfork/docfork-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.docfork.com/mcp"
+        }
+      ],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "docfork",
+          "version": "0.7.2",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "Your API key for the service",
+              "is_required": true,
+              "format": "string",
+              "is_secret": true,
+              "name": "YOUR_API_KEY"
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T14:44:53.975619664Z",
+      "updated_at": "2025-09-17T14:44:53.975619664Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "a77e222c-d64a-4cd2-a44a-b4e46bdcbfed",
       "name": "io.github.b1ff/atlassian-dc-mcp-confluence",
       "category": "Community",
@@ -11108,7 +13818,29 @@
       "version": "0.9.7",
       "npm": "@atlassian-dc-mcp/confluence",
       "command": "npx @atlassian-dc-mcp/confluence@0.9.7",
-      "env": {},
+      "env": {
+        "CONFLUENCE_HOST": {
+          "required": false,
+          "description": "Confluence host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_BASE_PATH": {
+          "required": false,
+          "description": "Confluence API base path (alternative to CONFLUENCE_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CONFLUENCE_API_TOKEN": {
+          "required": true,
+          "description": "Confluence Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -11162,7 +13894,22 @@
       "version": "1.5.0",
       "npm": "hackmd-mcp",
       "command": "npx hackmd-mcp@1.5.0",
-      "env": {},
+      "env": {
+        "HACKMD_API_TOKEN": {
+          "required": true,
+          "description": "Your HackMD API token for API authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "HACKMD_API_URL": {
+          "required": false,
+          "description": "Optional HackMD API URL, defaults to https://api.hackmd.io/v1",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -11319,6 +14066,41 @@
       "installed_agents": []
     },
     {
+      "id": "a8a5c761-c1dc-4d1d-9100-b57df4c9ec0d",
+      "name": "io.github.chris-schra/mcp-funnel",
+      "category": "Community",
+      "description": "MCP proxy that aggregates multiple servers with tool filtering and customization",
+      "version": "0.0.6",
+      "npm": "mcp-funnel",
+      "command": "npx mcp-funnel@0.0.6",
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/chris-schra/mcp-funnel",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "mcp-funnel",
+          "version": "0.0.6",
+          "transport": {
+            "type": "stdio"
+          }
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T18:33:35.912597Z",
+      "updated_at": "2025-09-17T18:55:31.893305521Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "a8f1ddcb-c162-4a50-8295-74ffbfbf76a7",
       "name": "ai.smithery/Aman-Amith-Shastry-scientific_computation_mcp",
       "category": "Community",
@@ -11365,7 +14147,15 @@
       "version": "1.0.3",
       "npm": "@opencage/mcp-opencage-server",
       "command": "npx @opencage/mcp-opencage-server@1.0.3",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -11409,7 +14199,15 @@
       "version": "1.7.3",
       "npm": "airtable-mcp-server",
       "command": "npx airtable-mcp-server@1.7.3",
-      "env": {},
+      "env": {
+        "AIRTABLE_API_KEY": {
+          "required": true,
+          "description": "Airtable personal access token (e.g., pat123.abc123). Create at https://airtable.com/create/tokens/new with scopes: schema.bases:read, data.records:read, and optionally schema.bases:write and data.records:write.",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -11635,7 +14433,57 @@
       "version": "2.3.3",
       "npm": "@cyanheads/git-mcp-server",
       "command": "npx @cyanheads/git-mcp-server@2.3.3",
-      "env": {},
+      "env": {
+        "MCP_TRANSPORT_TYPE": {
+          "required": true,
+          "description": "Specifies the transport mechanism for the server.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Sets the minimum log level for output (e.g., 'debug', 'info', 'warn').",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "GIT_SIGN_COMMITS": {
+          "required": false,
+          "description": "Set to 'true' to enable GPG/SSH signing for commits made via the git_commit tool.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_PORT": {
+          "required": false,
+          "description": "The port to run the HTTP server on.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_HOST": {
+          "required": false,
+          "description": "The host interface for the HTTP server.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_ENDPOINT_PATH": {
+          "required": false,
+          "description": "The HTTP endpoint path for MCP requests.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_AUTH_STRATEGY": {
+          "required": false,
+          "description": "Authentication mode to use: 'none', 'jwt', or 'oauth'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -11778,6 +14626,41 @@
       "installed_agents": []
     },
     {
+      "id": "ac1b1492-c254-4727-85e5-21c7efaa26f5",
+      "name": "io.github.abelljs/abell",
+      "category": "Community",
+      "description": "AI tools related to Abell. Currently includes MCP of Abell",
+      "version": "0.0.9",
+      "npm": "abell-ai",
+      "command": "npx abell-ai@0.0.9",
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/abelljs/abell",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "abell-ai",
+          "version": "0.0.9",
+          "transport": {
+            "type": "stdio"
+          }
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T14:53:07.562174808Z",
+      "updated_at": "2025-09-17T14:53:07.562174808Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "aca46879-069c-4052-99a4-b6941bc6fb26",
       "name": "io.github.ruvnet/claude-flow",
       "category": "Community",
@@ -11857,7 +14740,7 @@
       "description": "Generate and remix recipes using cookwith.co",
       "version": "1.0.0",
       "npm": "@cookwith/recipe-mcp",
-      "command": "npx @cookwith/recipe-mcp@1.0.0",
+      "command": "npx @cookwith/recipe-mcp@1.0.1",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -11927,7 +14810,50 @@
       "version": "0.8.4",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "CML_URL": {
+          "required": true,
+          "description": "URL for the CML Server",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CML_USERNAME": {
+          "required": true,
+          "description": "Username for CML authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "CML_PASSWORD": {
+          "required": true,
+          "description": "Password for CML authentication",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PYATS_USERNAME": {
+          "required": false,
+          "description": "Username for authentication to devices running in CML",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "PYATS_PASSWORD": {
+          "required": false,
+          "description": "Password for authentication to devices running in CML",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PYATS_AUTH_PASS": {
+          "required": false,
+          "description": "Enable password for authentication to devices running in CML",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12064,7 +14990,36 @@
       "version": "2.2.1",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "TRINO_HOST": {
+          "required": true,
+          "description": "Trino server hostname",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "TRINO_PORT": {
+          "required": false,
+          "description": "Trino server port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "TRINO_USER": {
+          "required": true,
+          "description": "Trino username",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "TRINO_PASSWORD": {
+          "required": false,
+          "description": "Trino password",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12124,7 +15079,15 @@
       "version": "2.0.1",
       "npm": "mcp-ts-template",
       "command": "npx mcp-ts-template@2.0.1",
-      "env": {},
+      "env": {
+        "MCP_HTTP_PORT": {
+          "required": false,
+          "description": "The port to run the HTTP server on.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12226,6 +15189,36 @@
       "installed_agents": []
     },
     {
+      "id": "b2342344-c506-4b06-a8e3-931cb18d22ef",
+      "name": "io.github.promplate/hmr",
+      "category": "Community",
+      "description": "Hot Module Reload (HMR) for Python with reactive programming and MCP tools",
+      "version": "1.0.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/promplate/pyth-on-line",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://promplate.github.io/pyth-on-line/hmr/mcp"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T20:50:30.150753217Z",
+      "updated_at": "2025-09-17T20:50:30.150753217Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "b305e6df-7c51-4067-a28c-d5964c68bd74",
       "name": "com.letta/memory-mcp",
       "category": "Community",
@@ -12233,7 +15226,22 @@
       "version": "2.0.2",
       "npm": "@letta-ai/memory-mcp",
       "command": "npx @letta-ai/memory-mcp@2.0.2",
-      "env": {},
+      "env": {
+        "LETTA_API_KEY": {
+          "required": true,
+          "description": "Letta API key for memory operations",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "LETTA_USER_ID": {
+          "required": false,
+          "description": "Unique user identifier for associated memories",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12348,6 +15356,41 @@
       "installed_agents": []
     },
     {
+      "id": "b361137f-582b-4748-8f7f-eb144fd4ed2c",
+      "name": "io.github.AungMyoKyaw/betterprompt-mcp",
+      "category": "Community",
+      "description": "MCP server for AI-enhanced prompt engineering and request conversion.",
+      "version": "0.2.1",
+      "npm": "betterprompt-mcp",
+      "command": "npx betterprompt-mcp@0.2.1",
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/AungMyoKyaw/betterprompt-mcp",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "betterprompt-mcp",
+          "version": "0.2.1",
+          "transport": {
+            "type": "stdio"
+          }
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T17:15:50.170627394Z",
+      "updated_at": "2025-09-17T17:15:50.170627394Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "b3c4cf45-bfc9-44b2-8b0f-d2b07f801567",
       "name": "com.getclockwise/clockwise-mcp",
       "category": "Community",
@@ -12420,7 +15463,15 @@
       "version": "1.0.1",
       "npm": "fred-mcp-server",
       "command": "npx fred-mcp-server@1.0.1",
-      "env": {},
+      "env": {
+        "FRED_API_KEY": {
+          "required": true,
+          "description": "Your FRED API key to access the API",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12503,7 +15554,22 @@
       "version": "0.6.0-rc.1",
       "npm": "@dynatrace-oss/dynatrace-mcp-server",
       "command": "npx @dynatrace-oss/dynatrace-mcp-server@0.6.0-rc.1",
-      "env": {},
+      "env": {
+        "DT_PLATFORM_TOKEN": {
+          "required": true,
+          "description": "Your Dynatrace Platform Token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "DT_ENVIRONMENT": {
+          "required": false,
+          "description": "The URL of your Dynatrace environment (e.g. 'https://abc12345.apps.dynatrace.com')",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12637,7 +15703,15 @@
       "version": "1.0.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "VJ_API_KEY": {
+          "required": true,
+          "description": "Video Jungle API Key (found at https://www.video-jungle.com/user/settings)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12720,7 +15794,22 @@
       "version": "0.6.4",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "motherduck_token": {
+          "required": false,
+          "description": "Access token to use for MotherDuck database connections",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "HOME": {
+          "required": false,
+          "description": "Home directory for DuckDB (used as default if --home-dir not specified)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12853,7 +15942,22 @@
       "version": "1.0.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "SAUCE_USERNAME": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "SAUCE_ACCESS_KEY": {
+          "required": false,
+          "description": "",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -12898,7 +16002,15 @@
       "version": "1.0.1",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "VJ_API_KEY": {
+          "required": true,
+          "description": "Video Jungle API Key (found at https://www.video-jungle.com/user/settings)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -13219,6 +16331,42 @@
       "installed_agents": []
     },
     {
+      "id": "c20de9bf-9464-472b-8dcb-32503b984d56",
+      "name": "io.github.CursorTouch/Windows-MCP",
+      "category": "Community",
+      "description": "An MCP Server for computer-use in Windows OS",
+      "version": "1.0.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/CursorTouch/Windows-MCP",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "pypi",
+          "registry_base_url": "https://pypi.org",
+          "identifier": "windows_mcp",
+          "version": "0.3.0",
+          "runtime_hint": "uvx",
+          "transport": {
+            "type": "stdio"
+          }
+        }
+      ],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T13:24:08.521350318Z",
+      "updated_at": "2025-09-17T13:24:08.521350318Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "c29777b7-3957-42a7-8000-d675c0ecb2b2",
       "name": "ai.mcpcap/mcpcap",
       "category": "Community",
@@ -13296,7 +16444,22 @@
       "version": "1.0.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "GEMINI_API_KEY": {
+          "required": true,
+          "description": "Your Gemini API key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "IMAGE_OUTPUT_DIR": {
+          "required": false,
+          "description": "The image output directory",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -13384,7 +16547,15 @@
       "version": "1.0.0",
       "npm": "@variflight-ai/variflight-mcp",
       "command": "npx @variflight-ai/variflight-mcp@1.0.0",
-      "env": {},
+      "env": {
+        "VARIFLIGHT_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -13602,7 +16773,15 @@
       "version": "0.3.9",
       "npm": "selenium-webdriver-mcp",
       "command": "npx selenium-webdriver-mcp@0.3.9",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": false,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -13633,6 +16812,80 @@
       "license": null,
       "published_at": "2025-09-09T19:08:26.435100548Z",
       "updated_at": "2025-09-11T13:43:51.367329854Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "ccdf5061-3cb1-4dfe-a36a-f6bbbf6c3abf",
+      "name": "io.github.ChiR24/unreal-engine-mcp",
+      "category": "Community",
+      "description": "Production-ready MCP server for Unreal Engine with comprehensive game development tools",
+      "version": "0.3.0",
+      "npm": "unreal-engine-mcp-server",
+      "command": "npx unreal-engine-mcp-server@0.3.0",
+      "env": {
+        "UE_HOST": {
+          "required": false,
+          "description": "Unreal Engine host address",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UE_RC_HTTP_PORT": {
+          "required": false,
+          "description": "Remote Control HTTP port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UE_RC_WS_PORT": {
+          "required": false,
+          "description": "Remote Control WebSocket port",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/ChiR24/Unreal_mcp.git",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "unreal-engine-mcp-server",
+          "version": "0.3.0",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "Unreal Engine host address",
+              "value": "127.0.0.1",
+              "name": "UE_HOST"
+            },
+            {
+              "description": "Remote Control HTTP port",
+              "value": "30010",
+              "name": "UE_RC_HTTP_PORT"
+            },
+            {
+              "description": "Remote Control WebSocket port",
+              "value": "30020",
+              "name": "UE_RC_WS_PORT"
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T12:43:41.483739766Z",
+      "updated_at": "2025-09-17T12:43:41.483739766Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -14017,7 +17270,57 @@
       "version": "1.4.4",
       "npm": "@cyanheads/pubmed-mcp-server",
       "command": "npx @cyanheads/pubmed-mcp-server@1.4.4",
-      "env": {},
+      "env": {
+        "MCP_TRANSPORT_TYPE": {
+          "required": true,
+          "description": "Specifies the transport mechanism for the server.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_LOG_LEVEL": {
+          "required": false,
+          "description": "Sets the minimum log level (e.g., 'debug', 'info', 'warn').",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "NCBI_API_KEY": {
+          "required": false,
+          "description": "Your NCBI API key for higher rate limits.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_HOST": {
+          "required": false,
+          "description": "The host for the HTTP server.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_PORT": {
+          "required": false,
+          "description": "The port for the HTTP server.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_HTTP_ENDPOINT_PATH": {
+          "required": false,
+          "description": "The endpoint path for MCP requests.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "MCP_AUTH_MODE": {
+          "required": false,
+          "description": "Authentication mode: 'none', 'jwt', or 'oauth'.",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -14215,7 +17518,29 @@
       "version": "0.1.0",
       "npm": "mcp-merchant",
       "command": "npx mcp-merchant@0.1.0",
-      "env": {},
+      "env": {
+        "STRIPE_SECRET_KEY": {
+          "required": true,
+          "description": "Stripe secret key (test mode)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PRODUCT_LIMIT": {
+          "required": false,
+          "description": "Max products to cache",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "REFRESH_INTERVAL_SEC": {
+          "required": false,
+          "description": "Catalog refresh interval in seconds",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -14376,7 +17701,22 @@
       "version": "1.0.12",
       "npm": "qweather-mcp",
       "command": "npx qweather-mcp@1.0.12",
-      "env": {},
+      "env": {
+        "QWEATHER_API_BASE": {
+          "required": true,
+          "description": "Your qweather api host",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "QWEATHER_API_KEY": {
+          "required": true,
+          "description": "Your qweather api key",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -14500,7 +17840,15 @@
       "version": "1.2.6",
       "npm": "ap-mcp-server",
       "command": "npx ap-mcp-server@1.2.6",
-      "env": {},
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -14648,7 +17996,29 @@
       "version": "0.9.7",
       "npm": "@atlassian-dc-mcp/bitbucket",
       "command": "npx @atlassian-dc-mcp/bitbucket@0.9.7",
-      "env": {},
+      "env": {
+        "BITBUCKET_HOST": {
+          "required": false,
+          "description": "Bitbucket host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_BASE_PATH": {
+          "required": false,
+          "description": "Bitbucket API base path (alternative to BITBUCKET_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_TOKEN": {
+          "required": true,
+          "description": "Bitbucket Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -14729,6 +18099,43 @@
       "installed_agents": []
     },
     {
+      "id": "dc27ec5b-37aa-4537-a0b2-3bc603e23e1d",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "2.4.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T14:41:53.205694658Z",
+      "updated_at": "2025-09-17T14:43:14.562703229Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "dc884dc5-6e28-4fc8-9ae7-d3374c803288",
       "name": "ai.smithery/slhad-aha-mcp",
       "category": "Community",
@@ -14775,7 +18182,15 @@
       "version": "1.4.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "BGG_USERNAME": {
+          "required": false,
+          "description": "Your BoardGameGeek username for references such as ME or MY in prompts",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -14927,6 +18342,43 @@
       "installed_agents": []
     },
     {
+      "id": "e07e5ac4-de2c-4e3e-bdf6-637c2cad0f34",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "2.6.0",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T15:13:14.508375885Z",
+      "updated_at": "2025-09-17T15:13:14.508375885Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "e1318fc8-1005-4014-928e-5b82595773a9",
       "name": "ai.smithery/hithereiamaliff-mcp-nextcloud",
       "category": "Community",
@@ -14973,7 +18425,29 @@
       "version": "0.9.0",
       "npm": "@atlassian-dc-mcp/bitbucket",
       "command": "npx @atlassian-dc-mcp/bitbucket@0.9.0",
-      "env": {},
+      "env": {
+        "BITBUCKET_HOST": {
+          "required": false,
+          "description": "Bitbucket host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_BASE_PATH": {
+          "required": false,
+          "description": "Bitbucket API base path (alternative to BITBUCKET_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "BITBUCKET_API_TOKEN": {
+          "required": true,
+          "description": "Bitbucket Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15066,7 +18540,29 @@
       "version": "0.17.1",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "UNITY_MCP_PORT": {
+          "required": false,
+          "description": "Client -> Server <- Plugin connection port (default: 8080)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UNITY_MCP_PLUGIN_TIMEOUT": {
+          "required": false,
+          "description": "Plugin -> Server connection timeout (ms) (default: 10000)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "UNITY_MCP_CLIENT_TRANSPORT": {
+          "required": false,
+          "description": "Client -> Server transport type: stdio or http (default: http)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15147,6 +18643,135 @@
       "installed_agents": []
     },
     {
+      "id": "e426621e-4c78-4d87-ac66-8cb3db910b25",
+      "name": "io.github.chris-schra/mcp-funnel",
+      "category": "Community",
+      "description": "MCP proxy that aggregates multiple servers with tool filtering and customization",
+      "version": "0.0.7",
+      "npm": "mcp-funnel",
+      "command": "npx mcp-funnel@0.0.6",
+      "env": {
+        "MCP_FUNNEL_CONFIG": {
+          "required": false,
+          "description": "Alternative way to specify config file path",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/chris-schra/mcp-funnel",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "mcp-funnel",
+          "version": "0.0.6",
+          "runtime_hint": "npx",
+          "transport": {
+            "type": "stdio"
+          },
+          "runtime_arguments": [
+            {
+              "value": "-y",
+              "type": "positional"
+            }
+          ],
+          "package_arguments": [
+            {
+              "description": "Optional path to .mcp-funnel.json config file",
+              "format": "filepath",
+              "type": "positional",
+              "value_hint": "config_path"
+            }
+          ],
+          "environment_variables": [
+            {
+              "description": "Alternative way to specify config file path",
+              "format": "filepath",
+              "name": "MCP_FUNNEL_CONFIG"
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T18:55:31.888644079Z",
+      "updated_at": "2025-09-17T18:55:31.888644079Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "e522a3bc-d23c-4215-aacc-a5ae5c78ce5c",
+      "name": "dev.promplate/hmr",
+      "category": "Community",
+      "description": "Hot Module Reload (HMR) and reactive programming for Python",
+      "version": "1.0.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/promplate/hmr",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://pyth-on-line.promplate.dev/hmr/mcp"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T21:09:37.850175971Z",
+      "updated_at": "2025-09-17T21:13:12.384420864Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "e6f3c597-90f1-42a4-ae3e-5a22662e6ac3",
+      "name": "com.devcycle/mcp",
+      "category": "Community",
+      "description": "DevCycle MCP server for feature flag management",
+      "version": "6.0.2",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": null,
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.devcycle.com/mcp"
+        },
+        {
+          "type": "sse",
+          "url": "https://mcp.devcycle.com/sse"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T19:06:43.362452757Z",
+      "updated_at": "2025-09-17T20:28:36.462391026Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "e7ceccf7-af99-447d-a3a6-139b1501c5b5",
       "name": "ai.smithery/STUzhy-py_execute_mcp",
       "category": "Community",
@@ -15192,7 +18817,7 @@
       "description": "MCP server to support Astro project development",
       "version": "0.4.2",
       "npm": "astro-mcp",
-      "command": "npx astro-mcp@0.4.2",
+      "command": "npx astro-mcp@0.4.2 --transport sse",
       "env": {},
       "setup_instructions": [],
       "uninstall_steps": [],
@@ -15217,6 +18842,36 @@
       "license": null,
       "published_at": "2025-09-11T17:37:51.51070648Z",
       "updated_at": "2025-09-11T17:37:51.51070648Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "e82405a7-01da-410c-911e-1df13b446157",
+      "name": "com.vercel/vercel-mcp",
+      "category": "Community",
+      "description": "An MCP server for connecting to Vercel",
+      "version": "0.0.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": null,
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.vercel.com"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T21:18:23.966053956Z",
+      "updated_at": "2025-09-17T21:18:23.966053956Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -15446,14 +19101,61 @@
       "installed_agents": []
     },
     {
+      "id": "f0cb5880-9aec-40ae-8388-97f8b63d4370",
+      "name": "ai.smithery/exa-labs-exa-code-mcp",
+      "category": "Community",
+      "description": "Find open-source libraries and fetch contextual code snippets by version to accelerate development…",
+      "version": "0.0.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/exa-labs/exa-code-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://server.smithery.ai/@exa-labs/exa-code-mcp/mcp",
+          "headers": [
+            {
+              "description": "Bearer token for Smithery authentication",
+              "is_required": true,
+              "value": "Bearer {smithery_api_key}",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T20:44:09.235886235Z",
+      "updated_at": "2025-09-17T20:44:09.235886235Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "f0e93c38-849c-4cb5-baee-04077afc48ea",
       "name": "io.github.dubuqingfeng/gitlab-mcp-server",
       "category": "Community",
       "description": "GitLab MCP (Model Context Protocol) server for AI agents",
       "version": "1.0.0",
       "npm": "@dubuqingfeng/gitlab-mcp-server",
-      "command": "npx @dubuqingfeng/gitlab-mcp-server@1.0.0",
-      "env": {},
+      "command": "npx @dubuqingfeng/gitlab-mcp-server@2.0.12",
+      "env": {
+        "YOUR_API_KEY": {
+          "required": true,
+          "description": "Your API key for the service",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15497,7 +19199,22 @@
       "version": "1.0.3",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "ZENML_STORE_URL": {
+          "required": true,
+          "description": "Base URL of your ZenML server (e.g., https://<workspace-id>-zenml.cloudinfra.zenml.io).",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "ZENML_STORE_API_KEY": {
+          "required": true,
+          "description": "API key used to authenticate with your ZenML server (ideally a service account key).",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15582,7 +19299,15 @@
       "version": "1.0.0",
       "npm": null,
       "command": null,
-      "env": {},
+      "env": {
+        "HUOSHUI_WORKING_DIR": {
+          "required": false,
+          "description": "Your workding directory",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15612,6 +19337,43 @@
       "license": null,
       "published_at": "2025-09-11T01:34:28.334413427Z",
       "updated_at": "2025-09-11T01:34:28.334413427Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "f2550c4a-7aeb-4af9-93c5-8e92b0c7087e",
+      "name": "com.apple-rag/mcp-server",
+      "category": "Community",
+      "description": "Apple Developer Documentation with Semantic Search, RAG, and AI reranking for MCP clients",
+      "version": "2.5.1",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/BingoWon/apple-rag-mcp",
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.apple-rag.com",
+          "headers": [
+            {
+              "description": "MCP Token for authentication (optional - free tier available without token)",
+              "is_secret": true,
+              "name": "Authorization"
+            }
+          ]
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T15:08:38.002759406Z",
+      "updated_at": "2025-09-17T15:11:26.214637982Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
@@ -15693,7 +19455,29 @@
       "version": "0.1.3",
       "npm": "mcp-merchant",
       "command": "npx mcp-merchant@0.1.3",
-      "env": {},
+      "env": {
+        "STRIPE_SECRET_KEY": {
+          "required": true,
+          "description": "Stripe secret key (test mode)",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PRODUCT_LIMIT": {
+          "required": false,
+          "description": "Max products to cache",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "REFRESH_INTERVAL_SEC": {
+          "required": false,
+          "description": "Catalog refresh interval in seconds",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15752,7 +19536,36 @@
       "version": "2.4.0",
       "npm": "financial-modeling-prep-mcp-server",
       "command": "npx financial-modeling-prep-mcp-server@2.4.0",
-      "env": {},
+      "env": {
+        "FMP_ACCESS_TOKEN": {
+          "required": false,
+          "description": "Financial Modeling Prep API access token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "PORT": {
+          "required": false,
+          "description": "Port number for HTTP server mode",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "DYNAMIC_TOOL_DISCOVERY": {
+          "required": false,
+          "description": "Enable dynamic tool discovery mode",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "FMP_TOOL_SETS": {
+          "required": false,
+          "description": "Comma-separated list of tool sets to load",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -15838,7 +19651,29 @@
       "version": "0.9.8",
       "npm": "@atlassian-dc-mcp/jira",
       "command": "npx @atlassian-dc-mcp/jira@0.9.8",
-      "env": {},
+      "env": {
+        "JIRA_HOST": {
+          "required": false,
+          "description": "Jira host domain (e.g. your-instance.atlassian.net)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_BASE_PATH": {
+          "required": false,
+          "description": "Jira API base path (alternative to JIRA_HOST)",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "JIRA_API_TOKEN": {
+          "required": true,
+          "description": "Jira Personal Access Token or API token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -16147,8 +19982,51 @@
       "description": "GitLab MCP (Model Context Protocol) server for AI agents",
       "version": "1.0.1",
       "npm": "@dubuqingfeng/gitlab-mcp-server",
-      "command": "npx @dubuqingfeng/gitlab-mcp-server@1.0.1",
-      "env": {},
+      "command": "npx @dubuqingfeng/gitlab-mcp-server@2.0.12",
+      "env": {
+        "GITLAB_TOKEN": {
+          "required": true,
+          "description": "Your API key for the gitlab",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "GITLAB_URL": {
+          "required": false,
+          "description": "Gitlab URL",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "LARK_WEBHOOK_URL": {
+          "required": false,
+          "description": "Lark 机器人 Webhook URL",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "LARK_SECRET_KEY": {
+          "required": false,
+          "description": "可选：签名密钥（如果机器人启用了签名验证）",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "LARK_ENABLE_NOTIFICATION": {
+          "required": false,
+          "description": "可选：是否启用通知，默认为 true",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "GITLAB_NOTE_MODE": {
+          "required": false,
+          "description": "可选：通知模式 - gitlab_only(仅GitLab)、lark_only(仅Lark)、both(两者都发)，默认为 gitlab_only",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        }
+      },
       "setup_instructions": [],
       "uninstall_steps": [],
       "documentation": "",
@@ -16316,6 +20194,85 @@
       "license": null,
       "published_at": "2025-09-10T17:52:23.110357722Z",
       "updated_at": "2025-09-10T17:52:23.110357722Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
+      "id": "fce998d0-3374-49ad-ab92-a1dce675be47",
+      "name": "io.github.r-huijts/strava-mcp",
+      "category": "Community",
+      "description": "MCP server for accessing Strava API",
+      "version": "1.0.1",
+      "npm": "strava-mcp-server",
+      "command": "npx strava-mcp-server@1.0.1",
+      "env": {
+        "STRAVA_CLIENT_ID": {
+          "required": true,
+          "description": "Your Strava API client ID",
+          "placeholder": "",
+          "help": "",
+          "secret": false
+        },
+        "STRAVA_CLIENT_SECRET": {
+          "required": true,
+          "description": "Your Strava API client secret",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        },
+        "STRAVA_ACCESS_TOKEN": {
+          "required": true,
+          "description": "Your Strava API access token",
+          "placeholder": "",
+          "help": "",
+          "secret": true
+        }
+      },
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": "https://github.com/r-huijts/strava-mcp",
+      "remotes": [],
+      "packages": [
+        {
+          "registry_type": "npm",
+          "registry_base_url": "https://registry.npmjs.org",
+          "identifier": "strava-mcp-server",
+          "version": "1.0.1",
+          "transport": {
+            "type": "stdio"
+          },
+          "environment_variables": [
+            {
+              "description": "Your Strava API client ID",
+              "is_required": true,
+              "format": "string",
+              "name": "STRAVA_CLIENT_ID"
+            },
+            {
+              "description": "Your Strava API client secret",
+              "is_required": true,
+              "format": "string",
+              "is_secret": true,
+              "name": "STRAVA_CLIENT_SECRET"
+            },
+            {
+              "description": "Your Strava API access token",
+              "is_required": true,
+              "format": "string",
+              "is_secret": true,
+              "name": "STRAVA_ACCESS_TOKEN"
+            }
+          ]
+        }
+      ],
+      "registry_type": "npm",
+      "registry_base_url": "https://registry.npmjs.org",
+      "license": null,
+      "published_at": "2025-09-17T13:52:27.488577467Z",
+      "updated_at": "2025-09-17T13:52:27.488577467Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []

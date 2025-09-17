@@ -75,32 +75,39 @@ function savePersistedAgents(agents) {
 }
 
 async function loadMcpRegistry() {
-  // Try official registry first
+  // PRIMARY: Try official MCP registry first (registry.modelcontextprotocol.io)
+  // This ensures all installations are based on official registry data
   try {
     const official = await fetchFromOfficialRegistry();
     if (official && Array.isArray(official.mcps)) {
       saveMcpRegistry(official);
+      console.log(`Loaded ${official.mcps.length} MCPs from official registry`);
       return official;
     }
-  } catch {}
-  // Then try GitHub fallback
+  } catch (e) {
+    console.warn('Failed to fetch from official registry:', e.message);
+  }
+  
+  // FALLBACK 1: Try GitHub repository as secondary source
   try {
     const githubRegistry = await fetchCatalogFromGitHub();
     if (githubRegistry && githubRegistry.mcps) {
       // Save the fetched registry locally for offline use
       saveMcpRegistry(githubRegistry);
+      console.log(`Loaded ${githubRegistry.mcps.length} MCPs from GitHub fallback`);
       return githubRegistry;
     }
   } catch (e) {
-    // Silently fall back to local registry - don't log errors to avoid noise
+    console.warn('Failed to fetch from GitHub fallback:', e.message);
   }
   
-  // Fallback to local file
+  // FALLBACK 2: Use cached local registry file
   try {
     if (fs.existsSync(MCP_REGISTRY_FILE)) {
       const registry = JSON.parse(fs.readFileSync(MCP_REGISTRY_FILE, 'utf8'));
       // Ensure the registry has the expected structure
       if (registry && typeof registry === 'object') {
+        console.log(`Loaded ${registry.mcps?.length || 0} MCPs from local cache`);
         return {
           mcps: Array.isArray(registry.mcps) ? registry.mcps : []
         };
@@ -109,6 +116,8 @@ async function loadMcpRegistry() {
   } catch (e) {
     console.warn('Failed to load local MCP registry:', e.message);
   }
+  
+  console.warn('No MCP registry data available - returning empty registry');
   return { mcps: [] };
 }
 
@@ -641,9 +650,55 @@ function transformOfficialServerToInternal(server) {
     const version = server.version || 'latest';
     const documentation = server.documentation || '';
     const homepage = server.homepage || '';
+    
+    // Find the best package for installation - prefer npm packages
     const npmPkg = (server.packages || []).find(p => p.registry_type === 'npm');
     const identifier = npmPkg?.identifier || null;
-    const command = identifier ? `npx ${identifier}@${version || 'latest'}` : null;
+    
+    // Build installation command from registry data
+    let command = null;
+    if (identifier) {
+      // Use the package version from registry, fallback to 'latest'
+      const packageVersion = npmPkg?.version || version || 'latest';
+      command = `npx ${identifier}@${packageVersion}`;
+      
+      // Add transport-specific arguments if defined
+      if (npmPkg?.transport?.type === 'stdio') {
+        // stdio transport is the default, no additional args needed
+      } else if (npmPkg?.transport?.type === 'sse') {
+        // Add SSE-specific arguments if needed
+        command += ' --transport sse';
+      }
+    }
+    
+    // Extract environment variables from registry packages
+    const env = {};
+    (server.packages || []).forEach(p => {
+      if (p.environment_variables) {
+        p.environment_variables.forEach(ev => {
+          env[ev.name] = {
+            required: !!ev.is_required,
+            description: ev.description || '',
+            placeholder: ev.placeholder || '',
+            help: ev.help || '',
+            secret: !!ev.is_secret
+          };
+        });
+      }
+    });
+    
+    // Extract setup instructions from registry metadata
+    const setup_instructions = [];
+    if (server.setup_instructions && Array.isArray(server.setup_instructions)) {
+      setup_instructions.push(...server.setup_instructions);
+    }
+    
+    // Extract uninstall steps from registry metadata
+    const uninstall_steps = [];
+    if (server.uninstall_steps && Array.isArray(server.uninstall_steps)) {
+      uninstall_steps.push(...server.uninstall_steps);
+    }
+    
     const category = 'Community';
     return {
       id: String(id),
@@ -653,9 +708,9 @@ function transformOfficialServerToInternal(server) {
       version,
       npm: identifier,
       command,
-      env: {},
-      setup_instructions: [],
-      uninstall_steps: [],
+      env,
+      setup_instructions,
+      uninstall_steps,
       documentation,
       homepage,
       repository: server.repository && server.repository.url ? server.repository.url : null,
@@ -678,22 +733,9 @@ function transformOfficialServerToInternal(server) {
 // Detailed transform retains env var metadata for display
 function transformOfficialServerDetail(server) {
   const base = transformOfficialServerToInternal(server) || {};
-  // Build env map if npm package defines environment_variables
-  const env = {};
-  (server.packages || []).forEach(p => {
-    if (p.environment_variables) {
-      p.environment_variables.forEach(ev => {
-        env[ev.name] = {
-          required: !!ev.is_required,
-          description: ev.description || '',
-          placeholder: '',
-          help: '',
-          secret: !!ev.is_secret
-        };
-      });
-    }
-  });
-  return { ...base, env };
+  // The base transform already handles environment variables from registry
+  // This function is kept for backward compatibility but now just returns the base
+  return base;
 }
 
 function ensureMcpServersInConfig(config, agentId) {
@@ -1121,7 +1163,7 @@ async function main() {
     const agents = detectAgents();
     const agent = agents.find(a => a.id === agentId);
     
-    // Get MCP from registry
+    // Get MCP from registry - ensure we're using fresh registry data
     const registry = await loadMcpRegistry();
     const mcp = registry.mcps?.find(m => m.id === mcpId);
     
@@ -1129,8 +1171,16 @@ async function main() {
       return res.status(400).json({ error: 'Invalid agent or MCP id' });
     }
 
+    // Validate that we have a valid installation command from registry
+    if (!mcp.command) {
+      return res.status(400).json({ 
+        error: 'No installation command available from registry',
+        details: 'This MCP server does not have a valid npm package or installation command defined in the registry'
+      });
+    }
+
     // Validate environment variables if required
-    if (mcp.env) {
+    if (mcp.env && Object.keys(mcp.env).length > 0) {
       const missing = [];
       Object.entries(mcp.env).forEach(([key, config]) => {
         if (config.required && (!envVars || !envVars[key] || envVars[key].trim() === '')) {
@@ -1147,11 +1197,34 @@ async function main() {
     }
     
     try {
+      // Use registry data directly for installation
       addServerToMcpConfig(agent.mcpConfigPath, mcp.id, mcp.command, envVars || {}, agentId);
       updateMcpInstallationStatus(mcpId, agentId, true);
-      track('mcp_installed', { agentId, mcpId, source: 'registry' });
-      return res.json({ ok: true, mcpConfigPath: agent.mcpConfigPath });
+      
+      // Track installation with registry metadata
+      track('mcp_installed', { 
+        agentId, 
+        mcpId, 
+        source: 'registry',
+        npm_package: mcp.npm,
+        version: mcp.version,
+        registry_type: mcp.registry_type
+      });
+      
+      return res.json({ 
+        ok: true, 
+        mcpConfigPath: agent.mcpConfigPath,
+        installed_from: 'registry',
+        npm_package: mcp.npm,
+        version: mcp.version
+      });
     } catch (e) {
+      track('mcp_install_failed', { 
+        agentId, 
+        mcpId, 
+        error: e.message,
+        source: 'registry'
+      });
       return res.status(500).json({ error: e.message });
     }
   });

@@ -49,10 +49,11 @@ npx @cybertheory/mcpkit
 ## ✨ Features
 
 - **Auto-Detection**: Automatically finds Cursor, Windsurf, Claude Desktop, Continue, Aider, Cline, Neovim, Emacs, JetBrains IDEs and other MCP-capable agents
-- **Live Registry**: Always up-to-date MCP server catalog from GitHub
-- **One-Click Install**: Install MCP servers with environment variable configuration
+- **Official Registry Integration**: Direct integration with the official MCP registry (registry.modelcontextprotocol.io) for authentic server data
+- **One-Click Install**: Install MCP servers directly from registry with proper environment variable configuration
+- **Registry-First**: All installations use official registry metadata including npm packages, versions, and environment variables
 - **OAuth Support**: Handle authentication flows for services like GitHub
-- **Offline Fallback**: Works even when GitHub is unavailable
+- **Offline Fallback**: Works even when registry is unavailable using cached data
 - **Cross-Platform**: Windows, macOS, and Linux support
 
 ## 🎯 Supported Agents
@@ -199,7 +200,14 @@ MCP Kit automatically detects agent configurations, but you can manually specify
 
 ## 🌐 Registry
 
-The MCP registry is automatically updated from [GitHub](https://github.com/cybertheory/mcpkit) every 30 minutes. You can manually refresh using the "Refresh Registry" button in the UI.
+MCP Kit uses the **official MCP registry** (registry.modelcontextprotocol.io) as the primary source for all server data. This ensures:
+
+- ✅ **Authentic Data**: All server information comes directly from the official registry
+- ✅ **Latest Versions**: Automatic updates with the most recent server versions
+- ✅ **Proper Metadata**: Complete package information, environment variables, and installation commands
+- ✅ **Verified Sources**: Only officially registered and verified MCP servers
+
+The registry is automatically updated every 30 minutes, and you can manually refresh using the "Refresh Registry" button in the UI. If the official registry is unavailable, MCP Kit falls back to cached data to ensure continued operation.
 
 ## 🚀 Publishing
 
