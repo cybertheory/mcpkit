@@ -16731,6 +16731,36 @@
       "installed_agents": []
     },
     {
+      "id": "ca97ce9f-45a6-4249-a6de-d2a1797adf0f",
+      "name": "com.vercel/vercel-mcp",
+      "category": "Community",
+      "description": "An MCP server for Vercel",
+      "version": "0.0.2",
+      "npm": null,
+      "command": null,
+      "env": {},
+      "setup_instructions": [],
+      "uninstall_steps": [],
+      "documentation": "",
+      "homepage": "",
+      "repository": null,
+      "remotes": [
+        {
+          "type": "streamable-http",
+          "url": "https://mcp.vercel.com"
+        }
+      ],
+      "packages": [],
+      "registry_type": null,
+      "registry_base_url": null,
+      "license": null,
+      "published_at": "2025-09-17T21:29:22.383255285Z",
+      "updated_at": "2025-09-17T21:29:22.383255285Z",
+      "installed": false,
+      "installation_date": null,
+      "installed_agents": []
+    },
+    {
       "id": "cc123f69-0820-4c87-b304-99e82175a541",
       "name": "io.github.domdomegg/time-mcp-pypi",
       "category": "Community",
@@ -18871,7 +18901,7 @@
       "registry_base_url": null,
       "license": null,
       "published_at": "2025-09-17T21:18:23.966053956Z",
-      "updated_at": "2025-09-17T21:18:23.966053956Z",
+      "updated_at": "2025-09-17T21:29:22.393251785Z",
       "installed": false,
       "installation_date": null,
       "installed_agents": []
