@@ -1,6 +1,8 @@
 # MCP Kit
 
-A lightweight UI console to detect MCP-capable agents and install MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, Claude Desktop, Continue, Aider, Cline, Neovim, Emacs, JetBrains IDEs and other MCP-capable assistants.
+A lightweight UI console client for the [official MCP Registry](https://github.com/modelcontextprotocol/registry) that detects MCP-capable agents and installs MCP servers. Easily manage Model Context Protocol integrations for Cursor, Windsurf, Claude Desktop, Continue, Aider, Cline, Neovim, Emacs, JetBrains IDEs and other MCP-capable assistants.
+
+> **🌐 Official Registry Client**: MCP Kit is built as a client for the official MCP Registry, following the specifications and standards defined by the Model Context Protocol community. All server data comes directly from [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io).
 
 ![MCP Kit Screenshot](assets/image.png)
 
@@ -48,10 +50,10 @@ npx @cybertheory/mcpkit
 
 ## ✨ Features
 
+- **Official Registry Integration**: Built as a client for the [official MCP Registry](https://github.com/modelcontextprotocol/registry), ensuring all server data comes from the authoritative source
+- **Registry-First Architecture**: All installations use official registry metadata including npm packages, versions, and environment variables
 - **Auto-Detection**: Automatically finds Cursor, Windsurf, Claude Desktop, Continue, Aider, Cline, Neovim, Emacs, JetBrains IDEs and other MCP-capable agents
-- **Official Registry Integration**: Direct integration with the official MCP registry (registry.modelcontextprotocol.io) for authentic server data
 - **One-Click Install**: Install MCP servers directly from registry with proper environment variable configuration
-- **Registry-First**: All installations use official registry metadata including npm packages, versions, and environment variables
 - **OAuth Support**: Handle authentication flows for services like GitHub
 - **Offline Fallback**: Works even when registry is unavailable using cached data
 - **Cross-Platform**: Windows, macOS, and Linux support
@@ -198,16 +200,27 @@ MCP Kit automatically detects agent configurations, but you can manually specify
 ### Custom Agents
 - **Custom**: Specify any JSON configuration file
 
-## 🌐 Registry
+## 🌐 Official MCP Registry Integration
 
-MCP Kit uses the **official MCP registry** (registry.modelcontextprotocol.io) as the primary source for all server data. This ensures:
+MCP Kit is designed as a client for the [official MCP Registry](https://github.com/modelcontextprotocol/registry), following the specifications and standards defined by the Model Context Protocol community. This ensures:
 
-- ✅ **Authentic Data**: All server information comes directly from the official registry
-- ✅ **Latest Versions**: Automatic updates with the most recent server versions
-- ✅ **Proper Metadata**: Complete package information, environment variables, and installation commands
-- ✅ **Verified Sources**: Only officially registered and verified MCP servers
+### ✅ Registry Compliance
+- **Authentic Data**: All server information comes directly from the official registry at [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io)
+- **Latest Versions**: Automatic updates with the most recent server versions from the registry
+- **Proper Metadata**: Complete package information, environment variables, and installation commands as defined by the registry
+- **Verified Sources**: Only officially registered and verified MCP servers are available for installation
 
-The registry is automatically updated every 30 minutes, and you can manually refresh using the "Refresh Registry" button in the UI. If the official registry is unavailable, MCP Kit falls back to cached data to ensure continued operation.
+### 🔄 Registry Synchronization
+- **Real-time Updates**: Registry data is automatically updated every 30 minutes
+- **Manual Refresh**: Use the "Refresh Registry" button in the UI to get the latest data
+- **Offline Support**: Cached data ensures continued operation when the registry is unavailable
+- **API Compliance**: Follows the official MCP Registry API specifications for data retrieval and server management
+
+### 🏗️ Architecture Benefits
+- **Standards Compliance**: Built according to MCP Registry specifications
+- **Community Alignment**: Integrates seamlessly with the broader MCP ecosystem
+- **Future-Proof**: Automatically adapts to registry API changes and improvements
+- **Trust & Security**: Users can trust that all servers come from the official, verified registry
 
 ## 🚀 Publishing
 
@@ -224,10 +237,27 @@ npm publish
 
 ## 🤝 Contributing
 
+We welcome contributions to MCP Kit! As a client for the official MCP Registry, we follow the specifications and standards defined by the Model Context Protocol community.
+
+### Quick Start
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
 4. Submit a pull request
+
+### Detailed Guidelines
+See our [CONTRIBUTING.md](CONTRIBUTING.md) for comprehensive contribution guidelines, including:
+- Development setup and project structure
+- Code style guidelines and testing requirements
+- MCP Registry integration standards
+- Review process and community guidelines
+
+### Registry Compliance
+When contributing, please ensure:
+- All changes maintain compatibility with the official MCP Registry API
+- Server installations follow registry specifications
+- Error handling includes proper fallback mechanisms
+- Documentation reflects registry integration features
 
 ## 📄 License
 
@@ -241,4 +271,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Made with ❤️ for the MCP community**
+**Made with ❤️ for the MCP community** | **Built for the [Official MCP Registry](https://github.com/modelcontextprotocol/registry)**
