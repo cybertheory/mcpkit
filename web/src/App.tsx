@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import posthog from 'posthog-js'
-import { Search, Download, Settings, Boxes, ExternalLink, CheckCircle, Image as ImageIcon, X, AlertCircle, Info, Trash2 } from 'lucide-react'
+import { Search, Download, Settings, Boxes, ExternalLink, CheckCircle, Image as ImageIcon, X, AlertCircle, Info, Trash2, Plus } from 'lucide-react'
 
 type Agent = { id: string; name: string; mcpConfigPath?: string | null }
 type Catalog = Record<string, { id: string; name: string; description: string; version?: string; documentation?: string; repository?: string; npm?: string; remotes?: any[]; packages?: any[] }[]>
-type ServerCard = { id: string; name: string; description: string; version?: string; documentation?: string; repository?: string; npm?: string; remotes?: any[]; packages?: any[] }
+type ServerCard = { id: string; name: string; description: string; version?: string; documentation?: string; homepage?: string; repository?: string; npm?: string; remotes?: any[]; packages?: any[]; registry_type?: string|null; registry_base_url?: string|null; published_at?: string|null; updated_at?: string|null; license?: string|null; auth_type?: string }
 
 // Custom hook for image loading with automatic retry logic
 const useImageLoad = (src: string, imagePool: string[] = []) => {
@@ -708,7 +708,7 @@ const NewsTicker = () => {
   return (
     <div className="news-ticker">
       <div className="news-ticker-content">
-        {news.map((article, index) => (
+        {news.map((article: any, index: number) => (
           <a
             key={index}
             href={article.url}
@@ -731,6 +731,14 @@ export default function App() {
   const [selectedAgent, setSelectedAgent] = useState<string>('cursor')
   const [manualPath, setManualPath] = useState('')
   const [activeTab, setActiveTab] = useState<'catalog' | 'agents'>('catalog')
+  const [showPublishModal, setShowPublishModal] = useState(false)
+  const [showCustomAgentModal, setShowCustomAgentModal] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  useEffect(()=>{
+    fetch('/api/me').then(r=>r.json()).then(m=>{
+      setIsAuthenticated(!!m.authenticated)
+    }).catch(()=>{})
+  }, [])
   
   // Environment configuration popup state
   const [envPopupOpen, setEnvPopupOpen] = useState(false)
@@ -796,8 +804,22 @@ export default function App() {
   // Flatten to single grid regardless of category
   const flatList: ServerCard[] = useMemo(() => {
     const all = Object.values(catalog).flat() as ServerCard[]
-    if (!q) return all
-    return all.filter(i => (i.name + ' ' + (i.description||'')).toLowerCase().includes(q.toLowerCase()))
+    const query = q.trim().toLowerCase()
+    if (!query) return all
+    return all.filter(i => {
+      const haystack = [
+        i.name,
+        i.description || '',
+        i.version || '',
+        i.npm || '',
+        i.repository || '',
+        i.homepage || '',
+        i.documentation || '',
+        ...(i.packages?.map((p:any)=>p.identifier||'')||[]),
+        ...(i.remotes?.map((r:any)=>r.url||'')||[])
+      ].join(' ').toLowerCase()
+      return haystack.includes(query)
+    })
   }, [catalog, q])
 
   // Infinite load from official registry via backend proxy
@@ -868,7 +890,7 @@ export default function App() {
       setExistingConfig(configData.config)
       
       // Determine which popup to show based on auth type
-      if (mcp.auth_type === 'oauth') {
+      if ((mcp as any).auth_type === 'oauth') {
         setOauthPopupOpen(true)
       } else {
         setEnvPopupOpen(true)
@@ -881,7 +903,7 @@ export default function App() {
       setExistingConfig(null)
       
       // Determine which popup to show based on auth type
-      if (mcp.auth_type === 'oauth') {
+      if ((mcp as any).auth_type === 'oauth') {
         setOauthPopupOpen(true)
       } else {
         setEnvPopupOpen(true)
@@ -1126,10 +1148,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen grid grid-cols-[260px_1fr] bg-slate-950 text-slate-100">
-      <aside className="border-r border-slate-800 p-4">
-        <div className="text-xl font-semibold mb-2">MCP Kit</div>
-        <div className="text-sm text-slate-400 mb-6">Your local MCP Console</div>
-        
+      <aside className="border-r border-slate-800 p-4 sticky top-0 h-screen flex flex-col">
+        <div>
+          <div className="text-xl font-semibold mb-2">MCP Kit</div>
+          <div className="text-sm text-slate-400 mb-6">Official MCP Registry Client</div>
+        </div>
+
         <nav className="space-y-2">
           <button 
             onClick={() => setActiveTab('catalog')} 
@@ -1148,7 +1172,6 @@ export default function App() {
             <Settings size={16}/> Agents
           </button>
         </nav>
-
         {activeTab === 'catalog' && (
           <div className="mt-6">
             <div className="text-sm font-medium mb-2">Detected Agents</div>
@@ -1162,13 +1185,19 @@ export default function App() {
                 <div className="text-xs text-slate-400">No compatible agents detected.</div>
               )}
             </div>
-            <div className="mt-3">
-              <div className="text-xs text-slate-400 mb-2">Add Custom Agent</div>
-              <input value={manualPath} onChange={e=>setManualPath(e.target.value)} placeholder="C:\\Users\\you\\.cursor\\mcp.json" className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" />
-              <button onClick={addCustomAgent} className="mt-2 w-full px-3 py-2 rounded-md bg-indigo-500 text-slate-950 text-sm">Add Agent</button>
-            </div>
           </div>
         )}
+
+        <div className="mt-auto pt-4">
+          <div className="flex items-center justify-between gap-2">
+            <button onClick={()=>setShowPublishModal(true)} className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-indigo-500 text-slate-950 text-sm">
+              <Plus size={16}/> Add Server
+            </button>
+            <button onClick={()=>setShowCustomAgentModal(true)} className="inline-flex items-center justify-center px-3 py-2 rounded-md bg-slate-800 text-slate-200 border border-slate-700" title="Custom Agent Settings">
+              <Settings size={16}/>
+            </button>
+          </div>
+        </div>
       </aside>
       
       <main 
@@ -1180,11 +1209,11 @@ export default function App() {
         {/* Pull-to-refresh indicator */}
         <div 
           className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-            isPulling || isRefreshing ? 'opacity-100' : 'opacity-0'
+            isPulling || isRefreshing ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
           style={{ 
             transform: `translateY(${Math.max(0, pullDistance - 60)}px)`,
-            height: `${Math.max(60, pullDistance)}px`
+            height: (isPulling || isRefreshing) ? `${Math.max(60, pullDistance)}px` : '0px'
           }}
         >
           <div className="bg-slate-900 border-b border-slate-700 h-full flex items-center justify-center">
@@ -1233,15 +1262,52 @@ export default function App() {
             </div>
             
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {flatList.map(i => (
+              {flatList.map(i => {
+                const rawName = i.name || ''
+                const [ns, pkg] = rawName.includes('/') ? rawName.split('/') : [rawName, rawName]
+                const reversedNs = ns.split('.').reverse().join('.')
+                const derivedTitle = pkg
+                const nsHref = `https://${reversedNs}`
+                return (
                 <div key={i.id} className="rounded-xl border border-slate-800 bg-slate-900 p-4 flex flex-col gap-2">
-                  <div className="font-semibold">{i.name}</div>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="font-semibold truncate" title={i.name}>{derivedTitle}</div>
+                    {reversedNs && (
+                      <a href={nsHref} target="_blank" rel="noopener noreferrer" className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-200 hover:bg-slate-700" title={reversedNs}>
+                        {reversedNs}
+                      </a>
+                    )}
+                  </div>
                   <div className="text-xs text-slate-400">{i.version || 'latest'}</div>
                   <div className="text-sm text-slate-400 line-clamp-3">{i.description}</div>
                   <div className="flex flex-wrap gap-2 text-xs text-slate-400">
                     {i.npm && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">npm: {i.npm}</span>}
                     {i.remotes && i.remotes.length>0 && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">remotes: {i.remotes.length}</span>}
                     {i.packages && i.packages.length>0 && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">packages: {i.packages.length}</span>}
+                    {i.registry_type && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">{i.registry_type}</span>}
+                    {i.registry_base_url && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">{new URL(i.registry_base_url as string).host}</span>}
+                    {i.license && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">license: {i.license}</span>}
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-xs text-slate-400">
+                    {i.published_at && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">published: {new Date(i.published_at).toLocaleDateString()}</span>}
+                    {i.updated_at && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">updated: {new Date(i.updated_at).toLocaleDateString()}</span>}
+                  </div>
+                  <div className="flex gap-2 mt-1">
+                    {i.homepage && (
+                      <a href={i.homepage} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-200">
+                        Homepage
+                      </a>
+                    )}
+                    {i.documentation && (
+                      <a href={i.documentation} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-200">
+                        Docs
+                      </a>
+                    )}
+                    {i.repository && (
+                      <a href={i.repository} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-xs text-slate-200">
+                        Repo
+                      </a>
+                    )}
                   </div>
                   <div className="flex gap-2 mt-2">
                     {installationStatus[i.id] ? (
@@ -1269,7 +1335,8 @@ export default function App() {
                     )}
                   </div>
                 </div>
-              ))}
+                )
+              })}
             </div>
             <div className="flex justify-center mt-4">
               {cursor && (
@@ -1335,8 +1402,8 @@ export default function App() {
                           </button>
                         )}
                       </div>
-                    </div>
-                  ))}
+                </div>
+              ))}
                 </div>
               </div>
             ))}
@@ -1344,12 +1411,53 @@ export default function App() {
         )}
       </main>
       
+      {/* Custom Agent Settings Modal */}
+      {showCustomAgentModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl max-w-md w-full">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-lg font-semibold">Custom Agent</div>
+                <button onClick={()=>setShowCustomAgentModal(false)} className="text-slate-400 hover:text-white"><X size={18}/></button>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-sm text-slate-300">Agent config path (mcp.json)</label>
+                <input value={manualPath} onChange={e=>setManualPath(e.target.value)} placeholder="C:\\Users\\you\\.cursor\\mcp.json" className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" />
+                <div className="flex justify-end gap-2 pt-2">
+                  <button onClick={()=>setShowCustomAgentModal(false)} className="px-3 py-2 rounded-md text-slate-300">Cancel</button>
+                  <button onClick={addCustomAgent} className="px-3 py-2 rounded-md bg-indigo-500 text-slate-950">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Publish/Add Server Modal (with auth gate) */}
+      {showPublishModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl max-w-lg w-full">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-lg font-semibold">Add Server</div>
+                <button onClick={()=>setShowPublishModal(false)} className="text-slate-400 hover:text-white"><X size={18}/></button>
+              </div>
+              {!isAuthenticated ? (
+                <DeviceFlowAuth onAuthed={()=>setIsAuthenticated(true)} />
+              ) : (
+                <PublishServerForm onClose={()=>setShowPublishModal(false)} />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Environment Configuration Popup */}
       <EnvConfigPopup
         isOpen={envPopupOpen}
         onClose={() => setEnvPopupOpen(false)}
         mcp={selectedMcp}
-        agent={selectedAgentForInstall}
+        agent={selectedAgentForInstall as Agent}
         onInstall={handleInstall}
         existingConfig={existingConfig}
       />
@@ -1359,7 +1467,7 @@ export default function App() {
         isOpen={oauthPopupOpen}
         onClose={() => setOauthPopupOpen(false)}
         mcp={selectedMcp}
-        agent={selectedAgentForInstall}
+        agent={selectedAgentForInstall as Agent}
         onAuthComplete={handleOAuthComplete}
       />
       
@@ -1385,6 +1493,167 @@ export default function App() {
         title={notification.title}
         message={notification.message}
       />
+    </div>
+  )
+}
+
+// Minimal publish form placeholder (extend to match publish-server schema)
+function PublishServerForm({ onClose }: { onClose: () => void }) {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [homepage, setHomepage] = useState('')
+  const [repository, setRepository] = useState('')
+  const [npmIdentifier, setNpmIdentifier] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string>('')
+
+  const handleSubmit = async () => {
+    setSubmitting(true)
+    setError('')
+    try {
+      const serverJson: any = {
+        name,
+        description,
+        homepage,
+        repository: repository ? { url: repository, source: 'github' } : undefined,
+        version: '1.0.0',
+      }
+      if (npmIdentifier) {
+        serverJson.packages = [{ registry_type: 'npm', registry_base_url: 'https://registry.npmjs.org', identifier: npmIdentifier, version: 'latest', transport: { type: 'stdio' } }]
+      }
+      const res = await fetch('/api/publish-server', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(serverJson) })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data?.error || 'Failed to publish')
+        return
+      }
+      onClose()
+    } catch (e:any) {
+      setError(e.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="space-y-3">
+      <div>
+        <label className="block text-sm text-slate-300 mb-1">Name (authority/package)</label>
+        <input value={name} onChange={e=>setName(e.target.value)} className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" placeholder="io.github.yourname/weather-server" />
+      </div>
+      <div>
+        <label className="block text-sm text-slate-300 mb-1">Description</label>
+        <input value={description} onChange={e=>setDescription(e.target.value)} className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" />
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-sm text-slate-300 mb-1">Homepage</label>
+          <input value={homepage} onChange={e=>setHomepage(e.target.value)} className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" placeholder="https://example.com" />
+        </div>
+        <div>
+          <label className="block text-sm text-slate-300 mb-1">Repository URL</label>
+          <input value={repository} onChange={e=>setRepository(e.target.value)} className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" placeholder="https://github.com/you/repo" />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm text-slate-300 mb-1">NPM Identifier (optional)</label>
+        <input value={npmIdentifier} onChange={e=>setNpmIdentifier(e.target.value)} className="w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-800 text-sm" placeholder="@scope/server" />
+      </div>
+      <div className="flex justify-end gap-2 pt-2">
+        <button onClick={onClose} className="px-3 py-2 rounded-md text-slate-300">Cancel</button>
+        <button disabled={submitting} onClick={handleSubmit} className="px-3 py-2 rounded-md bg-indigo-500 text-slate-950 disabled:opacity-50">{submitting?'Publishing…':'Publish'}</button>
+      </div>
+      {error && <div className="text-red-400 text-sm">{error}</div>}
+    </div>
+  )
+}
+
+function DeviceFlowAuth({ onAuthed }: { onAuthed: ()=>void }) {
+  const [deviceCode, setDeviceCode] = useState<string>('')
+  const [userCode, setUserCode] = useState<string>('')
+  const [verifyUri, setVerifyUri] = useState<string>('')
+  const [verifyUriComplete, setVerifyUriComplete] = useState<string>('')
+  const [intervalSec, setIntervalSec] = useState<number>(5)
+  const [error, setError] = useState<string>('')
+  const [started, setStarted] = useState(false)
+  const [polling, setPolling] = useState(false)
+
+  const start = async () => {
+    setError('')
+    try {
+      const r = await fetch('/auth/github/device/start', { method: 'POST' })
+      const d = await r.json()
+      if (!r.ok) { setError(d?.error||'Failed to start'); return }
+      setDeviceCode(d.device_code)
+      setUserCode(d.user_code)
+      setVerifyUri(d.verification_uri)
+      if (d.verification_uri_complete) setVerifyUriComplete(d.verification_uri_complete)
+      setIntervalSec(d.interval || 5)
+      setStarted(true)
+    } catch (e:any) { setError(e.message) }
+  }
+
+  const pollOnce = async () => {
+    if (!deviceCode) return
+    setPolling(true)
+    try {
+      const r = await fetch('/auth/github/device/poll', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ device_code: deviceCode }) })
+      const d = await r.json()
+      if (r.ok && d.authenticated) { onAuthed(); return }
+      if (d?.error && d.error !== 'authorization_pending' && d.error !== 'slow_down') {
+        setError(d.error)
+      }
+    } catch (e:any) {
+      setError(e.message)
+    } finally {
+      setPolling(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!started || !deviceCode) return
+    const id = setInterval(async () => {
+      pollOnce()
+    }, intervalSec * 1000)
+    return () => clearInterval(id)
+  }, [started, deviceCode, intervalSec])
+
+  return (
+    <div className="space-y-3 text-slate-300">
+      {!started ? (
+        <div className="flex justify-end">
+          <button onClick={start} className="px-3 py-2 rounded-md bg-indigo-500 text-slate-950">Continue with GitHub</button>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {(verifyUriComplete || verifyUri) && (
+            <div className="flex justify-center">
+              <img
+                src={`https://quickchart.io/qr?text=${encodeURIComponent(verifyUriComplete || verifyUri)}&size=160&margin=2`}
+                alt="GitHub Device Login QR"
+                className="rounded-md border border-slate-700 bg-white p-1"
+              />
+            </div>
+          )}
+          <p>
+            {verifyUriComplete ? (
+              <>
+                Open <a href={verifyUriComplete} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">GitHub Device Login</a>
+              </>
+            ) : (
+              <>
+                Open <a href={verifyUri} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">{verifyUri}</a> and enter this code:
+              </>
+            )}
+          </p>
+          <div className="text-center text-xl font-mono tracking-wider bg-slate-800 border border-slate-700 rounded px-3 py-2">{userCode}</div>
+          <div className="flex items-center gap-2">
+            <button disabled={polling} onClick={pollOnce} className="px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-xs disabled:opacity-50">I've authorized</button>
+            <span className="text-xs text-slate-400">Waiting for authorization…</span>
+          </div>
+        </div>
+      )}
+      {error && <div className="text-red-400 text-sm">{error}</div>}
     </div>
   )
 }

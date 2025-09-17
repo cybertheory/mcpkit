@@ -5,6 +5,7 @@ const os = require('os');
 const express = require('express');
 const { spawn } = require('child_process');
 const { PostHog } = require('posthog-node');
+const crypto = require('crypto');
 
 const POSTHOG_KEY = process.env.MCPKIT_POSTHOG_KEY || '';
 const POSTHOG_HOST = process.env.MCPKIT_POSTHOG_HOST || 'https://us.i.posthog.com';
@@ -37,6 +38,13 @@ const PERSISTENCE_FILE = path.join(os.homedir(), '.mcpkit', 'agents.json');
 
 // MCP registry file
 const MCP_REGISTRY_FILE = path.join(__dirname, '..', 'mcp-registry.json');
+
+// OAuth config (GitHub)
+const GITHUB_CLIENT_ID = process.env.MCPKIT_GITHUB_CLIENT_ID || 'Ov23liPIjxP8XsjeUoik';
+const GITHUB_CLIENT_SECRET = process.env.MCPKIT_GITHUB_CLIENT_SECRET || '';
+const OAUTH_CALLBACK_PATH = '/auth/github/callback';
+const SESSION_SECRET = process.env.MCPKIT_SESSION_SECRET || 'dev_session_secret_change_me';
+const REGISTRY_BASE = 'https://registry.modelcontextprotocol.io';
 
 function ensurePersistenceDir() {
   const dir = path.dirname(PERSISTENCE_FILE);
@@ -631,7 +639,8 @@ function transformOfficialServerToInternal(server) {
     const name = server.name || server.display_name || server.title || id;
     const description = server.description || '';
     const version = server.version || 'latest';
-    const documentation = server.documentation || server.homepage || (server.repository && server.repository.url) || '';
+    const documentation = server.documentation || '';
+    const homepage = server.homepage || '';
     const npmPkg = (server.packages || []).find(p => p.registry_type === 'npm');
     const identifier = npmPkg?.identifier || null;
     const command = identifier ? `npx ${identifier}@${version || 'latest'}` : null;
@@ -648,9 +657,15 @@ function transformOfficialServerToInternal(server) {
       setup_instructions: [],
       uninstall_steps: [],
       documentation,
+      homepage,
       repository: server.repository && server.repository.url ? server.repository.url : null,
       remotes: Array.isArray(server.remotes) ? server.remotes : [],
       packages: Array.isArray(server.packages) ? server.packages : [],
+      registry_type: npmPkg?.registry_type || null,
+      registry_base_url: npmPkg?.registry_base_url || null,
+      license: server.license || null,
+      published_at: officialMeta && officialMeta.published_at ? officialMeta.published_at : null,
+      updated_at: officialMeta && officialMeta.updated_at ? officialMeta.updated_at : null,
       installed: false,
       installation_date: null,
       installed_agents: []
@@ -759,6 +774,34 @@ function removeServerFromMcpConfig(mcpConfigPath, serverId, agentId = 'cursor') 
 async function main() {
   const app = express();
   app.use(express.json());
+  // simple cookie parser
+  app.use((req, res, next) => {
+    const cookie = req.headers.cookie || '';
+    const map = {};
+    cookie.split(';').forEach(p => { const i = p.indexOf('='); if (i>0) { const k=p.slice(0,i).trim(); const v=decodeURIComponent(p.slice(i+1)); map[k]=v; } });
+    req.cookies = map;
+    next();
+  });
+
+  // in-memory session store
+  const sessions = new Map();
+  function sign(value) {
+    return crypto.createHmac('sha256', SESSION_SECRET).update(value).digest('hex');
+  }
+  function setSession(res, data) {
+    const id = crypto.randomBytes(16).toString('hex');
+    sessions.set(id, { ...data, createdAt: Date.now() });
+    const sig = sign(id);
+    res.setHeader('Set-Cookie', `mcpkit_sid=${id}.${sig}; Path=/; HttpOnly; SameSite=Lax`);
+  }
+  function getSession(req) {
+    const raw = req.cookies['mcpkit_sid'] || '';
+    const [id, sig] = raw.split('.');
+    if (!id || !sig) return null;
+    if (sign(id) !== sig) return null;
+    const data = sessions.get(id);
+    return data || null;
+  }
 
   // Public telemetry config for frontend initialization
   app.get('/api/telemetry-config', (req, res) => {
@@ -774,6 +817,121 @@ async function main() {
     const agents = detectAgents();
     track('agents_listed', { count: agents.length });
     res.json({ agents });
+  });
+
+  // OAuth: start GitHub login
+  app.get('/auth/github/login', (req, res) => {
+    if (!GITHUB_CLIENT_ID) return res.status(500).send('GitHub OAuth not configured');
+    const redirectUri = `${req.protocol}://${req.get('host')}${OAUTH_CALLBACK_PATH}`;
+    const state = crypto.randomBytes(8).toString('hex');
+    const url = `https://github.com/login/oauth/authorize?client_id=${encodeURIComponent(GITHUB_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=read:user%20user:email&state=${state}`;
+    res.redirect(url);
+  });
+
+  // GitHub Device Flow - start
+  app.post('/auth/github/device/start', async (req, res) => {
+    try {
+      if (!GITHUB_CLIENT_ID) return res.status(500).json({ error: 'github_not_configured' });
+      const body = new URLSearchParams();
+      body.set('client_id', GITHUB_CLIENT_ID);
+      body.set('scope', 'read:user user:email');
+      const r = await fetch('https://github.com/login/device/code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+        body
+      });
+      const data = await r.json();
+      if (!r.ok) return res.status(r.status).json(data);
+      // returns device_code, user_code, verification_uri, interval, expires_in
+      res.json(data);
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // GitHub Device Flow - poll
+  app.post('/auth/github/device/poll', async (req, res) => {
+    try {
+      if (!GITHUB_CLIENT_ID) return res.status(500).json({ error: 'github_not_configured' });
+      const { device_code } = req.body || {};
+      if (!device_code) return res.status(400).json({ error: 'device_code_required' });
+      const body = new URLSearchParams();
+      body.set('client_id', GITHUB_CLIENT_ID);
+      body.set('device_code', device_code);
+      body.set('grant_type', 'urn:ietf:params:oauth:grant-type:device_code');
+      const r = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+        body
+      });
+      const data = await r.json();
+      // Possible responses: {access_token,...} or {error: 'authorization_pending'|'slow_down'|'expired_token'|'access_denied'}
+      if (data.access_token) {
+        const ghToken = data.access_token;
+        const userRes = await fetch('https://api.github.com/user', { headers: { Authorization: `Bearer ${ghToken}`, 'User-Agent': 'mcpkit' } });
+        const user = await userRes.json();
+        // create session
+        setSession(res, { provider: 'github', token: ghToken, user });
+        return res.json({ authenticated: true, user });
+      }
+      if (data.error === 'authorization_pending' || data.error === 'slow_down') {
+        return res.json({ authenticated: false, pending: true });
+      }
+      return res.status(400).json({ authenticated: false, error: data.error || 'unknown_error' });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // OAuth: GitHub callback
+  app.get(OAUTH_CALLBACK_PATH, async (req, res) => {
+    try {
+      const code = req.query.code;
+      if (!code) return res.status(400).send('Missing code');
+      const redirectUri = `${req.protocol}://${req.get('host')}${OAUTH_CALLBACK_PATH}`;
+      const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ client_id: GITHUB_CLIENT_ID, client_secret: GITHUB_CLIENT_SECRET, code, redirect_uri: redirectUri })
+      });
+      const tokenJson = await tokenRes.json();
+      if (!tokenRes.ok || !tokenJson.access_token) return res.status(400).send('OAuth exchange failed');
+      const ghToken = tokenJson.access_token;
+      // fetch user
+      const userRes = await fetch('https://api.github.com/user', { headers: { Authorization: `Bearer ${ghToken}`, 'User-Agent': 'mcpkit' } });
+      const user = await userRes.json();
+      setSession(res, { provider: 'github', token: ghToken, user });
+      res.send('<script>window.opener && window.opener.postMessage({type:"oauth_complete"}, "*"); window.close();</script>');
+    } catch (e) {
+      res.status(500).send('OAuth error');
+    }
+  });
+
+  // Current user info
+  app.get('/api/me', (req, res) => {
+    const s = getSession(req);
+    if (!s) return res.json({ authenticated: false });
+    res.json({ authenticated: true, provider: s.provider, user: s.user });
+  });
+
+  // Publish server proxy to official registry
+  app.post('/api/publish-server', async (req, res) => {
+    try {
+      const s = getSession(req);
+      if (!s) return res.status(401).json({ error: 'unauthorized' });
+      const serverJson = req.body;
+      // Forward to official registry publish endpoint
+      const r = await fetch(`${REGISTRY_BASE}/v0/servers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(serverJson)
+      });
+      const data = await r.json().catch(()=>({}));
+      if (!r.ok) return res.status(r.status).json({ error: 'registry_error', data });
+      res.json({ ok: true, server: data });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
   });
 
   // Proxy list from official registry with cursor
