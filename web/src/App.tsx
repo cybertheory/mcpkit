@@ -656,6 +656,72 @@ const getBannerImage = (theme: 'discovery' | 'robots') => {
   return images[Math.floor(Math.random() * images.length)]
 }
 
+// News ticker component
+const NewsTicker = () => {
+  const [news, setNews] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await fetch('/api/news')
+        const data = await response.json()
+        
+        if (data.error) {
+          // Handle API key not configured or other errors
+          console.warn('News API error:', data.error)
+          setNews([]) // Show empty ticker instead of error
+        } else {
+          setNews(data.articles || [])
+        }
+      } catch (error) {
+        console.error('Failed to fetch news:', error)
+        setNews([]) // Show empty ticker on network error
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchNews()
+    // Refresh news every 5 minutes
+    const interval = setInterval(fetchNews, 5 * 60 * 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="news-ticker">
+        <div className="news-ticker-content">
+          <span>Loading tech news...</span>
+        </div>
+      </div>
+    )
+  }
+
+  // Don't show ticker if no news available (API key not configured)
+  if (!news || news.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="news-ticker">
+      <div className="news-ticker-content">
+        {news.map((article, index) => (
+          <a
+            key={index}
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="news-item"
+          >
+            {article.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [agents, setAgents] = useState<Agent[]>([])
   const [catalog, setCatalog] = useState<Catalog>({})
@@ -1104,6 +1170,8 @@ export default function App() {
                 <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search MCPs..." className="w-full pl-9 pr-3 py-2 rounded-md bg-slate-900 border border-slate-800" />
               </div>
             </div>
+            
+            <NewsTicker />
             
             <div className="relative mb-6 rounded-xl overflow-hidden">
               <BannerImage 

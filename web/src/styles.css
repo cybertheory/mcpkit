@@ -5,5 +5,49 @@
 :root { color-scheme: dark; }
 body { margin: 0; }
 
+/* News Ticker Styles */
+.news-ticker {
+  @apply bg-black rounded-lg p-2 mb-2 overflow-hidden;
+  position: relative;
+}
 
+.news-ticker-content {
+  @apply flex items-center;
+  animation: scroll-left 30s linear infinite;
+  white-space: nowrap;
+}
 
+.news-ticker-content:hover {
+  animation-play-state: paused;
+}
+
+.news-item {
+  @apply text-white hover:text-yellow-200 transition-colors duration-200 mr-8 flex-shrink-0;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.news-item:hover {
+  text-decoration: underline;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .news-ticker-content {
+    animation-duration: 20s;
+  }
+  
+  .news-item {
+    font-size: 13px;
+    margin-right: 6px;
+  }
+}

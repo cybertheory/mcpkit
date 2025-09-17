@@ -652,6 +652,84 @@ async function main() {
     res.json({ agents });
   });
 
+  // News API endpoint for tech headlines - using free proxy
+  app.get('/api/news', async (req, res) => {
+    try {
+      // Use Saurav.tech NewsAPI proxy - completely free, no API key required
+      const FREE_NEWS_API_URL = 'https://saurav.tech/NewsAPI/top-headlines/category/technology/us.json';
+      
+      console.log('Fetching tech news from free API...');
+      
+      // Fetch tech news from free proxy
+      const response = await fetch(FREE_NEWS_API_URL);
+      
+      if (!response.ok) {
+        throw new Error(`Free News API error: ${response.status} ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      
+      // Filter and format articles for tech relevance
+      const articles = (data.articles || [])
+        .filter(article => {
+          // Additional filtering for tech relevance
+          const title = article.title?.toLowerCase() || '';
+          const description = article.description?.toLowerCase() || '';
+          const content = `${title} ${description}`;
+          
+          // Comprehensive tech-related keywords
+          const techKeywords = [
+            'ai', 'artificial intelligence', 'mcp', 'model context protocol', 'claude', 'anthropic',
+            'coding assistant', 'developer tool', 'programming', 'software', 'technology', 'tech',
+            'startup', 'innovation', 'digital', 'cloud', 'cybersecurity', 'data science',
+            'blockchain', 'cryptocurrency', 'web development', 'mobile development', 'devops',
+            'api', 'microservices', 'javascript', 'python', 'react', 'node.js', 'typescript',
+            'java', 'c++', 'go', 'rust', 'swift', 'kotlin', 'php', 'ruby', 'c#', 'dart',
+            'microsoft', 'google', 'apple', 'amazon', 'meta', 'tesla', 'spacex', 'github',
+            'gitlab', 'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'developer', 'engineer',
+            'programmer', 'computer science', 'software engineering', 'tech company', 'tech industry',
+            'tech news', 'tech trends', 'emerging technology', 'tech innovation', 'tech breakthrough',
+            'tech advancement', 'tech evolution', 'future of technology', 'next generation technology',
+            'cutting edge technology', 'revolutionary technology', 'disruptive technology',
+            'emerging tech', 'tech disruption', 'tech revolution', 'digital revolution',
+            'tech transformation', 'tech modernization', 'tech platform', 'tech infrastructure',
+            'tech architecture', 'tech framework', 'tech ecosystem', 'tech solution', 'tech tool',
+            'tech application', 'tech software', 'tech hardware', 'tech device', 'tech gadget',
+            'tech equipment', 'tech system', 'tech network', 'tech database', 'tech server',
+            'tech cloud', 'tech storage', 'tech security', 'tech privacy', 'tech compliance',
+            'tech regulation', 'tech policy', 'tech governance', 'tech management', 'tech leadership',
+            'tech strategy', 'tech planning', 'tech execution', 'tech implementation', 'tech delivery',
+            'tech support', 'tech maintenance', 'tech monitoring', 'tech analytics', 'tech metrics',
+            'tech performance', 'tech optimization', 'tech efficiency', 'tech productivity',
+            'tech automation', 'tech integration', 'tech deployment', 'tech adoption', 'tech utilization',
+            'tech scalability', 'tech reliability', 'tech availability', 'tech conference',
+            'tech event', 'tech summit', 'tech expo', 'ces', 'wwdc', 'google i/o', 'microsoft build',
+            'aws re:invent', 'techcrunch', 'venture capital', 'tech funding', 'tech investment',
+            'tech acquisition', 'tech merger', 'tech partnership', 'tech collaboration'
+          ];
+          
+          return techKeywords.some(keyword => content.includes(keyword));
+        })
+        .map(article => ({
+          title: article.title,
+          url: article.url,
+          publishedAt: article.publishedAt,
+          source: article.source
+        }))
+        .slice(0, 8); // Limit to 8 articles
+      
+      console.log(`Found ${articles.length} tech articles`);
+      res.json({ articles });
+      
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      res.status(500).json({ 
+        error: 'Failed to fetch news',
+        message: 'Free news service temporarily unavailable. Please try again later.'
+      });
+    }
+  });
+
   // Debug endpoint to help troubleshoot detection
   app.get('/api/debug-detection', (req, res) => {
     const homeDir = os.homedir();

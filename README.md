@@ -10,6 +10,28 @@ A lightweight UI console to detect MCP-capable agents and install MCP servers. E
 ```bash
 npx @cybertheory/mcpkit
 ```
+
+### 📰 News Ticker (Free & Ready!)
+
+The news ticker displays real tech headlines automatically - **no setup required!**
+
+**Features:**
+- ✅ **Completely Free** - No API key needed
+- ✅ **Real Tech News** - Live headlines from major sources
+- ✅ **Auto-Updates** - Refreshes every 5 minutes
+- ✅ **Smart Filtering** - Only shows relevant tech content
+
+**News Coverage Includes:**
+- AI & Machine Learning (Claude, OpenAI, Anthropic, MCP)
+- Programming Languages & Frameworks (JavaScript, Python, React, Node.js, etc.)
+- Major Tech Companies (Google, Apple, Microsoft, Amazon, Meta, Tesla, SpaceX)
+- Software Development & DevOps
+- Cloud Computing & Cybersecurity
+- Blockchain & Cryptocurrency
+- Tech Startups & Innovation
+- Tech Conferences & Events
+
+The ticker uses a free news proxy service and works out of the box!
 No installation required! Runs immediately and caches for faster subsequent runs.
 
 ### Option 2: Global Installation
