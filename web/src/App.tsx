@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
+import posthog from 'posthog-js'
 import { Search, Download, Settings, Boxes, ExternalLink, CheckCircle, Image as ImageIcon, X, AlertCircle, Info, Trash2 } from 'lucide-react'
 
 type Agent = { id: string; name: string; mcpConfigPath?: string | null }
-type Catalog = Record<string, { id: string; name: string; description: string }[]>
+type Catalog = Record<string, { id: string; name: string; description: string; version?: string; documentation?: string; repository?: string; npm?: string; remotes?: any[]; packages?: any[] }[]>
+type ServerCard = { id: string; name: string; description: string; version?: string; documentation?: string; repository?: string; npm?: string; remotes?: any[]; packages?: any[] }
 
 // Custom hook for image loading with automatic retry logic
 const useImageLoad = (src: string, imagePool: string[] = []) => {
@@ -771,6 +773,7 @@ export default function App() {
       fetch('/api/agents').then(r => r.json()),
       fetch('/api/catalog').then(r => r.json()),
     ]).then(([a, c]) => {
+      try { posthog.capture('catalog_loaded', { agent_count: (a.agents||[]).length, category_count: Object.keys(c.catalog||{}).length }) } catch {}
       setAgents(a.agents || [])
       setCatalog(c.catalog || {})
       if ((a.agents||[]).length) setSelectedAgent(a.agents[0].id)
@@ -790,15 +793,38 @@ export default function App() {
     }
   }, [selectedAgent, catalog])
 
-  const filtered = useMemo(() => {
-    if (!q) return catalog
-    const out: Catalog = {}
-    Object.entries(catalog).forEach(([cat, items]) => {
-      const f = items.filter(i => (i.name + ' ' + i.description).toLowerCase().includes(q.toLowerCase()))
-      if (f.length) out[cat] = f
-    })
-    return out
+  // Flatten to single grid regardless of category
+  const flatList: ServerCard[] = useMemo(() => {
+    const all = Object.values(catalog).flat() as ServerCard[]
+    if (!q) return all
+    return all.filter(i => (i.name + ' ' + (i.description||'')).toLowerCase().includes(q.toLowerCase()))
   }, [catalog, q])
+
+  // Infinite load from official registry via backend proxy
+  const [cursor, setCursor] = useState<string | null>(null)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [initialLoaded, setInitialLoaded] = useState(false)
+
+  useEffect(() => {
+    // Load first page from official registry, merge into catalog under a single key
+    const load = async (next?: string|null) => {
+      setLoadingMore(true)
+      try {
+        const url = `/api/official/servers${next ? `?cursor=${encodeURIComponent(next)}` : ''}`
+        const r = await fetch(url)
+        const data = await r.json()
+        const servers = (data.servers||[]) as any[]
+        setCatalog(prev => {
+          const existing = prev['All'] || []
+          const merged = [...existing, ...servers]
+          return { ...prev, All: merged }
+        })
+        setCursor(data.next_cursor || null)
+      } catch {}
+      finally { setLoadingMore(false); setInitialLoaded(true) }
+    }
+    if (!initialLoaded) load(null)
+  }, [initialLoaded])
 
   // Helper function to show notifications
   const showNotification = (type: 'success' | 'error' | 'info' | 'warning', title: string, message: string) => {
@@ -813,6 +839,7 @@ export default function App() {
   async function handleInstallClick(mcpId: string) {
     if (!selectedAgent) {
       showNotification('warning', 'No Agent Selected', 'Please select an agent before installing MCPs.')
+      try { posthog.capture('install_click_no_agent', { mcp_id: mcpId }) } catch {}
       return
     }
     
@@ -827,6 +854,7 @@ export default function App() {
     const mcp = allMcps.find(m => m.id === mcpId)
     if (!mcp) {
       showNotification('error', 'MCP Not Found', 'The selected MCP could not be found in the catalog.')
+      try { posthog.capture('install_click_mcp_not_found', { mcp_id: mcpId }) } catch {}
       return
     }
     
@@ -845,6 +873,7 @@ export default function App() {
       } else {
         setEnvPopupOpen(true)
       }
+      try { posthog.capture('install_modal_open', { mcp_id: mcpId, agent_id: agent.id, auth_type: (mcp as any).auth_type || 'env' }) } catch {}
     } catch (e) {
       console.error('Failed to check existing config:', e)
       setSelectedMcp(mcp)
@@ -857,6 +886,7 @@ export default function App() {
       } else {
         setEnvPopupOpen(true)
       }
+      try { posthog.capture('install_modal_open', { mcp_id: mcpId, agent_id: agent.id, auth_type: (mcp as any).auth_type || 'env', error: true }) } catch {}
     }
   }
 
@@ -878,9 +908,11 @@ export default function App() {
       if (!res.ok) {
         if (data.missing) {
           // Show validation errors in popup
+          try { posthog.capture('install_validation_failed', { mcp_id: selectedMcp.id, agent_id: selectedAgentForInstall.id, missing: (data.missing||[]).map((m:any)=>m.key) }) } catch {}
           return
         }
         showNotification('error', 'Installation Failed', `Install failed: ${data.error || res.status}`)
+        try { posthog.capture('install_failed', { mcp_id: selectedMcp.id, agent_id: selectedAgentForInstall.id, error: data.error || res.status }) } catch {}
         return
       }
       
@@ -892,9 +924,11 @@ export default function App() {
       })
       setSuccessPopupOpen(true)
       setEnvPopupOpen(false)
+      try { posthog.capture('install_succeeded', { mcp_id: selectedMcp.id, agent_id: selectedAgentForInstall.id }) } catch {}
       
-    } catch (e) {
+    } catch (e:any) {
       showNotification('error', 'Installation Failed', `Install failed: ${e.message}`)
+      try { posthog.capture('install_failed', { mcp_id: selectedMcp?.id, agent_id: selectedAgentForInstall?.id, error: e.message }) } catch {}
     }
   }
 
@@ -928,10 +962,11 @@ export default function App() {
   async function handleUninstall(mcpId: string) {
     if (!selectedAgent) {
       showNotification('warning', 'No Agent Selected', 'Please select an agent before uninstalling MCPs.')
+      try { posthog.capture('uninstall_click_no_agent', { mcp_id: mcpId }) } catch {}
       return
     }
     
-    if (!confirm('Are you sure you want to uninstall this MCP?')) return
+    if (!confirm('Are you sure you want to uninstall this MCP?')) { try { posthog.capture('uninstall_cancelled', { mcp_id: mcpId, agent_id: selectedAgent }) } catch {}; return }
     
     try {
       const res = await fetch('/api/uninstall', { 
@@ -946,19 +981,23 @@ export default function App() {
       
       if (!res.ok) {
         showNotification('error', 'Uninstall Failed', `Uninstall failed: ${data.error || res.status}`)
+        try { posthog.capture('uninstall_failed', { mcp_id: mcpId, agent_id: selectedAgent, error: data.error || res.status }) } catch {}
         return
       }
       
       showNotification('success', 'Uninstall Successful', 'MCP has been uninstalled successfully!')
+      try { posthog.capture('uninstall_succeeded', { mcp_id: mcpId, agent_id: selectedAgent }) } catch {}
       checkInstallationStatus() // Refresh status
-    } catch (e) {
+    } catch (e:any) {
       showNotification('error', 'Uninstall Failed', `Uninstall failed: ${e.message}`)
+      try { posthog.capture('uninstall_failed', { mcp_id: mcpId, agent_id: selectedAgent, error: e.message }) } catch {}
     }
   }
 
   async function addCustomAgent() {
     if (!manualPath) {
       showNotification('warning', 'Path Required', 'Please enter a path for the custom agent.')
+      try { posthog.capture('add_agent_missing_path') } catch {}
       return
     }
     
@@ -975,6 +1014,7 @@ export default function App() {
       
       if (!res.ok) {
         showNotification('error', 'Failed to Add Agent', `Failed: ${data.error || res.status}`)
+        try { posthog.capture('add_agent_failed', { error: data.error || res.status }) } catch {}
         return
       }
       
@@ -984,8 +1024,10 @@ export default function App() {
       setAgents(agentsData.agents || [])
       setManualPath('')
       showNotification('success', 'Agent Added', 'Custom agent added successfully!')
-    } catch (e) {
+      try { posthog.capture('add_agent_succeeded') } catch {}
+    } catch (e:any) {
       showNotification('error', 'Failed to Add Agent', `Failed: ${e.message}`)
+      try { posthog.capture('add_agent_failed', { error: e.message }) } catch {}
     }
   }
 
@@ -1002,6 +1044,7 @@ export default function App() {
       
       if (!res.ok) {
         console.warn('Registry refresh failed:', data.error || res.status)
+        try { posthog.capture('registry_refresh_failed', { error: data.error || res.status }) } catch {}
         return
       }
       
@@ -1012,9 +1055,11 @@ export default function App() {
       
       // Show brief success indicator
       setTimeout(() => setIsRefreshing(false), 1000)
-    } catch (e) {
+      try { posthog.capture('registry_refreshed', { count: data.count, fromLocal: !!data.fromLocal }) } catch {}
+    } catch (e:any) {
       console.warn('Registry refresh failed:', e.message)
       setIsRefreshing(false)
+      try { posthog.capture('registry_refresh_failed', { error: e.message }) } catch {}
     }
   }
 
@@ -1188,42 +1233,50 @@ export default function App() {
             </div>
             
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {Object.entries(filtered).map(([cat, items]) => (
-                <div key={cat} className="space-y-2">
-                  <div className="text-sm text-slate-300">{cat}</div>
-                  {items.map(i => (
-                    <div key={i.id} className="rounded-xl border border-slate-800 bg-slate-900 p-4 flex flex-col gap-2">
-                      <div className="font-semibold">{i.name}</div>
-                      <div className="text-sm text-slate-400">{i.description}</div>
-                      <div className="flex gap-2 mt-2">
-                        {installationStatus[i.id] ? (
-                          <>
-                            <button 
-                              onClick={() => handleInstallClick(i.id)} 
-                              className="inline-flex items-center gap-2 rounded-md bg-blue-500 text-white px-3 py-1.5 text-sm"
-                            >
-                              <Settings size={16}/> Configure
-                            </button>
-                            <button 
-                              onClick={() => handleUninstall(i.id)} 
-                              className="inline-flex items-center gap-2 rounded-md bg-red-500 text-white px-3 py-1.5 text-sm"
-                            >
-                              <Trash2 size={16}/> Uninstall
-                            </button>
-                          </>
-                        ) : (
-                          <button 
-                            onClick={() => handleInstallClick(i.id)} 
-                            className="inline-flex items-center gap-2 rounded-md bg-indigo-500 text-slate-950 px-3 py-1.5 text-sm"
-                          >
-                            <Download size={16}/> Install
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+              {flatList.map(i => (
+                <div key={i.id} className="rounded-xl border border-slate-800 bg-slate-900 p-4 flex flex-col gap-2">
+                  <div className="font-semibold">{i.name}</div>
+                  <div className="text-xs text-slate-400">{i.version || 'latest'}</div>
+                  <div className="text-sm text-slate-400 line-clamp-3">{i.description}</div>
+                  <div className="flex flex-wrap gap-2 text-xs text-slate-400">
+                    {i.npm && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">npm: {i.npm}</span>}
+                    {i.remotes && i.remotes.length>0 && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">remotes: {i.remotes.length}</span>}
+                    {i.packages && i.packages.length>0 && <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">packages: {i.packages.length}</span>}
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    {installationStatus[i.id] ? (
+                      <>
+                        <button 
+                          onClick={() => handleInstallClick(i.id)} 
+                          className="inline-flex items-center gap-2 rounded-md bg-blue-500 text-white px-3 py-1.5 text-sm"
+                        >
+                          <Settings size={16}/> Configure
+                        </button>
+                        <button 
+                          onClick={() => handleUninstall(i.id)} 
+                          className="inline-flex items-center gap-2 rounded-md bg-red-500 text-white px-3 py-1.5 text-sm"
+                        >
+                          <Trash2 size={16}/> Uninstall
+                        </button>
+                      </>
+                    ) : (
+                      <button 
+                        onClick={() => handleInstallClick(i.id)} 
+                        className="inline-flex items-center gap-2 rounded-md bg-indigo-500 text-slate-950 px-3 py-1.5 text-sm"
+                      >
+                        <Download size={16}/> Install
+                      </button>
+                    )}
+                  </div>
                 </div>
               ))}
+            </div>
+            <div className="flex justify-center mt-4">
+              {cursor && (
+                <button disabled={loadingMore} onClick={() => setInitialLoaded(false)} className="px-4 py-2 rounded-md bg-slate-800 border border-slate-700 text-slate-200 disabled:opacity-50">
+                  {loadingMore ? 'Loading…' : 'Load more'}
+                </button>
+              )}
             </div>
           </>
         )}

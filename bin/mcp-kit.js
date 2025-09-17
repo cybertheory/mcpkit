@@ -7,8 +7,30 @@ const { spawn } = require('child_process');
 const { PostHog } = require('posthog-node');
 
 const POSTHOG_KEY = process.env.MCPKIT_POSTHOG_KEY || '';
+const POSTHOG_HOST = process.env.MCPKIT_POSTHOG_HOST || 'https://us.i.posthog.com';
+const POSTHOG_PUBLIC_KEY = process.env.MCPKIT_POSTHOG_PUBLIC_KEY || POSTHOG_KEY; // allow same key by default
 
-const ph = POSTHOG_KEY ? new PostHog(POSTHOG_KEY, { host: process.env.MCPKIT_POSTHOG_HOST || 'https://us.i.posthog.com' }) : null;
+const ph = POSTHOG_KEY ? new PostHog(POSTHOG_KEY, { host: POSTHOG_HOST }) : null;
+
+// Stable anonymous ID persisted locally for anonymous telemetry
+const ANON_ID_FILE = path.join(os.homedir(), '.mcpkit', 'anonymous_id');
+function getOrCreateAnonymousId() {
+  try {
+    const dir = path.dirname(ANON_ID_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    if (fs.existsSync(ANON_ID_FILE)) {
+      const val = fs.readFileSync(ANON_ID_FILE, 'utf8').trim();
+      if (val) return val;
+    }
+    const newId = 'anon_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    fs.writeFileSync(ANON_ID_FILE, newId);
+    return newId;
+  } catch {
+    // Fallback to volatile ID if filesystem fails
+    return 'anon_' + Math.random().toString(36).slice(2);
+  }
+}
+const ANONYMOUS_ID = getOrCreateAnonymousId();
 
 // Persistence file for manually added agents
 const PERSISTENCE_FILE = path.join(os.homedir(), '.mcpkit', 'agents.json');
@@ -45,7 +67,15 @@ function savePersistedAgents(agents) {
 }
 
 async function loadMcpRegistry() {
-  // Try to fetch from GitHub first, but silently fall back to local if it fails
+  // Try official registry first
+  try {
+    const official = await fetchFromOfficialRegistry();
+    if (official && Array.isArray(official.mcps)) {
+      saveMcpRegistry(official);
+      return official;
+    }
+  } catch {}
+  // Then try GitHub fallback
   try {
     const githubRegistry = await fetchCatalogFromGitHub();
     if (githubRegistry && githubRegistry.mcps) {
@@ -128,7 +158,7 @@ function updateMcpInstallationStatus(mcpId, agentId, installed = true) {
 
 function track(event, properties = {}) {
   if (!ph) return;
-  try { ph.capture({ distinctId: os.userInfo().username || 'unknown', event, properties }); } catch {}
+  try { ph.capture({ distinctId: ANONYMOUS_ID, event, properties }); } catch {}
 }
 
 function resolveCursorMcpConfig() {
@@ -567,6 +597,90 @@ async function fetchCatalogFromGitHub() {
   }
 }
 
+// Fetch from official MCP registry with pagination and transform to internal format
+async function fetchFromOfficialRegistry() {
+  const BASE = 'https://registry.modelcontextprotocol.io';
+  const perPage = 100;
+  let cursor = null;
+  let all = [];
+  while (true) {
+    const url = `${BASE}/v0/servers?limit=${perPage}` + (cursor ? `&cursor=${encodeURIComponent(cursor)}` : '');
+    const res = await fetch(url);
+    if (!res.ok) break;
+    const data = await res.json();
+    const items = Array.isArray(data.servers) ? data.servers : [];
+    if (!items.length) break;
+    all = all.concat(items);
+    const nextCursor = data.metadata && data.metadata.next_cursor;
+    if (!nextCursor) break;
+    cursor = nextCursor;
+    // safety cap to avoid infinite loop
+    if (all.length > 5000) break;
+  }
+  const mcps = all
+    .filter(s => (s.status || 'active') === 'active')
+    .map(transformOfficialServerToInternal)
+    .filter(Boolean);
+  return { mcps };
+}
+
+function transformOfficialServerToInternal(server) {
+  try {
+    const officialMeta = server._meta && server._meta['io.modelcontextprotocol.registry/official'];
+    const id = (officialMeta && officialMeta.id) || server.id || server.uuid || server.name || '';
+    const name = server.name || server.display_name || server.title || id;
+    const description = server.description || '';
+    const version = server.version || 'latest';
+    const documentation = server.documentation || server.homepage || (server.repository && server.repository.url) || '';
+    const npmPkg = (server.packages || []).find(p => p.registry_type === 'npm');
+    const identifier = npmPkg?.identifier || null;
+    const command = identifier ? `npx ${identifier}@${version || 'latest'}` : null;
+    const category = 'Community';
+    return {
+      id: String(id),
+      name,
+      category,
+      description,
+      version,
+      npm: identifier,
+      command,
+      env: {},
+      setup_instructions: [],
+      uninstall_steps: [],
+      documentation,
+      repository: server.repository && server.repository.url ? server.repository.url : null,
+      remotes: Array.isArray(server.remotes) ? server.remotes : [],
+      packages: Array.isArray(server.packages) ? server.packages : [],
+      installed: false,
+      installation_date: null,
+      installed_agents: []
+    };
+  } catch {
+    return null;
+  }
+}
+
+// Detailed transform retains env var metadata for display
+function transformOfficialServerDetail(server) {
+  const base = transformOfficialServerToInternal(server) || {};
+  // Build env map if npm package defines environment_variables
+  const env = {};
+  (server.packages || []).forEach(p => {
+    if (p.environment_variables) {
+      p.environment_variables.forEach(ev => {
+        env[ev.name] = {
+          required: !!ev.is_required,
+          description: ev.description || '',
+          placeholder: '',
+          help: '',
+          secret: !!ev.is_secret
+        };
+      });
+    }
+  });
+  return { ...base, env };
+}
+
 function ensureMcpServersInConfig(config, agentId) {
   // Different platforms use different config formats
   if (!config || typeof config !== 'object') {
@@ -646,10 +760,55 @@ async function main() {
   const app = express();
   app.use(express.json());
 
+  // Public telemetry config for frontend initialization
+  app.get('/api/telemetry-config', (req, res) => {
+    // Only expose public key/host; do not expose server secret
+    res.json({
+      enabled: !!POSTHOG_PUBLIC_KEY,
+      publicKey: POSTHOG_PUBLIC_KEY || null,
+      host: POSTHOG_HOST,
+    });
+  });
+
   app.get('/api/agents', (req, res) => {
     const agents = detectAgents();
     track('agents_listed', { count: agents.length });
     res.json({ agents });
+  });
+
+  // Proxy list from official registry with cursor
+  app.get('/api/official/servers', async (req, res) => {
+    try {
+      const limit = Math.min(Number(req.query.limit) || 50, 100);
+      const cursor = req.query.cursor ? String(req.query.cursor) : null;
+      const BASE = 'https://registry.modelcontextprotocol.io';
+      const url = `${BASE}/v0/servers?limit=${limit}` + (cursor ? `&cursor=${encodeURIComponent(cursor)}` : '');
+      const r = await fetch(url);
+      if (!r.ok) return res.status(r.status).json({ error: 'registry_error' });
+      const data = await r.json();
+      const servers = (data.servers || []).filter(s => (s.status || 'active') === 'active');
+      res.json({
+        servers: servers.map(s => transformOfficialServerToInternal(s)),
+        next_cursor: data.metadata && data.metadata.next_cursor
+      });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Proxy detail fetch for a server by ID
+  app.get('/api/official/servers/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const BASE = 'https://registry.modelcontextprotocol.io';
+      const url = `${BASE}/v0/servers/${encodeURIComponent(id)}`;
+      const r = await fetch(url);
+      if (!r.ok) return res.status(r.status).json({ error: 'registry_error' });
+      const data = await r.json();
+      res.json({ server: transformOfficialServerDetail(data) });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
   });
 
   // News API endpoint for tech headlines - using free proxy
@@ -870,14 +1029,14 @@ async function main() {
   // Manual registry refresh endpoint
   app.post('/api/refresh-registry', async (req, res) => {
     try {
-      const githubRegistry = await fetchCatalogFromGitHub();
-      if (githubRegistry && githubRegistry.mcps) {
-        saveMcpRegistry(githubRegistry);
-        track('registry_refreshed', { source: 'manual', count: githubRegistry.mcps.length });
+      const official = await fetchFromOfficialRegistry();
+      if (official && official.mcps) {
+        saveMcpRegistry(official);
+        track('registry_refreshed', { source: 'official', count: official.mcps.length });
         res.json({ 
           success: true, 
           message: 'Registry updated successfully',
-          count: githubRegistry.mcps.length 
+          count: official.mcps.length 
         });
       } else {
         // If GitHub fetch fails, return success with local registry info
@@ -1129,11 +1288,11 @@ async function main() {
   // Set up periodic registry updates (every 30 minutes)
   setInterval(async () => {
     try {
-      const githubRegistry = await fetchCatalogFromGitHub();
-      if (githubRegistry && githubRegistry.mcps) {
-        saveMcpRegistry(githubRegistry);
-        console.log(`Registry updated automatically - ${githubRegistry.mcps.length} MCPs available`);
-        track('registry_refreshed', { source: 'automatic', count: githubRegistry.mcps.length });
+      const official = await fetchFromOfficialRegistry();
+      if (official && official.mcps) {
+        saveMcpRegistry(official);
+        console.log(`Registry updated automatically - ${official.mcps.length} MCPs available`);
+        track('registry_refreshed', { source: 'automatic_official', count: official.mcps.length });
       }
     } catch (e) {
       // Silently fail - don't log errors for automatic updates to avoid noise
