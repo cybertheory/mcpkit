@@ -1,6 +1,6 @@
 {
   "name": "@cybertheory/mcpkit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Lightweight UI console to detect MCP-capable coding agents and install MCP servers",
   "keywords": [
     "mcp",
